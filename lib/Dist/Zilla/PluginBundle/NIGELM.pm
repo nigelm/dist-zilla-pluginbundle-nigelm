@@ -61,6 +61,9 @@ It is roughly equivalent to:
 
   [AutoPrereqs]
 
+If C<no_cpan> or the environment variable C<NO_CPAN> is set, then
+the upload to CPAN is suppressed.
+
 =cut
 
 has authority => (
@@ -69,20 +72,38 @@ has authority => (
     default => 'cpan:NIGELM',
 );
 
-has 'tag_format' => (
+has tag_format => (
     is      => 'ro',
     isa     => Str,
     default => 'release/%v',
 );
 
-has 'tag_message' => (
+has tag_message => (
     is      => 'ro',
     isa     => Str,
     default => 'Release of %v',
 );
 
+# if set, trigger FakeRelease instead of UploadToCPAN
+has no_cpan => (
+    is      => 'ro',
+    isa     => 'Bool',
+    lazy    => 1,
+    default => sub { $ENV{NO_CPAN} || $_[0]->payload->{no_cpan} || 0 }
+);
+
 method configure {
-    $self->add_bundle('@Basic');
+    my %basic_opts = (
+        '-bundle' => '@Basic',
+        '-remove' => ['Readme'],
+    );
+
+    if ( $self->no_cpan ) {
+        $basic_opts{'-remove'} = [ 'Readme', 'UploadToCPAN' ];
+        $self->add_plugins('FakeRelease');
+    }
+
+    $self->add_bundle( '@Filter' => \%basic_opts );
 
     $self->add_plugins(
         qw(
