@@ -13,3 +13,4 @@ Dist-Zilla-PluginBundle-NIGELM-*
 inc
 META.*
 *.bak
+.build
