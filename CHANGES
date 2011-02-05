@@ -1,4 +1,9 @@
 {{$NEXT}}
+    - Now uses AutoPrereqs instead of deprecated AutoPrereq
+    - Uses Git::NextRelease module, with appropriate regex
+
+0.02      2011-02-05 16:27:58 Europe/London
+    - Moved to use itself for release
 
 0.01      2011-02-05 16:21:31 Europe/London
     - Initial construction of module
