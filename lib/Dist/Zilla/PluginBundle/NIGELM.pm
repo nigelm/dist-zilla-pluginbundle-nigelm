@@ -32,15 +32,16 @@ It is roughly equivalent to:
 
   [@Filter]
   bundle = @Basic
+  remove = Readme
 
   [MetaConfig]
   [MetaJSON]
   [PkgVersion]
   [PodSyntaxTests]
-  [PodCoverageTests]
   [NoTabsTests]
   [EOLTests]
   [ReadmeFromPod]
+  [PodCoverageTests]
 
   [MetaResources]
   repository.type   = git
@@ -111,10 +112,9 @@ method configure {
           MetaJSON
           PkgVersion
           PodSyntaxTests
-          PodCoverageTests
           NoTabsTests
-          EOLTests
           ReadmeFromPod
+          NextRelease
           )
     );
 
