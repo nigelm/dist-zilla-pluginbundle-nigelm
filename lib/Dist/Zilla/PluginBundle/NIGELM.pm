@@ -134,6 +134,15 @@ has no_cpan => (
 );
 
 method configure {
+    $self->add_plugins(
+        [
+            'Git::NextVersion' => {
+                first_version  => '0.01',
+                version_regexp => $self->version_regexp,
+            }
+        ]
+    ) if ( $self->git_autoversion );
+
     my %basic_opts = (
         '-bundle' => '@Basic',
         '-remove' => ['Readme'],
@@ -187,15 +196,6 @@ method configure {
             tag_message => $self->tag_message,
         }
     );
-
-    $self->add_plugins(
-        [
-            'Git::NextVersion' => {
-                first_version  => '0.01',
-                version_regexp => $self->version_regexp,
-            }
-        ]
-    ) if ( $self->git_autoversion );
 
     $self->is_task
       ? $self->add_plugins('TaskWeaver')
