@@ -1,4 +1,6 @@
 {{$NEXT}}
+    - Rehased based on MARCEL bundle
+    - Better POD weaving
 
 0.04      2011-02-07 13:17:32 Europe/London
     - Fixed stupid mistake where managed to put FLORAs info back in
