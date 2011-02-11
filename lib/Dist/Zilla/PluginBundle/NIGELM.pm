@@ -9,6 +9,7 @@ use MooseX::Types::URI qw(Uri);
 use MooseX::Types::Email qw(EmailAddress);
 use MooseX::Types::Moose qw(Bool Str CodeRef);
 use MooseX::Types::Structured 0.20 qw(Map Dict Optional);
+use MooseX::Types::Moose qw{ ArrayRef Str };
 use namespace::autoclean -also => 'lower';
 
 # these are all the modules used, listed purely for the dep generator
@@ -332,6 +333,20 @@ has no_cpan => (
     default => sub { $ENV{NO_CPAN} || $_[0]->payload->{no_cpan} || 0 }
 );
 
+# git allow dirty references
+has git_allow_dirty => (
+    is      => 'ro',
+    lazy    => 1,
+    isa     => ArrayRef [Str],
+    builder => '_build_git_allow_dirty',
+);
+
+has changelog => ( is => 'ro', isa => Str, default => 'Changes' );
+
+sub mvp_multivalue_args { return ('git_allow_dirty'); }
+
+sub _build_git_allow_dirty { [ 'dist.ini', shift->changelog, 'README' ] }
+
 my $map_tc = Map [
     Str,
     Dict [
@@ -493,20 +508,19 @@ method configure () {
               ]
             : ()
         ),
-        [ 'Git::Check' => { allow_dirty => [ 'dist.ini', 'Changes', 'README', ] } ],
+        [ 'Git::Check' => { allow_dirty => $self->git_allow_dirty } ],
 
         # -- fetch & generate files
         [ GatherDir    => {} ],
         [ CompileTests => { fake_home => $self->fake_home } ],
         [ CriticTests  => {} ],
         [ MetaTests    => {} ],
-        (
-            $self->disable_pod_coverage_tests ? [ PodCoverageTests => {} ]
-            : ()
+        ( $self->disable_pod_coverage_tests ? () : [ PodCoverageTests => {} ] ),
+        [ PodSyntaxTests   => {} ],
+        [ PodSpellingTests => {} ],
+        (    # Disabling pod coverage scores you a fail on Kwalitee too!
+            $self->disable_pod_coverage_tests ? () : [ KwaliteeTests => {} ]
         ),
-        [ PodSyntaxTests      => {} ],
-        [ PodSpellingTests    => {} ],
-        [ KwaliteeTests       => {} ],
         [ PortabilityTests    => {} ],
         [ SynopsisTests       => {} ],
         [ MinimumVersionTests => {} ],
@@ -579,7 +593,7 @@ method configure () {
 
         # -- Git release process
         [ CopyReadmeFromBuild => {} ],
-        [ 'Git::Commit'       => { allow_dirty => [ 'dist.ini', 'Changes', 'README', ] } ],
+        [ 'Git::Commit'       => { allow_dirty => $self->git_allow_dirty } ],
         [
             'Git::Tag' => {
                 tag_format  => $self->tag_format,
