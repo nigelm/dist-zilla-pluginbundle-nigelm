@@ -183,8 +183,8 @@ has auto_prereqs => (
 );
 
 has skip_prereqs => (
-    is      => 'ro',
-    isa     => Str,
+    is  => 'ro',
+    isa => Str,
 );
 
 has is_task => (
@@ -194,7 +194,7 @@ has is_task => (
     builder => '_build_is_task',
 );
 
-method _build_is_task {
+method _build_is_task () {
     return $self->dist =~ /^Task-/ ? 1 : 0;
 }
 
@@ -230,7 +230,7 @@ has bugtracker_url => (
     handles => { bugtracker_url => 'as_string', },
 );
 
-method _build_bugtracker_url {
+method _build_bugtracker_url () {
     return sprintf $self->_rt_uri_pattern, $self->dist;
 }
 
@@ -241,7 +241,7 @@ has bugtracker_email => (
     builder => '_build_bugtracker_email',
 );
 
-method _build_bugtracker_email {
+method _build_bugtracker_email () {
     return sprintf 'bug-%s@rt.cpan.org', $self->dist;
 }
 
@@ -259,7 +259,7 @@ has homepage_url => (
     handles => { homepage_url => 'as_string', },
 );
 
-method _build_homepage_url {
+method _build_homepage_url () {
     return sprintf $self->_cpansearch_pattern, $self->dist;
 }
 
@@ -311,7 +311,7 @@ has version_regexp => (
     builder => '_build_version_regexp',
 );
 
-method _build_version_regexp {
+method _build_version_regexp () {
     my $version_regexp = $self->tag_format;
     $version_regexp =~ s/\%v/\(\.\+\)/;
     return sprintf( '^%s$', $version_regexp );
@@ -385,7 +385,7 @@ has _repository_host_map => (
 
 sub lower { lc shift }
 
-method _build__repository_host_map {
+method _build__repository_host_map () {
     my $github_pattern     = sub { sprintf 'git://github.com/%s/%%s.git', $self->github_user };
     my $github_web_pattern = sub { sprintf 'http://github.com/%s/%%s',    $self->github_user };
     my $scsys_web_pattern_proto = sub {
@@ -418,7 +418,7 @@ method _build__repository_host_map {
     };
 }
 
-method _build_repository_url {
+method _build_repository_url () {
     return $self->_resolve_repository_with( $self->repository_at, 'pattern' )
       if $self->has_repository_at;
     confess "Cannot determine repository url without repository_at. " . "Please provide either repository_at or repository.";
@@ -432,33 +432,33 @@ has repository_web => (
     handles => { repository_web => 'as_string', },
 );
 
-method _build_repository_web {
+method _build_repository_web () {
     return $self->_resolve_repository_with( $self->repository_at, 'web_pattern' )
       if $self->has_repository_at;
     confess "Cannot determine repository web url without repository_at. "
       . "Please provide either repository_at or repository_web.";
 }
 
-method _resolve_repository_with( $service, $thing ) {
-    my $dist   = $self->dist;
-      my $data = $self->_repository_data_for($service);
-      confess "unknown repository service $service" unless $data;
+method _resolve_repository_with ( $service, $thing ) {
+    my $dist = $self->dist;
+    my $data = $self->_repository_data_for($service);
+    confess "unknown repository service $service" unless $data;
     return sprintf $data->{$thing}->(),
-    (
+      (
         exists $data->{mangle}
         ? $data->{mangle}->($dist)
         : $dist
-    );
-  }
+      );
+}
 
-  has repository_type => (
+has repository_type => (
     is      => 'ro',
     isa     => Str,
     lazy    => 1,
     builder => '_build_repository_type',
-  );
+);
 
-method _build_repository_type {
+method _build_repository_type () {
     my $data = $self->_repository_data_for( $self->repository_at );
     return $data->{type} if exists $data->{type};
 
@@ -469,12 +469,14 @@ method _build_repository_type {
     confess "Unable to guess repository type based on the repository url. " . "Please provide repository_type.";
 }
 
-override BUILDARGS => method($class:) {
-    my $args = super;
-      return { %{ $args->{payload} }, %{$args} };
+override BUILDARGS => sub {
+    my $class = shift;
+
+    my $args = $class->SUPER::BUILDARGS(@_);
+    return { %{ $args->{payload} }, %{$args} };
 };
 
-method configure {
+method configure () {
 
     # Build a list of all the plugins we want...
     my @wanted = (
