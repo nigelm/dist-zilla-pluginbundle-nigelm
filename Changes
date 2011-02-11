@@ -1,4 +1,7 @@
 {{$NEXT}}
+    - Added [CopyReadmeFromBuild]
+    - Added [Git::CommitBuild]
+    - Made pod coverage and no tabs tests optional
 
 0.05      2011-02-10 13:43:53 Europe/London
     - Rehased based on MARCEL bundle
