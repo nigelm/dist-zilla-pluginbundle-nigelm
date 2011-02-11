@@ -493,7 +493,7 @@ method configure () {
               ]
             : ()
         ),
-        [ 'Git::Check' => {} ],
+        [ 'Git::Check' => [ allow_dirty => 'dist.ini', allow_dirty => 'Changes', allow_dirty => 'README', ] ],
 
         # -- fetch & generate files
         [ GatherDir    => {} ],
@@ -579,7 +579,7 @@ method configure () {
 
         # -- Git release process
         [ CopyReadmeFromBuild => {} ],
-        [ 'Git::Commit'       => {} ],
+        [ 'Git::Commit'       => [ allow_dirty => 'dist.ini', allow_dirty => 'Changes', allow_dirty => 'README', ] ],
         [
             'Git::Tag' => {
                 tag_format  => $self->tag_format,
