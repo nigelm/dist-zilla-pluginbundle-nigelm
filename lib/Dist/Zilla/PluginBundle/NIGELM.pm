@@ -603,7 +603,7 @@ method configure () {
                 tag_message => $self->tag_message,
             }
         ],
-        [ 'Git::CommitBuild' => {} ],
+        [ 'Git::CommitBuild' => { release_branch => 'cpan' } ],
         [ 'Git::Push'        => {} ],
 
         # -- release

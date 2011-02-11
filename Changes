@@ -1,4 +1,6 @@
 {{$NEXT}}
+    - Made [Git::CommitBuild] push to a cpan branch
+    - Removed the [CopyReadmeFromBuild] due to issues
 
 0.06      2011-02-11 13:05:57 Europe/London
     - Added [CopyReadmeFromBuild]
