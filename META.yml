@@ -150,6 +150,10 @@ x_Dist_Zilla:
       name: '@NIGELM/UnusedVarsTests'
       version: 1.100860
     -
+      class: Dist::Zilla::Plugin::NoTabsTests
+      name: '@NIGELM/NoTabsTests'
+      version: 0.01
+    -
       class: Dist::Zilla::Plugin::EOLTests
       name: '@NIGELM/EOLTests'
       version: 0.02

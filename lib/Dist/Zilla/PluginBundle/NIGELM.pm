@@ -439,7 +439,7 @@ method configure () {
         [ DistManifestTests   => {} ],
         [ UnusedVarsTests     => {} ],
         ( $self->disable_no_tabs_tests ? () : [ NoTabsTests => {} ] ),
-        [ EOLTests       => { trailing_whitespace => !$self->disable_trailing_whitespace_tests, } ],
+        [ EOLTests => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
         [ InlineFiles    => {} ],
         [ ReportVersions => {} ],
 
