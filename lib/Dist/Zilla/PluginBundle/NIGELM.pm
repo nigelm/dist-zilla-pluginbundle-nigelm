@@ -1,6 +1,6 @@
 package Dist::Zilla::PluginBundle::NIGELM;
 BEGIN {
-  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.07';
+  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.08';
 }
 BEGIN {
   $Dist::Zilla::PluginBundle::NIGELM::AUTHORITY = 'cpan:NIGELM';
@@ -438,11 +438,7 @@ method configure () {
         [ HasVersionTests     => {} ],
         [ DistManifestTests   => {} ],
         [ UnusedVarsTests     => {} ],
-        (
-            $self->disable_no_tabs_tests
-            ? [ NoTabsTests => {} ]
-            : ()
-        ),
+        ( $self->disable_no_tabs_tests ? () : [ NoTabsTests => {} ] ),
         [ EOLTests       => { trailing_whitespace => !$self->disable_trailing_whitespace_tests, } ],
         [ InlineFiles    => {} ],
         [ ReportVersions => {} ],
@@ -549,7 +545,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.07
+version 0.08
 
 =head1 SYNOPSIS
 
