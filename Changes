@@ -1,4 +1,4 @@
-{{$NEXT}}
+0.06      2011-02-11 13:05:57 Europe/London
     - Added [CopyReadmeFromBuild]
     - Added [Git::CommitBuild]
     - Made pod coverage and no tabs tests optional

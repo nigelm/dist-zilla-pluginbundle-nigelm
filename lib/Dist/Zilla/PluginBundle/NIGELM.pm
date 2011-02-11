@@ -1,4 +1,10 @@
 package Dist::Zilla::PluginBundle::NIGELM;
+BEGIN {
+  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.06';
+}
+BEGIN {
+  $Dist::Zilla::PluginBundle::NIGELM::AUTHORITY = 'cpan:NIGELM';
+}
 
 # ABSTRACT: Build your distributions like I do
 
@@ -64,103 +70,6 @@ use Dist::Zilla::Plugin::UnusedVarsTests;
 use Dist::Zilla::Plugin::UploadToCPAN;
 use Pod::Weaver::PluginBundle::MARCEL;
 
-=begin :prelude
-
-=for test_synopsis
-1;
-__END__
-
-=for stopwords NIGELM Tweakables
-
-=for Pod::Coverage mvp_multivalue_args
-
-=end :prelude
-
-=head1 SYNOPSIS
-
-In your F<dist.ini>:
-
-  [@NIGELM]
-  dist = Distribution-Name
-  repository_at = github
-
-=head1 DESCRIPTION
-
-This is the L<Dist::Zilla> configuration I use to build my
-distributions. It was originally based on the @FLORA bundle but
-additionally pulls in ideas from @MARCEL bundle.
-
-It is roughly equivalent to:
-
-    [Git::NextVersion]
-        first_version  = 0.01,
-        version_regexp = release/(\d+.\d+)
-    [Git::Check]
-    [GatherDir]
-    [CompileTests]
-    [CriticTests]
-    [MetaTests]
-    [PodCoverageTests]
-    [PodSyntaxTests]
-    [PodSpellingTests]
-    [KwaliteeTests]
-    [PortabilityTests]
-    [SynopsisTests]
-    [MinimumVersionTests]
-    [HasVersionTests]
-    [DistManifestTests]
-    [UnusedVarsTests]
-    [NoTabsTests]
-    [EOLTests]
-    [InlineFiles]
-    [ReportVersions]
-    [PruneCruft]
-    [PruneFiles]
-        filenames = dist.ini
-    [ManifestSkip]
-    [AutoPrereqs]
-    [MetaConfig]
-    [MetaResources]
-    [Authority]
-        authority   => cpan:NIGELM
-        do_metadata => 1,
-    [ExtraTests]
-    [NextRelease]
-    [PkgVersion]
-    [PodWeaver]
-        config_plugin = @MARCEL
-    [License]
-    [MakeMaker]
-    [MetaYAML]
-    [MetaJSON]
-    [ReadmeFromPod]
-    [InstallGuide]
-    [Manifest]
-    [Git::Commit]
-    [Git::Tag]
-    [Git::Push]
-    [CheckChangeLog]
-    [UploadToCPAN] or [FakeRelease]
-
-=head2 Tweakables
-
-=head3 authority
-
-The authority for this distribution - defaults to C<cpan:NIGELM>
-
-=head3 no_cpan
-
-If C<no_cpan> or the environment variable C<NO_CPAN> is set, then
-the upload to CPAN is suppressed.
-
-=head3 tag_format / tag_message / version_regexp / git_autoversion
-
-Overrides the Git bundle defaults for these. By default I use an
-unusual tag format of C<release/%v> for historical reasons. If
-git_autoversion is true (the default) then the version number is
-taken from git.
-
-=cut
 
 has dist => (
     is       => 'ro',
@@ -623,3 +532,143 @@ with 'Dist::Zilla::Role::PluginBundle::Easy';
 __PACKAGE__->meta->make_immutable;
 
 1;
+
+__END__
+=pod
+
+=for test_synopsis 1;
+__END__
+
+=for stopwords NIGELM Tweakables
+
+=for Pod::Coverage mvp_multivalue_args
+
+=head1 NAME
+
+Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
+
+=head1 VERSION
+
+version 0.06
+
+=head1 SYNOPSIS
+
+In your F<dist.ini>:
+
+  [@NIGELM]
+  dist = Distribution-Name
+  repository_at = github
+
+=head1 DESCRIPTION
+
+This is the L<Dist::Zilla> configuration I use to build my
+distributions. It was originally based on the @FLORA bundle but
+additionally pulls in ideas from @MARCEL bundle.
+
+It is roughly equivalent to:
+
+    [Git::NextVersion]
+        first_version  = 0.01,
+        version_regexp = release/(\d+.\d+)
+    [Git::Check]
+    [GatherDir]
+    [CompileTests]
+    [CriticTests]
+    [MetaTests]
+    [PodCoverageTests]
+    [PodSyntaxTests]
+    [PodSpellingTests]
+    [KwaliteeTests]
+    [PortabilityTests]
+    [SynopsisTests]
+    [MinimumVersionTests]
+    [HasVersionTests]
+    [DistManifestTests]
+    [UnusedVarsTests]
+    [NoTabsTests]
+    [EOLTests]
+    [InlineFiles]
+    [ReportVersions]
+    [PruneCruft]
+    [PruneFiles]
+        filenames = dist.ini
+    [ManifestSkip]
+    [AutoPrereqs]
+    [MetaConfig]
+    [MetaResources]
+    [Authority]
+        authority   => cpan:NIGELM
+        do_metadata => 1,
+    [ExtraTests]
+    [NextRelease]
+    [PkgVersion]
+    [PodWeaver]
+        config_plugin = @MARCEL
+    [License]
+    [MakeMaker]
+    [MetaYAML]
+    [MetaJSON]
+    [ReadmeFromPod]
+    [InstallGuide]
+    [Manifest]
+    [Git::Commit]
+    [Git::Tag]
+    [Git::Push]
+    [CheckChangeLog]
+    [UploadToCPAN] or [FakeRelease]
+
+=head2 Tweakables
+
+=head3 authority
+
+The authority for this distribution - defaults to C<cpan:NIGELM>
+
+=head3 no_cpan
+
+If C<no_cpan> or the environment variable C<NO_CPAN> is set, then
+the upload to CPAN is suppressed.
+
+=head3 tag_format / tag_message / version_regexp / git_autoversion
+
+Overrides the Git bundle defaults for these. By default I use an
+unusual tag format of C<release/%v> for historical reasons. If
+git_autoversion is true (the default) then the version number is
+taken from git.
+
+=head1 INSTALLATION
+
+See perlmodinstall for information and options on installing Perl modules.
+
+=head1 BUGS AND LIMITATIONS
+
+No bugs have been reported.
+
+Please report any bugs or feature requests through the web interface at
+L<http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM>.
+
+=head1 AVAILABILITY
+
+The project homepage is L<http://search.cpan.org/dist/Dist-Zilla-PluginBundle-NIGELM>.
+
+The latest version of this module is available from the Comprehensive Perl
+Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
+site near you, or see L<http://search.cpan.org/dist/Dist-Zilla-PluginBundle-NIGELM/>.
+
+The development version lives at L<http://github.com/nigelm/Dist-Zilla-PluginBundle-NIGELM>
+and may be cloned from L<git://github.com/nigelm/Dist-Zilla-PluginBundle-NIGELM.git>.
+Instead of sending patches, please fork this project using the standard
+git and github infrastructure.
+
+=head1 AUTHOR
+
+Nigel Metheringham <nigelm@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2011 by Nigel Metheringham.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
