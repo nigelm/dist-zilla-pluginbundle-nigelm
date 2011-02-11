@@ -16,6 +16,7 @@ use Dist::Zilla::Plugin::Authority;
 use Dist::Zilla::Plugin::AutoPrereqs;
 use Dist::Zilla::Plugin::CheckChangeLog;
 use Dist::Zilla::Plugin::CompileTests;
+use Dist::Zilla::Plugin::CopyReadmeFromBuild;
 use Dist::Zilla::Plugin::CriticTests;
 use Dist::Zilla::Plugin::DistManifestTests;
 use Dist::Zilla::Plugin::EOLTests;
