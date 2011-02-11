@@ -575,15 +575,16 @@ method configure {
         [ Manifest      => {} ],    # should come last
 
         # -- Git release process
-        [ 'Git::Commit' => {} ],
+        [ CopyReadmeFromBuild => {} ],
+        [ 'Git::Commit'       => {} ],
         [
             'Git::Tag' => {
                 tag_format  => $self->tag_format,
                 tag_message => $self->tag_message,
             }
         ],
-        ## [ 'Git::CommitBuild' => {} ],
-        [ 'Git::Push' => {} ],
+        [ 'Git::CommitBuild' => {} ],
+        [ 'Git::Push'        => {} ],
 
         # -- release
         [ CheckChangeLog => {} ],
