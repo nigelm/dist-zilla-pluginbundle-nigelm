@@ -72,6 +72,8 @@ __END__
 
 =for stopwords NIGELM Tweakables
 
+=for Pod::Coverage mvp_multivalue_args
+
 =end :prelude
 
 =head1 SYNOPSIS
@@ -528,7 +530,8 @@ method configure () {
         [ DistManifestTests   => {} ],
         [ UnusedVarsTests     => {} ],
         (
-            $self->disable_no_tabs_tests ? [ NoTabsTests => {} ]
+            $self->disable_no_tabs_tests
+            ? [ NoTabsTests => {} ]
             : ()
         ),
         [ EOLTests       => { trailing_whitespace => !$self->disable_trailing_whitespace_tests, } ],
