@@ -493,11 +493,14 @@ method configure {
         [ 'Git::Check' => {} ],
 
         # -- fetch & generate files
-        [ GatherDir           => {} ],
-        [ CompileTests        => { fake_home => $self->fake_home } ],
-        [ CriticTests         => {} ],
-        [ MetaTests           => {} ],
-        [ PodCoverageTests    => {} ],
+        [ GatherDir    => {} ],
+        [ CompileTests => { fake_home => $self->fake_home } ],
+        [ CriticTests  => {} ],
+        [ MetaTests    => {} ],
+        (
+            $self->disable_pod_coverage_tests ? [ PodCoverageTests => {} ]
+            : ()
+        ),
         [ PodSyntaxTests      => {} ],
         [ PodSpellingTests    => {} ],
         [ KwaliteeTests       => {} ],
