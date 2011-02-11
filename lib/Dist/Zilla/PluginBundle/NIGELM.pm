@@ -1,6 +1,6 @@
 package Dist::Zilla::PluginBundle::NIGELM;
 BEGIN {
-  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.06';
+  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.07';
 }
 BEGIN {
   $Dist::Zilla::PluginBundle::NIGELM::AUTHORITY = 'cpan:NIGELM';
@@ -512,7 +512,7 @@ method configure () {
                 tag_message => $self->tag_message,
             }
         ],
-        [ 'Git::CommitBuild' => {} ],
+        [ 'Git::CommitBuild' => { release_branch => 'cpan' } ],
         [ 'Git::Push'        => {} ],
 
         # -- release
@@ -549,7 +549,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.06
+version 0.07
 
 =head1 SYNOPSIS
 

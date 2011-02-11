@@ -1,3 +1,7 @@
+0.07      2011-02-11 13:21:36 Europe/London
+    - Made [Git::CommitBuild] push to a cpan branch
+    - Removed the [CopyReadmeFromBuild] due to issues
+
 0.06      2011-02-11 13:05:57 Europe/London
     - Added [CopyReadmeFromBuild]
     - Added [Git::CommitBuild]

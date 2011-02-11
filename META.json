@@ -106,7 +106,7 @@
          "web" : "http://github.com/nigelm/Dist-Zilla-PluginBundle-NIGELM"
       }
    },
-   "version" : "0.06",
+   "version" : "0.07",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
