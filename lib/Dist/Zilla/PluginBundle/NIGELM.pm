@@ -216,6 +216,12 @@ has disable_trailing_whitespace_tests => (
     default => 0,
 );
 
+has disable_no_tabs_tests => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 0,
+);
+
 has bugtracker_url => (
     isa     => Uri,
     coerce  => 1,
@@ -501,10 +507,13 @@ method configure {
         [ HasVersionTests     => {} ],
         [ DistManifestTests   => {} ],
         [ UnusedVarsTests     => {} ],
-        [ NoTabsTests         => {} ],
-        [ EOLTests            => { trailing_whitespace => !$self->disable_trailing_whitespace_tests, } ],
-        [ InlineFiles         => {} ],
-        [ ReportVersions      => {} ],
+        (
+            $self->disable_no_tabs_tests ? [ NoTabsTests => {} ]
+            : ()
+        ),
+        [ EOLTests       => { trailing_whitespace => !$self->disable_trailing_whitespace_tests, } ],
+        [ InlineFiles    => {} ],
+        [ ReportVersions => {} ],
 
         # -- remove some files
         [ PruneCruft   => {} ],
