@@ -595,8 +595,8 @@ method configure () {
         [ Manifest      => {} ],    # should come last
 
         # -- Git release process
-        [ CopyReadmeFromBuild => {} ],
-        [ 'Git::Commit'       => { allow_dirty => $self->git_allow_dirty } ],
+        ## [ CopyReadmeFromBuild => {} ], # -- unable to get this to work right
+        [ 'Git::Commit' => { allow_dirty => $self->git_allow_dirty } ],
         [
             'Git::Tag' => {
                 tag_format  => $self->tag_format,
