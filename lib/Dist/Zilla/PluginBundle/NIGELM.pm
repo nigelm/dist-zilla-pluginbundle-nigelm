@@ -129,6 +129,12 @@ has disable_trailing_whitespace_tests => (
     default => 0,
 );
 
+has disable_unused_vars_tests => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 0,
+);
+
 has disable_no_tabs_tests => (
     is      => 'ro',
     isa     => Bool,
@@ -437,7 +443,7 @@ method configure () {
         [ MinimumVersionTests => {} ],
         [ HasVersionTests     => {} ],
         [ DistManifestTests   => {} ],
-        [ UnusedVarsTests     => {} ],
+        ( $self->disable_unused_vars_tests ? () : [ UnusedVarsTests => {} ] ),
         ( $self->disable_no_tabs_tests ? () : [ NoTabsTests => {} ] ),
         [ EOLTests => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
         [ InlineFiles    => {} ],
