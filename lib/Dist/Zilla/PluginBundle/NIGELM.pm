@@ -305,13 +305,13 @@ has github_user => (
 has tag_format => (
     is      => 'ro',
     isa     => Str,
-    default => 'release/%v',
+    default => 'release/%v%t',
 );
 
 has tag_message => (
     is      => 'ro',
     isa     => Str,
-    default => 'Release of %v',
+    default => 'Release of %v%t',
 );
 
 has version_regexp => (
@@ -323,7 +323,9 @@ has version_regexp => (
 
 method _build_version_regexp () {
     my $version_regexp = $self->tag_format;
-    $version_regexp =~ s/\%v/\(\.\+\)/;
+    $version_regexp =~ s/\%v/\(\\d+\(\?:\\.\\d+\)\+\)/;
+    $version_regexp =~ s/\%t/\(\[-_\]\.+\)\?/;
+    warn "version_regexp = $version_regexp\n";
     return sprintf( '^%s$', $version_regexp );
 }
 
