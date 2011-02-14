@@ -93,7 +93,7 @@
          }
       }
    },
-   "release_status" : "stable",
+   "release_status" : "testing",
    "resources" : {
       "bugtracker" : {
          "mailto" : "bug-Dist-Zilla-PluginBundle-NIGELM@rt.cpan.org",
@@ -353,7 +353,7 @@
       "zilla" : {
          "class" : "Dist::Zilla::Dist::Builder",
          "config" : {
-            "is_trial" : 0
+            "is_trial" : 1
          },
          "version" : "4.200002"
       }

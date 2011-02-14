@@ -1,6 +1,6 @@
 package Dist::Zilla::PluginBundle::NIGELM;
 BEGIN {
-  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.08';
+  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.08'; # TRIAL
 }
 BEGIN {
   $Dist::Zilla::PluginBundle::NIGELM::AUTHORITY = 'cpan:NIGELM';
