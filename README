@@ -2,7 +2,7 @@ NAME
     Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 VERSION
-    version 0.07
+    version 0.08
 
 SYNOPSIS
     In your dist.ini:

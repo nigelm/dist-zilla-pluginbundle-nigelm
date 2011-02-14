@@ -93,7 +93,7 @@
          }
       }
    },
-   "release_status" : "stable",
+   "release_status" : "testing",
    "resources" : {
       "bugtracker" : {
          "mailto" : "bug-Dist-Zilla-PluginBundle-NIGELM@rt.cpan.org",
@@ -106,7 +106,7 @@
          "web" : "http://github.com/nigelm/Dist-Zilla-PluginBundle-NIGELM"
       }
    },
-   "version" : "0.07",
+   "version" : "0.08",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
@@ -188,6 +188,11 @@
             "class" : "Dist::Zilla::Plugin::UnusedVarsTests",
             "name" : "@NIGELM/UnusedVarsTests",
             "version" : "1.100860"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::NoTabsTests",
+            "name" : "@NIGELM/NoTabsTests",
+            "version" : "0.01"
          },
          {
             "class" : "Dist::Zilla::Plugin::EOLTests",
@@ -348,7 +353,7 @@
       "zilla" : {
          "class" : "Dist::Zilla::Dist::Builder",
          "config" : {
-            "is_trial" : 0
+            "is_trial" : 1
          },
          "version" : "4.200002"
       }

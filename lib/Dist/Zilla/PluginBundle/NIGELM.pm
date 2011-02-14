@@ -1,6 +1,6 @@
 package Dist::Zilla::PluginBundle::NIGELM;
 BEGIN {
-  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.07';
+  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.08'; # TRIAL
 }
 BEGIN {
   $Dist::Zilla::PluginBundle::NIGELM::AUTHORITY = 'cpan:NIGELM';
@@ -129,6 +129,12 @@ has disable_trailing_whitespace_tests => (
     default => 0,
 );
 
+has disable_unused_vars_tests => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 0,
+);
+
 has disable_no_tabs_tests => (
     is      => 'ro',
     isa     => Bool,
@@ -208,13 +214,13 @@ has github_user => (
 has tag_format => (
     is      => 'ro',
     isa     => Str,
-    default => 'release/%v',
+    default => 'release/%v%t',
 );
 
 has tag_message => (
     is      => 'ro',
     isa     => Str,
-    default => 'Release of %v',
+    default => 'Release of %v%t',
 );
 
 has version_regexp => (
@@ -226,7 +232,9 @@ has version_regexp => (
 
 method _build_version_regexp () {
     my $version_regexp = $self->tag_format;
-    $version_regexp =~ s/\%v/\(\.\+\)/;
+    $version_regexp =~ s/\%v/\(\\d+\(\?:\\.\\d+\)\+\)/;
+    $version_regexp =~ s/\%t/\(\[-_\]\.+\)\?/;
+    warn "version_regexp = $version_regexp\n";
     return sprintf( '^%s$', $version_regexp );
 }
 
@@ -437,13 +445,9 @@ method configure () {
         [ MinimumVersionTests => {} ],
         [ HasVersionTests     => {} ],
         [ DistManifestTests   => {} ],
-        [ UnusedVarsTests     => {} ],
-        (
-            $self->disable_no_tabs_tests
-            ? [ NoTabsTests => {} ]
-            : ()
-        ),
-        [ EOLTests       => { trailing_whitespace => !$self->disable_trailing_whitespace_tests, } ],
+        ( $self->disable_unused_vars_tests ? () : [ UnusedVarsTests => {} ] ),
+        ( $self->disable_no_tabs_tests ? () : [ NoTabsTests => {} ] ),
+        [ EOLTests => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
         [ InlineFiles    => {} ],
         [ ReportVersions => {} ],
 
@@ -549,7 +553,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.07
+version 0.08
 
 =head1 SYNOPSIS
 

@@ -87,7 +87,7 @@ my %WriteMakefileArgs = (
     'Pod::Weaver::PluginBundle::MARCEL' => '0',
     'namespace::autoclean' => '0'
   },
-  'VERSION' => '0.07',
+  'VERSION' => '0.08',
   'test' => {
     'TESTS' => 't/*.t'
   }
