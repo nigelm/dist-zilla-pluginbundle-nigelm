@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.08      2011-02-14 13:04:45 Europe/London
+
 0.07      2011-02-11 13:22:07 Europe/London
     - Made [Git::CommitBuild] push to a cpan branch
     - Removed the [CopyReadmeFromBuild] due to issues
