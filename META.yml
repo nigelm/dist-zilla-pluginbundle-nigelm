@@ -226,9 +226,13 @@ x_Dist_Zilla:
       name: '@NIGELM/MetaJSON'
       version: 4.200002
     -
-      class: Dist::Zilla::Plugin::ReadmeFromPod
-      name: '@NIGELM/ReadmeFromPod'
-      version: 0.14
+      class: Dist::Zilla::Plugin::ReadmeAnyFromPod
+      name: '@NIGELM/ReadmeAnyFromPod'
+      version: 0.103522
+    -
+      class: Dist::Zilla::Plugin::ReadmeAnyFromPod
+      name: '@NIGELM/ReadmePodInRoot'
+      version: 0.103522
     -
       class: Dist::Zilla::Plugin::InstallGuide
       name: '@NIGELM/InstallGuide'
