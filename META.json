@@ -63,7 +63,7 @@
             "Dist::Zilla::Plugin::PortabilityTests" : 0,
             "Dist::Zilla::Plugin::PruneCruft" : 0,
             "Dist::Zilla::Plugin::PruneFiles" : 0,
-            "Dist::Zilla::Plugin::ReadmeFromPod" : 0,
+            "Dist::Zilla::Plugin::ReadmeAnyFromPod" : 0,
             "Dist::Zilla::Plugin::ReportVersions" : 0,
             "Dist::Zilla::Plugin::ShareDir" : 0,
             "Dist::Zilla::Plugin::SynopsisTests" : 0,
@@ -93,7 +93,7 @@
          }
       }
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
          "mailto" : "bug-Dist-Zilla-PluginBundle-NIGELM@rt.cpan.org",
@@ -106,7 +106,7 @@
          "web" : "http://github.com/nigelm/Dist-Zilla-PluginBundle-NIGELM"
       }
    },
-   "version" : "0.08",
+   "version" : "0.09",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
@@ -285,9 +285,14 @@
             "version" : "4.200002"
          },
          {
-            "class" : "Dist::Zilla::Plugin::ReadmeFromPod",
-            "name" : "@NIGELM/ReadmeFromPod",
-            "version" : "0.14"
+            "class" : "Dist::Zilla::Plugin::ReadmeAnyFromPod",
+            "name" : "@NIGELM/ReadmeAnyFromPod",
+            "version" : "0.103522"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::ReadmeAnyFromPod",
+            "name" : "@NIGELM/ReadmePodInRoot",
+            "version" : "0.103522"
          },
          {
             "class" : "Dist::Zilla::Plugin::InstallGuide",
@@ -353,7 +358,7 @@
       "zilla" : {
          "class" : "Dist::Zilla::Dist::Builder",
          "config" : {
-            "is_trial" : 1
+            "is_trial" : 0
          },
          "version" : "4.200002"
       }

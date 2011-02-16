@@ -1,6 +1,6 @@
 package Dist::Zilla::PluginBundle::NIGELM;
 BEGIN {
-  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.08'; # TRIAL
+  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.09';
 }
 BEGIN {
   $Dist::Zilla::PluginBundle::NIGELM::AUTHORITY = 'cpan:NIGELM';
@@ -61,7 +61,7 @@ use Dist::Zilla::Plugin::PodWeaver;
 use Dist::Zilla::Plugin::PortabilityTests;
 use Dist::Zilla::Plugin::PruneCruft;
 use Dist::Zilla::Plugin::PruneFiles;
-use Dist::Zilla::Plugin::ReadmeFromPod;
+use Dist::Zilla::Plugin::ReadmeAnyFromPod;
 use Dist::Zilla::Plugin::ReportVersions;
 use Dist::Zilla::Plugin::ShareDir;
 use Dist::Zilla::Plugin::SynopsisTests;
@@ -233,8 +233,7 @@ has version_regexp => (
 method _build_version_regexp () {
     my $version_regexp = $self->tag_format;
     $version_regexp =~ s/\%v/\(\\d+\(\?:\\.\\d+\)\+\)/;
-    $version_regexp =~ s/\%t/\(\[-_\]\.+\)\?/;
-    warn "version_regexp = $version_regexp\n";
+    $version_regexp =~ s/\%t/\(\?:\[-_\]\.+\)\?/;
     return sprintf( '^%s$', $version_regexp );
 }
 
@@ -264,7 +263,7 @@ has changelog => ( is => 'ro', isa => Str, default => 'Changes' );
 
 sub mvp_multivalue_args { return ('git_allow_dirty'); }
 
-sub _build_git_allow_dirty { [ 'dist.ini', shift->changelog, 'README' ] }
+sub _build_git_allow_dirty { [ 'dist.ini', shift->changelog, 'README', 'README.pod' ] }
 
 my $map_tc = Map [
     Str,
@@ -446,14 +445,14 @@ method configure () {
         [ HasVersionTests     => {} ],
         [ DistManifestTests   => {} ],
         ( $self->disable_unused_vars_tests ? () : [ UnusedVarsTests => {} ] ),
-        ( $self->disable_no_tabs_tests ? () : [ NoTabsTests => {} ] ),
+        ( $self->disable_no_tabs_tests     ? () : [ NoTabsTests     => {} ] ),
         [ EOLTests => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
         [ InlineFiles    => {} ],
         [ ReportVersions => {} ],
 
         # -- remove some files
         [ PruneCruft   => {} ],
-        [ PruneFiles   => { filenames => [qw(dist.ini)] } ],
+        [ PruneFiles   => { filenames => [qw(dist.ini README README.pod)] } ],
         [ ManifestSkip => {} ],
 
         # -- get prereqs
@@ -499,13 +498,14 @@ method configure () {
         ## [ 'MetaProvides::Package' => {} ],
 
         # -- generate meta files
-        [ License       => {} ],
-        [ MakeMaker     => {} ],
-        [ MetaYAML      => {} ],
-        [ MetaJSON      => {} ],
-        [ ReadmeFromPod => {} ],
-        [ InstallGuide  => {} ],
-        [ Manifest      => {} ],    # should come last
+        [ License          => {} ],
+        [ MakeMaker        => {} ],
+        [ MetaYAML         => {} ],
+        [ MetaJSON         => {} ],
+        [ ReadmeAnyFromPod => {} ],
+        [ ReadmeAnyFromPod => ReadmePodInRoot => { type => 'pod', filename => 'README.pod', location => 'root', } ],
+        [ InstallGuide     => {} ],
+        [ Manifest => {} ],    # should come last
 
         # -- Git release process
         ## [ CopyReadmeFromBuild => {} ], # -- unable to get this to work right
@@ -553,7 +553,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 SYNOPSIS
 
@@ -612,7 +612,10 @@ It is roughly equivalent to:
     [MakeMaker]
     [MetaYAML]
     [MetaJSON]
-    [ReadmeFromPod]
+    [ReadmeAnyFromPod]
+        type = pod
+        filename = README.pod
+        location = root
     [InstallGuide]
     [Manifest]
     [Git::Commit]

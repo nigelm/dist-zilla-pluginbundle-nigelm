@@ -2,7 +2,7 @@ NAME
     Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 VERSION
-    version 0.08
+    version 0.09
 
 SYNOPSIS
     In your dist.ini:
@@ -59,7 +59,10 @@ DESCRIPTION
         [MakeMaker]
         [MetaYAML]
         [MetaJSON]
-        [ReadmeFromPod]
+        [ReadmeAnyFromPod]
+            type = pod
+            filename = README.pod
+            location = root
         [InstallGuide]
         [Manifest]
         [Git::Commit]
