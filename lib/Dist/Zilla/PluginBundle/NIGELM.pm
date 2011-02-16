@@ -597,7 +597,7 @@ method configure () {
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
         [ ReadmeAnyFromPod => {} ],
-        [ ReadmePodInRoot  => ReadmeAnyFromPod => { type => 'pod', filename => 'README.pod', location => 'root', } ],
+        [ ReadmeAnyFromPod => ReadmePodInRoot => { type => 'pod', filename => 'README.pod', location => 'root', } ],
         [ InstallGuide     => {} ],
         [ Manifest => {} ],    # should come last
 
