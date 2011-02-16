@@ -5,6 +5,8 @@ MANIFEST
 META.json
 META.yml
 Makefile.PL
+README
+README.pod
 lib/Dist/Zilla/PluginBundle/NIGELM.pm
 t/00-compile.t
 t/000-report-versions.t
