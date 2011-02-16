@@ -234,7 +234,6 @@ method _build_version_regexp () {
     my $version_regexp = $self->tag_format;
     $version_regexp =~ s/\%v/\(\\d+\(\?:\\.\\d+\)\+\)/;
     $version_regexp =~ s/\%t/\(\?:\[-_\]\.+\)\?/;
-    warn "version_regexp = $version_regexp\n";
     return sprintf( '^%s$', $version_regexp );
 }
 
@@ -503,9 +502,10 @@ method configure () {
         [ MakeMaker        => {} ],
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
-        [ ReadmeAnyFromPod => { type => 'pod', filename => 'README.pod', location => 'root', } ],
+        [ ReadmeAnyFromPod => {} ],
+        [ ReadmePodInRoot  => ReadmeAnyFromPod => { type => 'pod', filename => 'README.pod', location => 'root', } ],
         [ InstallGuide     => {} ],
-        [ Manifest         => {} ],                                                                 # should come last
+        [ Manifest => {} ],    # should come last
 
         # -- Git release process
         ## [ CopyReadmeFromBuild => {} ], # -- unable to get this to work right
