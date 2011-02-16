@@ -233,7 +233,7 @@ has version_regexp => (
 method _build_version_regexp () {
     my $version_regexp = $self->tag_format;
     $version_regexp =~ s/\%v/\(\\d+\(\?:\\.\\d+\)\+\)/;
-    $version_regexp =~ s/\%t/\(\[-_\]\.+\)\?/;
+    $version_regexp =~ s/\%t/\(\?:\[-_\]\.+\)\?/;
     warn "version_regexp = $version_regexp\n";
     return sprintf( '^%s$', $version_regexp );
 }
