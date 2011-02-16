@@ -62,7 +62,7 @@ requires:
   Dist::Zilla::Plugin::PortabilityTests: 0
   Dist::Zilla::Plugin::PruneCruft: 0
   Dist::Zilla::Plugin::PruneFiles: 0
-  Dist::Zilla::Plugin::ReadmeFromPod: 0
+  Dist::Zilla::Plugin::ReadmeAnyFromPod: 0
   Dist::Zilla::Plugin::ReportVersions: 0
   Dist::Zilla::Plugin::ShareDir: 0
   Dist::Zilla::Plugin::SynopsisTests: 0
@@ -82,7 +82,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM
   homepage: http://search.cpan.org/dist/Dist-Zilla-PluginBundle-NIGELM
   repository: git://github.com/nigelm/Dist-Zilla-PluginBundle-NIGELM.git
-version: 0.08
+version: 0.09
 x_Dist_Zilla:
   plugins:
     -
@@ -280,6 +280,6 @@ x_Dist_Zilla:
   zilla:
     class: Dist::Zilla::Dist::Builder
     config:
-      is_trial: 1
+      is_trial: 0
     version: 4.200002
 x_authority: cpan:NIGELM

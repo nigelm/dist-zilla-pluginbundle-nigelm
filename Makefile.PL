@@ -70,7 +70,7 @@ my %WriteMakefileArgs = (
     'Dist::Zilla::Plugin::PortabilityTests' => '0',
     'Dist::Zilla::Plugin::PruneCruft' => '0',
     'Dist::Zilla::Plugin::PruneFiles' => '0',
-    'Dist::Zilla::Plugin::ReadmeFromPod' => '0',
+    'Dist::Zilla::Plugin::ReadmeAnyFromPod' => '0',
     'Dist::Zilla::Plugin::ReportVersions' => '0',
     'Dist::Zilla::Plugin::ShareDir' => '0',
     'Dist::Zilla::Plugin::SynopsisTests' => '0',
@@ -87,7 +87,7 @@ my %WriteMakefileArgs = (
     'Pod::Weaver::PluginBundle::MARCEL' => '0',
     'namespace::autoclean' => '0'
   },
-  'VERSION' => '0.08',
+  'VERSION' => '0.09',
   'test' => {
     'TESTS' => 't/*.t'
   }
