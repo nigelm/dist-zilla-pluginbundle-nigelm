@@ -597,9 +597,10 @@ method configure () {
         [ MakeMaker        => {} ],
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
-        [ ReadmeAnyFromPod => { type => 'pod', filename => 'README.pod', location => 'root', } ],
+        [ ReadmeAnyFromPod => {} ],
+        [ ReadmePodInRoot  => ReadmeAnyFromPod => { type => 'pod', filename => 'README.pod', location => 'root', } ],
         [ InstallGuide     => {} ],
-        [ Manifest         => {} ],                                                                 # should come last
+        [ Manifest => {} ],    # should come last
 
         # -- Git release process
         ## [ CopyReadmeFromBuild => {} ], # -- unable to get this to work right
