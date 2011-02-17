@@ -602,7 +602,6 @@ method configure () {
         [ Manifest => {} ],    # should come last
 
         # -- Git release process
-        ## [ CopyReadmeFromBuild => {} ], # -- unable to get this to work right
         [ 'Git::Commit' => { allow_dirty => $self->git_allow_dirty } ],
         [
             'Git::Tag' => {
@@ -610,7 +609,7 @@ method configure () {
                 tag_message => $self->tag_message,
             }
         ],
-        [ 'Git::CommitBuild' => { release_branch => 'cpan' } ],
+        [ 'Git::CommitBuild' => { branch => '', release_branch => 'cpan' } ],
         [ 'Git::Push'        => {} ],
 
         # -- release
