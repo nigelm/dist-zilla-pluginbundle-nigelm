@@ -2,7 +2,7 @@ NAME
     Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 VERSION
-    version 0.09
+    version 0.10
 
 SYNOPSIS
     In your dist.ini:
@@ -48,8 +48,8 @@ DESCRIPTION
         [MetaConfig]
         [MetaResources]
         [Authority]
-            authority   => cpan:NIGELM
-            do_metadata => 1,
+            authority   = cpan:NIGELM
+            do_metadata = 1,
         [ExtraTests]
         [NextRelease]
         [PkgVersion]
@@ -67,6 +67,9 @@ DESCRIPTION
         [Manifest]
         [Git::Commit]
         [Git::Tag]
+        [Git::CommitBuild]
+            branch =
+            release_branch = cpan
         [Git::Push]
         [CheckChangeLog]
         [UploadToCPAN] or [FakeRelease]
@@ -105,9 +108,9 @@ AVAILABILITY
     <http://search.cpan.org/dist/Dist-Zilla-PluginBundle-NIGELM/>.
 
     The development version lives at
-    <http://github.com/nigelm/Dist-Zilla-PluginBundle-NIGELM> and may be
+    <http://github.com/nigelm/dist-zilla-pluginbundle-nigelm> and may be
     cloned from
-    <git://github.com/nigelm/Dist-Zilla-PluginBundle-NIGELM.git>. Instead of
+    <git://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git>. Instead of
     sending patches, please fork this project using the standard git and
     github infrastructure.
 

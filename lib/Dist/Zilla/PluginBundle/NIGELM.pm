@@ -1,6 +1,6 @@
 package Dist::Zilla::PluginBundle::NIGELM;
 BEGIN {
-  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.09';
+  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.10';
 }
 BEGIN {
   $Dist::Zilla::PluginBundle::NIGELM::AUTHORITY = 'cpan:NIGELM';
@@ -508,7 +508,6 @@ method configure () {
         [ Manifest => {} ],    # should come last
 
         # -- Git release process
-        ## [ CopyReadmeFromBuild => {} ], # -- unable to get this to work right
         [ 'Git::Commit' => { allow_dirty => $self->git_allow_dirty } ],
         [
             'Git::Tag' => {
@@ -516,7 +515,7 @@ method configure () {
                 tag_message => $self->tag_message,
             }
         ],
-        [ 'Git::CommitBuild' => { release_branch => 'cpan' } ],
+        [ 'Git::CommitBuild' => { branch => '', release_branch => 'cpan' } ],
         [ 'Git::Push'        => {} ],
 
         # -- release
@@ -553,7 +552,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.09
+version 0.10
 
 =head1 SYNOPSIS
 
@@ -601,8 +600,8 @@ It is roughly equivalent to:
     [MetaConfig]
     [MetaResources]
     [Authority]
-        authority   => cpan:NIGELM
-        do_metadata => 1,
+        authority   = cpan:NIGELM
+        do_metadata = 1,
     [ExtraTests]
     [NextRelease]
     [PkgVersion]
@@ -620,6 +619,9 @@ It is roughly equivalent to:
     [Manifest]
     [Git::Commit]
     [Git::Tag]
+    [Git::CommitBuild]
+        branch =
+        release_branch = cpan
     [Git::Push]
     [CheckChangeLog]
     [UploadToCPAN] or [FakeRelease]
@@ -661,8 +663,8 @@ The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
 site near you, or see L<http://search.cpan.org/dist/Dist-Zilla-PluginBundle-NIGELM/>.
 
-The development version lives at L<http://github.com/nigelm/Dist-Zilla-PluginBundle-NIGELM>
-and may be cloned from L<git://github.com/nigelm/Dist-Zilla-PluginBundle-NIGELM.git>.
+The development version lives at L<http://github.com/nigelm/dist-zilla-pluginbundle-nigelm>
+and may be cloned from L<git://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git>.
 Instead of sending patches, please fork this project using the standard
 git and github infrastructure.
 
