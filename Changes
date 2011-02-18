@@ -1,10 +1,12 @@
 {{$NEXT}}
 
-0.10      2011-02-18 10:50:49 Europe/London
-
-0.09      2011-02-16 16:57:09 Europe/London
-
-0.08      2011-02-14 13:04:45 Europe/London
+0.11      2011-02-18 11:00:51 Europe/London
+    - Fixed CommitBuild release messages
+    - Slightly improved docs
+    - No longer produces CommitBuilds for every build...
+    - Now uses [Bootstrap::lib] to reduce the build dance
+    - Got README handling as I want it, finally
+    - Realised that Changes handling is now wrong - needs fixing later
 
 0.07      2011-02-11 13:22:07 Europe/London
     - Made [Git::CommitBuild] push to a cpan branch
