@@ -1,6 +1,6 @@
 package Dist::Zilla::PluginBundle::NIGELM;
 BEGIN {
-  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.10';
+  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.11';
 }
 BEGIN {
   $Dist::Zilla::PluginBundle::NIGELM::AUTHORITY = 'cpan:NIGELM';
@@ -33,7 +33,7 @@ use Dist::Zilla::Plugin::FakeRelease;
 use Dist::Zilla::Plugin::GatherDir;
 use Dist::Zilla::Plugin::Git::Check;
 use Dist::Zilla::Plugin::Git::Commit;
-use Dist::Zilla::Plugin::Git::CommitBuild;
+use Dist::Zilla::Plugin::Git::CommitBuild 1.110480;
 use Dist::Zilla::Plugin::Git::NextVersion;
 use Dist::Zilla::Plugin::Git::Push;
 use Dist::Zilla::Plugin::Git::Tag;
@@ -283,30 +283,27 @@ coerce $map_tc, from Map [
         type        => Optional [Str],
         mangle      => Optional [CodeRef],
     ]
-  ],
-  via {
+    ],
+    via {
     my %in = %{$_};
     return {
         map {
             my $k = $_;
-            (
-                $k => {
+            (   $k => {
                     %{ $in{$k} },
-                    (
-                        map {
+                    (   map {
                             my $v = $_;
-                            (
-                                ref $in{$k}->{$v} ne 'CODE'
+                            (   ref $in{$k}->{$v} ne 'CODE'
                                 ? ( $v => sub { $in{$k}->{$v} } )
                                 : ()
-                              ),
-                          } qw(pattern web_pattern)
+                                ),
+                            } qw(pattern web_pattern)
                     ),
                 }
-              )
-          } keys %in
+                )
+            } keys %in
     };
-  };
+    };
 
 has _repository_host_map => (
     traits  => [qw(Hash)],
@@ -345,17 +342,22 @@ method _build__repository_host_map () {
             pattern     => 'http://dev.catalyst.perl.org/repos/Catalyst/%s/',
             web_pattern => 'http://dev.catalystframework.org/svnweb/Catalyst/browse/%s',
         },
-        (
-            map { ( $_ => { pattern => "git://git.shadowcat.co.uk/${_}/%s.git", web_pattern => $scsys_web_pattern_proto->($_), } ) }
-              qw(catagits p5sagit dbsrgits)
+        (   map {
+                (   $_ => {
+                        pattern     => "git://git.shadowcat.co.uk/${_}/%s.git",
+                        web_pattern => $scsys_web_pattern_proto->($_),
+                    }
+                    )
+                } qw(catagits p5sagit dbsrgits)
         ),
     };
 }
 
 method _build_repository_url () {
     return $self->_resolve_repository_with( $self->repository_at, 'pattern' )
-      if $self->has_repository_at;
-    confess "Cannot determine repository url without repository_at. " . "Please provide either repository_at or repository.";
+        if $self->has_repository_at;
+    confess "Cannot determine repository url without repository_at. "
+        . "Please provide either repository_at or repository.";
 }
 
 has repository_web => (
@@ -368,9 +370,9 @@ has repository_web => (
 
 method _build_repository_web () {
     return $self->_resolve_repository_with( $self->repository_at, 'web_pattern' )
-      if $self->has_repository_at;
+        if $self->has_repository_at;
     confess "Cannot determine repository web url without repository_at. "
-      . "Please provide either repository_at or repository_web.";
+        . "Please provide either repository_at or repository_web.";
 }
 
 method _resolve_repository_with ( $service, $thing ) {
@@ -378,11 +380,11 @@ method _resolve_repository_with ( $service, $thing ) {
     my $data = $self->_repository_data_for($service);
     confess "unknown repository service $service" unless $data;
     return sprintf $data->{$thing}->(),
-      (
+        (
         exists $data->{mangle}
         ? $data->{mangle}->($dist)
         : $dist
-      );
+        );
 }
 
 has repository_type => (
@@ -416,14 +418,12 @@ method configure () {
     my @wanted = (
 
         # -- Git versioning
-        (
-            $self->git_autoversion
-            ? [
-                'Git::NextVersion' => {
+        (   $self->git_autoversion
+            ? [ 'Git::NextVersion' => {
                     first_version  => '0.01',
                     version_regexp => $self->version_regexp,
                 }
-              ]
+                ]
             : ()
         ),
         [ 'Git::Check' => { allow_dirty => $self->git_allow_dirty } ],
@@ -456,16 +456,14 @@ method configure () {
         [ ManifestSkip => {} ],
 
         # -- get prereqs
-        (
-            $self->auto_prereqs
+        (   $self->auto_prereqs
             ? [ AutoPrereqs => $self->skip_prereqs ? { skip => $self->skip_prereqs } : {} ]
             : ()
         ),
 
         # -- gather metadata
         [ MetaConfig => {} ],
-        [
-            MetaResources => {
+        [   MetaResources => {
                 'repository.type'   => $self->repository_type,
                 'repository.url'    => $self->repository_url,
                 'repository.web'    => $self->repository_web,
@@ -474,8 +472,7 @@ method configure () {
                 'homepage'          => $self->homepage_url,
             }
         ],
-        [
-            Authority => {
+        [   Authority => {
                 authority   => $self->authority,
                 do_metadata => 1,
             }
@@ -486,8 +483,7 @@ method configure () {
         [ NextRelease => {} ],
         [ PkgVersion  => {} ],
 
-        (
-            $self->is_task
+        (   $self->is_task
             ? [ 'TaskWeaver' => {} ]
             : [ 'PodWeaver' => { config_plugin => $self->weaver_config_plugin } ]
         ),
@@ -509,19 +505,17 @@ method configure () {
 
         # -- Git release process
         [ 'Git::Commit' => { allow_dirty => $self->git_allow_dirty } ],
-        [
-            'Git::Tag' => {
+        [   'Git::Tag' => {
                 tag_format  => $self->tag_format,
                 tag_message => $self->tag_message,
             }
         ],
-        [ 'Git::CommitBuild' => { branch => '', release_branch => 'cpan' } ],
+        [ 'Git::CommitBuild' => { branch => '', release_branch => 'cpan', release_message => 'CPAN Release of %v%t' } ],
         [ 'Git::Push'        => {} ],
 
         # -- release
         [ CheckChangeLog => {} ],
-        (
-            $self->no_cpan
+        (   $self->no_cpan
             ? [ FakeRelease => {} ]
             : [ UploadToCPAN => {} ]
         ),
@@ -552,7 +546,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 SYNOPSIS
 

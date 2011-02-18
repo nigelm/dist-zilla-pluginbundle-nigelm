@@ -35,7 +35,7 @@
             "Dist::Zilla::Plugin::GatherDir" : 0,
             "Dist::Zilla::Plugin::Git::Check" : 0,
             "Dist::Zilla::Plugin::Git::Commit" : 0,
-            "Dist::Zilla::Plugin::Git::CommitBuild" : 0,
+            "Dist::Zilla::Plugin::Git::CommitBuild" : "1.110480",
             "Dist::Zilla::Plugin::Git::NextVersion" : 0,
             "Dist::Zilla::Plugin::Git::Push" : 0,
             "Dist::Zilla::Plugin::Git::Tag" : 0,
@@ -106,18 +106,18 @@
          "web" : "http://github.com/nigelm/dist-zilla-pluginbundle-nigelm"
       }
    },
-   "version" : "0.10",
+   "version" : "0.11",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
             "class" : "Dist::Zilla::Plugin::Git::NextVersion",
             "name" : "@NIGELM/Git::NextVersion",
-            "version" : "1.110330"
+            "version" : "1.110480"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Check",
             "name" : "@NIGELM/Git::Check",
-            "version" : "1.110330"
+            "version" : "1.110480"
          },
          {
             "class" : "Dist::Zilla::Plugin::GatherDir",
@@ -307,22 +307,22 @@
          {
             "class" : "Dist::Zilla::Plugin::Git::Commit",
             "name" : "@NIGELM/Git::Commit",
-            "version" : "1.110330"
+            "version" : "1.110480"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Tag",
             "name" : "@NIGELM/Git::Tag",
-            "version" : "1.110330"
+            "version" : "1.110480"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::CommitBuild",
             "name" : "@NIGELM/Git::CommitBuild",
-            "version" : "1.110330"
+            "version" : "1.110480"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Push",
             "name" : "@NIGELM/Git::Push",
-            "version" : "1.110330"
+            "version" : "1.110480"
          },
          {
             "class" : "Dist::Zilla::Plugin::CheckChangeLog",

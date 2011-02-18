@@ -42,7 +42,7 @@ my %WriteMakefileArgs = (
     'Dist::Zilla::Plugin::GatherDir' => '0',
     'Dist::Zilla::Plugin::Git::Check' => '0',
     'Dist::Zilla::Plugin::Git::Commit' => '0',
-    'Dist::Zilla::Plugin::Git::CommitBuild' => '0',
+    'Dist::Zilla::Plugin::Git::CommitBuild' => '1.110480',
     'Dist::Zilla::Plugin::Git::NextVersion' => '0',
     'Dist::Zilla::Plugin::Git::Push' => '0',
     'Dist::Zilla::Plugin::Git::Tag' => '0',
@@ -87,7 +87,7 @@ my %WriteMakefileArgs = (
     'Pod::Weaver::PluginBundle::MARCEL' => '0',
     'namespace::autoclean' => '0'
   },
-  'VERSION' => '0.10',
+  'VERSION' => '0.11',
   'test' => {
     'TESTS' => 't/*.t'
   }
