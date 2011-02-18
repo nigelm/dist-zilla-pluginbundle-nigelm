@@ -27,7 +27,7 @@ use Dist::Zilla::Plugin::FakeRelease;
 use Dist::Zilla::Plugin::GatherDir;
 use Dist::Zilla::Plugin::Git::Check;
 use Dist::Zilla::Plugin::Git::Commit;
-use Dist::Zilla::Plugin::Git::CommitBuild;
+use Dist::Zilla::Plugin::Git::CommitBuild 1.110480;
 use Dist::Zilla::Plugin::Git::NextVersion;
 use Dist::Zilla::Plugin::Git::Push;
 use Dist::Zilla::Plugin::Git::Tag;
@@ -612,7 +612,7 @@ method configure () {
                 tag_message => $self->tag_message,
             }
         ],
-        [ 'Git::CommitBuild' => { branch => '', release_branch => 'cpan' } ],
+        [ 'Git::CommitBuild' => { branch => '', release_branch => 'cpan', release_message => 'CPAN Release of %v%t' } ],
         [ 'Git::Push'        => {} ],
 
         # -- release
