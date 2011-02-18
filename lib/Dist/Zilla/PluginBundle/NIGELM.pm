@@ -122,8 +122,8 @@ It is roughly equivalent to:
     [MetaConfig]
     [MetaResources]
     [Authority]
-        authority   => cpan:NIGELM
-        do_metadata => 1,
+        authority   = cpan:NIGELM
+        do_metadata = 1,
     [ExtraTests]
     [NextRelease]
     [PkgVersion]
@@ -141,6 +141,9 @@ It is roughly equivalent to:
     [Manifest]
     [Git::Commit]
     [Git::Tag]
+    [Git::CommitBuild]
+        branch =
+        release_branch = cpan
     [Git::Push]
     [CheckChangeLog]
     [UploadToCPAN] or [FakeRelease]
