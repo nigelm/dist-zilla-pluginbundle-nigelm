@@ -2,6 +2,11 @@ package Dist::Zilla::PluginBundle::NIGELM;
 
 # ABSTRACT: Build your distributions like I do
 
+use strict;
+use warnings;
+
+# VERSION
+
 use Moose 1.00;
 use Method::Signatures::Simple;
 use Moose::Util::TypeConstraints;
@@ -47,7 +52,7 @@ use Dist::Zilla::Plugin::MetaYAML;
 use Dist::Zilla::Plugin::MinimumVersionTests;
 use Dist::Zilla::Plugin::NextRelease;
 use Dist::Zilla::Plugin::NoTabsTests;
-use Dist::Zilla::Plugin::PkgVersion;
+use Dist::Zilla::Plugin::OurPkgVersion;
 use Dist::Zilla::Plugin::PodCoverageTests;
 use Dist::Zilla::Plugin::PodSpellingTests;
 use Dist::Zilla::Plugin::PodSyntaxTests;
@@ -126,7 +131,7 @@ It is roughly equivalent to:
         do_metadata = 1,
     [ExtraTests]
     [NextRelease]
-    [PkgVersion]
+    [OurPkgVersion]
     [PodWeaver]
         config_plugin = @MARCEL
     [License]
@@ -576,9 +581,9 @@ method configure () {
         ],
 
         # -- munge files
-        [ ExtraTests  => {} ],
-        [ NextRelease => {} ],
-        [ PkgVersion  => {} ],
+        [ ExtraTests    => {} ],
+        [ NextRelease   => {} ],
+        [ OurPkgVersion => {} ],
 
         (   $self->is_task
             ? [ 'TaskWeaver' => {} ]
