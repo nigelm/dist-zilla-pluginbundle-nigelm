@@ -42,7 +42,6 @@ use Dist::Zilla::Plugin::InlineFiles;
 use Dist::Zilla::Plugin::InstallGuide;
 use Dist::Zilla::Plugin::KwaliteeTests;
 use Dist::Zilla::Plugin::License;
-use Dist::Zilla::Plugin::MakeMaker;
 use Dist::Zilla::Plugin::Manifest;
 use Dist::Zilla::Plugin::ManifestSkip;
 use Dist::Zilla::Plugin::MetaConfig;
@@ -51,6 +50,7 @@ use Dist::Zilla::Plugin::MetaResources;
 use Dist::Zilla::Plugin::MetaTests;
 use Dist::Zilla::Plugin::MetaYAML;
 use Dist::Zilla::Plugin::MinimumVersionTests;
+use Dist::Zilla::Plugin::ModuleBuild;
 use Dist::Zilla::Plugin::NextRelease;
 use Dist::Zilla::Plugin::NoTabsTests;
 use Dist::Zilla::Plugin::OurPkgVersion;
@@ -600,7 +600,7 @@ method configure () {
 
         # -- generate meta files
         [ License          => {} ],
-        [ MakeMaker        => {} ],
+        [ ModuleBuild      => {} ],
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
         [ ReadmeAnyFromPod => {} ],

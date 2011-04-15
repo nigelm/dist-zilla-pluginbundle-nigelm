@@ -3,6 +3,7 @@
     - Authority insert is now done at comment position
     - 2 changes above require a # VERSION and # AUTHORITY comments
       to be inserted into your modules.
+    - Change to ModuleBuild instead of MakeMaker
 
 0.11      2011-02-18 11:00:51 Europe/London
     - Fixed CommitBuild release messages
