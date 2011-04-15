@@ -7,20 +7,21 @@ build_requires:
   English: 0
   File::Find: 0
   File::Temp: 0
+  Module::Build: 0.3601
   Scalar::Util: 0
   Test::More: 0.94
   perl: 5.004
 configure_requires:
-  ExtUtils::MakeMaker: 6.31
+  Module::Build: 0.3601
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.200004, CPAN::Meta::Converter version 2.110360'
+generated_by: 'Dist::Zilla version 4.200004, CPAN::Meta::Converter version 2.110580'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Dist-Zilla-PluginBundle-NIGELM
 requires:
-  Dist::Zilla::Plugin::Authority: 0
+  Dist::Zilla::Plugin::Authority: 1.005
   Dist::Zilla::Plugin::AutoPrereqs: 0
   Dist::Zilla::Plugin::CheckChangeLog: 0
   Dist::Zilla::Plugin::CompileTests: 0
@@ -43,7 +44,6 @@ requires:
   Dist::Zilla::Plugin::InstallGuide: 0
   Dist::Zilla::Plugin::KwaliteeTests: 0
   Dist::Zilla::Plugin::License: 0
-  Dist::Zilla::Plugin::MakeMaker: 0
   Dist::Zilla::Plugin::Manifest: 0
   Dist::Zilla::Plugin::ManifestSkip: 0
   Dist::Zilla::Plugin::MetaConfig: 0
@@ -52,9 +52,10 @@ requires:
   Dist::Zilla::Plugin::MetaTests: 0
   Dist::Zilla::Plugin::MetaYAML: 0
   Dist::Zilla::Plugin::MinimumVersionTests: 0
+  Dist::Zilla::Plugin::ModuleBuild: 0
   Dist::Zilla::Plugin::NextRelease: 0
   Dist::Zilla::Plugin::NoTabsTests: 0
-  Dist::Zilla::Plugin::PkgVersion: 0
+  Dist::Zilla::Plugin::OurPkgVersion: 0
   Dist::Zilla::Plugin::PodCoverageTests: 0
   Dist::Zilla::Plugin::PodSpellingTests: 0
   Dist::Zilla::Plugin::PodSyntaxTests: 0
@@ -82,17 +83,17 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM
   homepage: http://search.cpan.org/dist/Dist-Zilla-PluginBundle-NIGELM
   repository: git://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git
-version: 0.11
+version: 0.12
 x_Dist_Zilla:
   plugins:
     -
       class: Dist::Zilla::Plugin::Git::NextVersion
       name: '@NIGELM/Git::NextVersion'
-      version: 1.110480
+      version: 1.110500
     -
       class: Dist::Zilla::Plugin::Git::Check
       name: '@NIGELM/Git::Check'
-      version: 1.110480
+      version: 1.110500
     -
       class: Dist::Zilla::Plugin::GatherDir
       name: '@NIGELM/GatherDir'
@@ -192,7 +193,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Authority
       name: '@NIGELM/Authority'
-      version: 1.003
+      version: 1.005
     -
       class: Dist::Zilla::Plugin::ExtraTests
       name: '@NIGELM/ExtraTests'
@@ -202,9 +203,9 @@ x_Dist_Zilla:
       name: '@NIGELM/NextRelease'
       version: 4.200004
     -
-      class: Dist::Zilla::Plugin::PkgVersion
-      name: '@NIGELM/PkgVersion'
-      version: 4.200004
+      class: Dist::Zilla::Plugin::OurPkgVersion
+      name: '@NIGELM/OurPkgVersion'
+      version: 0.1.5
     -
       class: Dist::Zilla::Plugin::PodWeaver
       name: '@NIGELM/PodWeaver'
@@ -214,8 +215,8 @@ x_Dist_Zilla:
       name: '@NIGELM/License'
       version: 4.200004
     -
-      class: Dist::Zilla::Plugin::MakeMaker
-      name: '@NIGELM/MakeMaker'
+      class: Dist::Zilla::Plugin::ModuleBuild
+      name: '@NIGELM/ModuleBuild'
       version: 4.200004
     -
       class: Dist::Zilla::Plugin::MetaYAML
@@ -244,19 +245,19 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Git::Commit
       name: '@NIGELM/Git::Commit'
-      version: 1.110480
+      version: 1.110500
     -
       class: Dist::Zilla::Plugin::Git::Tag
       name: '@NIGELM/Git::Tag'
-      version: 1.110480
+      version: 1.110500
     -
       class: Dist::Zilla::Plugin::Git::CommitBuild
       name: '@NIGELM/Git::CommitBuild'
-      version: 1.110480
+      version: 1.110500
     -
       class: Dist::Zilla::Plugin::Git::Push
       name: '@NIGELM/Git::Push'
-      version: 1.110480
+      version: 1.110500
     -
       class: Dist::Zilla::Plugin::CheckChangeLog
       name: '@NIGELM/CheckChangeLog'

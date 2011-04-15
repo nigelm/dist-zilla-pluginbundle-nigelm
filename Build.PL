@@ -2,33 +2,35 @@
 use strict;
 use warnings;
 
+use Module::Build 0.3601;
 
 
-use ExtUtils::MakeMaker 6.31;
-
-
-
-my %WriteMakefileArgs = (
-  'ABSTRACT' => 'Build your distributions like I do',
-  'AUTHOR' => 'Nigel Metheringham <nigelm@cpan.org>',
-  'BUILD_REQUIRES' => {
+my %module_build_args = (
+  'build_requires' => {
     'Carp' => '0',
     'English' => '0',
     'File::Find' => '0',
     'File::Temp' => '0',
+    'Module::Build' => '0.3601',
     'Scalar::Util' => '0',
     'Test::More' => '0.94',
     'perl' => '5.004'
   },
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.31'
+  'configure_requires' => {
+    'Module::Build' => '0.3601'
   },
-  'DISTNAME' => 'Dist-Zilla-PluginBundle-NIGELM',
-  'EXE_FILES' => [],
-  'LICENSE' => 'perl',
-  'NAME' => 'Dist::Zilla::PluginBundle::NIGELM',
-  'PREREQ_PM' => {
-    'Dist::Zilla::Plugin::Authority' => '0',
+  'dist_abstract' => 'Build your distributions like I do',
+  'dist_author' => [
+    'Nigel Metheringham <nigelm@cpan.org>'
+  ],
+  'dist_name' => 'Dist-Zilla-PluginBundle-NIGELM',
+  'dist_version' => '0.12',
+  'license' => 'perl',
+  'module_name' => 'Dist::Zilla::PluginBundle::NIGELM',
+  'recommends' => {},
+  'recursive_test_files' => 1,
+  'requires' => {
+    'Dist::Zilla::Plugin::Authority' => '1.005',
     'Dist::Zilla::Plugin::AutoPrereqs' => '0',
     'Dist::Zilla::Plugin::CheckChangeLog' => '0',
     'Dist::Zilla::Plugin::CompileTests' => '0',
@@ -51,7 +53,6 @@ my %WriteMakefileArgs = (
     'Dist::Zilla::Plugin::InstallGuide' => '0',
     'Dist::Zilla::Plugin::KwaliteeTests' => '0',
     'Dist::Zilla::Plugin::License' => '0',
-    'Dist::Zilla::Plugin::MakeMaker' => '0',
     'Dist::Zilla::Plugin::Manifest' => '0',
     'Dist::Zilla::Plugin::ManifestSkip' => '0',
     'Dist::Zilla::Plugin::MetaConfig' => '0',
@@ -60,9 +61,10 @@ my %WriteMakefileArgs = (
     'Dist::Zilla::Plugin::MetaTests' => '0',
     'Dist::Zilla::Plugin::MetaYAML' => '0',
     'Dist::Zilla::Plugin::MinimumVersionTests' => '0',
+    'Dist::Zilla::Plugin::ModuleBuild' => '0',
     'Dist::Zilla::Plugin::NextRelease' => '0',
     'Dist::Zilla::Plugin::NoTabsTests' => '0',
-    'Dist::Zilla::Plugin::PkgVersion' => '0',
+    'Dist::Zilla::Plugin::OurPkgVersion' => '0',
     'Dist::Zilla::Plugin::PodCoverageTests' => '0',
     'Dist::Zilla::Plugin::PodSpellingTests' => '0',
     'Dist::Zilla::Plugin::PodSyntaxTests' => '0',
@@ -87,30 +89,10 @@ my %WriteMakefileArgs = (
     'Pod::Weaver::PluginBundle::MARCEL' => '0',
     'namespace::autoclean' => '0'
   },
-  'VERSION' => '0.11',
-  'test' => {
-    'TESTS' => 't/*.t'
-  }
+  'script_files' => []
 );
 
 
-unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
-  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
-  my $pp = $WriteMakefileArgs{PREREQ_PM};
-  for my $mod ( keys %$br ) {
-    if ( exists $pp->{$mod} ) {
-      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
-    }
-    else {
-      $pp->{$mod} = $br->{$mod};
-    }
-  }
-}
+my $build = Module::Build->new(%module_build_args);
 
-delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
-  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
-
-WriteMakefile(%WriteMakefileArgs);
-
-
-
+$build->create_build_script;

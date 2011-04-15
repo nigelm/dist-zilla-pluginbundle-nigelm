@@ -1,12 +1,12 @@
 package Dist::Zilla::PluginBundle::NIGELM;
-BEGIN {
-  $Dist::Zilla::PluginBundle::NIGELM::VERSION = '0.11';
-}
-BEGIN {
-  $Dist::Zilla::PluginBundle::NIGELM::AUTHORITY = 'cpan:NIGELM';
-}
 
 # ABSTRACT: Build your distributions like I do
+
+use strict;
+use warnings;
+
+our $VERSION = '0.12'; # VERSION
+our $AUTHORITY = 'cpan:NIGELM'; # AUTHORITY
 
 use Moose 1.00;
 use Method::Signatures::Simple;
@@ -19,7 +19,7 @@ use MooseX::Types::Moose qw{ ArrayRef Str };
 use namespace::autoclean -also => 'lower';
 
 # these are all the modules used, listed purely for the dep generator
-use Dist::Zilla::Plugin::Authority;
+use Dist::Zilla::Plugin::Authority 1.005;
 use Dist::Zilla::Plugin::AutoPrereqs;
 use Dist::Zilla::Plugin::CheckChangeLog;
 use Dist::Zilla::Plugin::CompileTests;
@@ -42,7 +42,6 @@ use Dist::Zilla::Plugin::InlineFiles;
 use Dist::Zilla::Plugin::InstallGuide;
 use Dist::Zilla::Plugin::KwaliteeTests;
 use Dist::Zilla::Plugin::License;
-use Dist::Zilla::Plugin::MakeMaker;
 use Dist::Zilla::Plugin::Manifest;
 use Dist::Zilla::Plugin::ManifestSkip;
 use Dist::Zilla::Plugin::MetaConfig;
@@ -51,9 +50,10 @@ use Dist::Zilla::Plugin::MetaResources;
 use Dist::Zilla::Plugin::MetaTests;
 use Dist::Zilla::Plugin::MetaYAML;
 use Dist::Zilla::Plugin::MinimumVersionTests;
+use Dist::Zilla::Plugin::ModuleBuild;
 use Dist::Zilla::Plugin::NextRelease;
 use Dist::Zilla::Plugin::NoTabsTests;
-use Dist::Zilla::Plugin::PkgVersion;
+use Dist::Zilla::Plugin::OurPkgVersion;
 use Dist::Zilla::Plugin::PodCoverageTests;
 use Dist::Zilla::Plugin::PodSpellingTests;
 use Dist::Zilla::Plugin::PodSyntaxTests;
@@ -473,15 +473,16 @@ method configure () {
             }
         ],
         [   Authority => {
-                authority   => $self->authority,
-                do_metadata => 1,
+                authority      => $self->authority,
+                do_metadata    => 1,
+                locate_comment => 1,
             }
         ],
 
         # -- munge files
-        [ ExtraTests  => {} ],
-        [ NextRelease => {} ],
-        [ PkgVersion  => {} ],
+        [ ExtraTests    => {} ],
+        [ NextRelease   => {} ],
+        [ OurPkgVersion => {} ],
 
         (   $self->is_task
             ? [ 'TaskWeaver' => {} ]
@@ -495,7 +496,7 @@ method configure () {
 
         # -- generate meta files
         [ License          => {} ],
-        [ MakeMaker        => {} ],
+        [ ModuleBuild      => {} ],
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
         [ ReadmeAnyFromPod => {} ],
@@ -546,7 +547,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 SYNOPSIS
 
@@ -595,10 +596,11 @@ It is roughly equivalent to:
     [MetaResources]
     [Authority]
         authority   = cpan:NIGELM
-        do_metadata = 1,
+        do_metadata = 1
+        locate_comment = 1
     [ExtraTests]
     [NextRelease]
-    [PkgVersion]
+    [OurPkgVersion]
     [PodWeaver]
         config_plugin = @MARCEL
     [License]

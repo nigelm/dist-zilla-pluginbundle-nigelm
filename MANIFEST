@@ -1,10 +1,10 @@
+Build.PL
 Changes
 INSTALL
 LICENSE
 MANIFEST
 META.json
 META.yml
-Makefile.PL
 README
 lib/Dist/Zilla/PluginBundle/NIGELM.pm
 t/00-compile.t
