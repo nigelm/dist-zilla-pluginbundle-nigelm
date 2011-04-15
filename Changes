@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+0.12      2011-04-15 10:38:21 Europe/London
     - Now uses OurPkgVersion (requires source modules change)
     - Authority insert is now done at comment position
     - 2 changes above require a # VERSION and # AUTHORITY comments

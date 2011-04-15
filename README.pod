@@ -11,7 +11,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 SYNOPSIS
 
@@ -60,10 +60,11 @@ It is roughly equivalent to:
     [MetaResources]
     [Authority]
         authority   = cpan:NIGELM
-        do_metadata = 1,
+        do_metadata = 1
+        locate_comment = 1
     [ExtraTests]
     [NextRelease]
-    [PkgVersion]
+    [OurPkgVersion]
     [PodWeaver]
         config_plugin = @MARCEL
     [License]
