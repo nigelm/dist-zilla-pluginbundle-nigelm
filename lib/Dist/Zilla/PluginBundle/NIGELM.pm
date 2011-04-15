@@ -6,6 +6,7 @@ use strict;
 use warnings;
 
 # VERSION
+# AUTHORITY
 
 use Moose 1.00;
 use Method::Signatures::Simple;
@@ -18,7 +19,7 @@ use MooseX::Types::Moose qw{ ArrayRef Str };
 use namespace::autoclean -also => 'lower';
 
 # these are all the modules used, listed purely for the dep generator
-use Dist::Zilla::Plugin::Authority;
+use Dist::Zilla::Plugin::Authority 1.005;
 use Dist::Zilla::Plugin::AutoPrereqs;
 use Dist::Zilla::Plugin::CheckChangeLog;
 use Dist::Zilla::Plugin::CompileTests;
@@ -128,7 +129,8 @@ It is roughly equivalent to:
     [MetaResources]
     [Authority]
         authority   = cpan:NIGELM
-        do_metadata = 1,
+        do_metadata = 1
+        locate_comment = 1
     [ExtraTests]
     [NextRelease]
     [OurPkgVersion]
@@ -575,8 +577,9 @@ method configure () {
             }
         ],
         [   Authority => {
-                authority   => $self->authority,
-                do_metadata => 1,
+                authority      => $self->authority,
+                do_metadata    => 1,
+                locate_comment => 1,
             }
         ],
 
