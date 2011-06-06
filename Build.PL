@@ -24,7 +24,7 @@ my %module_build_args = (
     'Nigel Metheringham <nigelm@cpan.org>'
   ],
   'dist_name' => 'Dist-Zilla-PluginBundle-NIGELM',
-  'dist_version' => '0.12',
+  'dist_version' => '0.13',
   'license' => 'perl',
   'module_name' => 'Dist::Zilla::PluginBundle::NIGELM',
   'recommends' => {},
@@ -57,6 +57,8 @@ my %module_build_args = (
     'Dist::Zilla::Plugin::ManifestSkip' => '0',
     'Dist::Zilla::Plugin::MetaConfig' => '0',
     'Dist::Zilla::Plugin::MetaJSON' => '0',
+    'Dist::Zilla::Plugin::MetaProvides::Class' => '0',
+    'Dist::Zilla::Plugin::MetaProvides::Package' => '0',
     'Dist::Zilla::Plugin::MetaResources' => '0',
     'Dist::Zilla::Plugin::MetaTests' => '0',
     'Dist::Zilla::Plugin::MetaYAML' => '0',

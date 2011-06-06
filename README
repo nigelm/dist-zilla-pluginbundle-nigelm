@@ -2,7 +2,7 @@ NAME
     Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 VERSION
-    version 0.12
+    version 0.13
 
 SYNOPSIS
     In your dist.ini:
@@ -46,6 +46,8 @@ DESCRIPTION
         [ManifestSkip]
         [AutoPrereqs]
         [MetaConfig]
+        [MetaProvides::Class]
+        [MetaProvides::Package]
         [MetaResources]
         [Authority]
             authority   = cpan:NIGELM

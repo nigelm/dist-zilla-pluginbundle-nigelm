@@ -14,12 +14,16 @@ build_requires:
 configure_requires:
   Module::Build: 0.3601
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.200004, CPAN::Meta::Converter version 2.110580'
+generated_by: 'Dist::Zilla version 4.200004, CPAN::Meta::Converter version 2.110930'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Dist-Zilla-PluginBundle-NIGELM
+provides:
+  Dist::Zilla::PluginBundle::NIGELM:
+    file: lib/Dist/Zilla/PluginBundle/NIGELM.pm
+    version: 0.13
 requires:
   Dist::Zilla::Plugin::Authority: 1.005
   Dist::Zilla::Plugin::AutoPrereqs: 0
@@ -48,6 +52,8 @@ requires:
   Dist::Zilla::Plugin::ManifestSkip: 0
   Dist::Zilla::Plugin::MetaConfig: 0
   Dist::Zilla::Plugin::MetaJSON: 0
+  Dist::Zilla::Plugin::MetaProvides::Class: 0
+  Dist::Zilla::Plugin::MetaProvides::Package: 0
   Dist::Zilla::Plugin::MetaResources: 0
   Dist::Zilla::Plugin::MetaTests: 0
   Dist::Zilla::Plugin::MetaYAML: 0
@@ -83,7 +89,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM
   homepage: http://search.cpan.org/dist/Dist-Zilla-PluginBundle-NIGELM
   repository: git://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git
-version: 0.12
+version: 0.13
 x_Dist_Zilla:
   plugins:
     -
@@ -101,7 +107,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::CompileTests
       name: '@NIGELM/CompileTests'
-      version: 1.103030
+      version: 1.110930
     -
       class: Dist::Zilla::Plugin::CriticTests
       name: '@NIGELM/CriticTests'
@@ -165,7 +171,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::ReportVersions
       name: '@NIGELM/ReportVersions'
-      version: 1.102460
+      version: 1.110730
     -
       class: Dist::Zilla::Plugin::PruneCruft
       name: '@NIGELM/PruneCruft'
@@ -186,6 +192,14 @@ x_Dist_Zilla:
       class: Dist::Zilla::Plugin::MetaConfig
       name: '@NIGELM/MetaConfig'
       version: 4.200004
+    -
+      class: Dist::Zilla::Plugin::MetaProvides::Class
+      name: '@NIGELM/MetaProvides::Class'
+      version: 1.12060501
+    -
+      class: Dist::Zilla::Plugin::MetaProvides::Package
+      name: '@NIGELM/MetaProvides::Package'
+      version: 1.12060501
     -
       class: Dist::Zilla::Plugin::MetaResources
       name: '@NIGELM/MetaResources'

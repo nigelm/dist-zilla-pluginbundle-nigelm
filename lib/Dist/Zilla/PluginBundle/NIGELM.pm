@@ -5,7 +5,7 @@ package Dist::Zilla::PluginBundle::NIGELM;
 use strict;
 use warnings;
 
-our $VERSION = '0.12'; # VERSION
+our $VERSION = '0.13'; # VERSION
 our $AUTHORITY = 'cpan:NIGELM'; # AUTHORITY
 
 use Moose 1.00;
@@ -46,6 +46,8 @@ use Dist::Zilla::Plugin::Manifest;
 use Dist::Zilla::Plugin::ManifestSkip;
 use Dist::Zilla::Plugin::MetaConfig;
 use Dist::Zilla::Plugin::MetaJSON;
+use Dist::Zilla::Plugin::MetaProvides::Class;
+use Dist::Zilla::Plugin::MetaProvides::Package;
 use Dist::Zilla::Plugin::MetaResources;
 use Dist::Zilla::Plugin::MetaTests;
 use Dist::Zilla::Plugin::MetaYAML;
@@ -462,7 +464,9 @@ method configure () {
         ),
 
         # -- gather metadata
-        [ MetaConfig => {} ],
+        [ MetaConfig              => {} ],
+        [ 'MetaProvides::Class'   => {} ],
+        [ 'MetaProvides::Package' => {} ],
         [   MetaResources => {
                 'repository.type'   => $self->repository_type,
                 'repository.url'    => $self->repository_url,
@@ -547,7 +551,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.12
+version 0.13
 
 =head1 SYNOPSIS
 
@@ -593,6 +597,8 @@ It is roughly equivalent to:
     [ManifestSkip]
     [AutoPrereqs]
     [MetaConfig]
+    [MetaProvides::Class]
+    [MetaProvides::Package]
     [MetaResources]
     [Authority]
         authority   = cpan:NIGELM
