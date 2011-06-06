@@ -46,6 +46,8 @@ use Dist::Zilla::Plugin::Manifest;
 use Dist::Zilla::Plugin::ManifestSkip;
 use Dist::Zilla::Plugin::MetaConfig;
 use Dist::Zilla::Plugin::MetaJSON;
+use Dist::Zilla::Plugin::MetaProvides::Class;
+use Dist::Zilla::Plugin::MetaProvides::Package;
 use Dist::Zilla::Plugin::MetaResources;
 use Dist::Zilla::Plugin::MetaTests;
 use Dist::Zilla::Plugin::MetaYAML;
@@ -126,6 +128,8 @@ It is roughly equivalent to:
     [ManifestSkip]
     [AutoPrereqs]
     [MetaConfig]
+    [MetaProvides::Class]
+    [MetaProvides::Package]
     [MetaResources]
     [Authority]
         authority   = cpan:NIGELM
@@ -566,7 +570,9 @@ method configure () {
         ),
 
         # -- gather metadata
-        [ MetaConfig => {} ],
+        [ MetaConfig              => {} ],
+        [ 'MetaProvides::Class'   => {} ],
+        [ 'MetaProvides::Package' => {} ],
         [   MetaResources => {
                 'repository.type'   => $self->repository_type,
                 'repository.url'    => $self->repository_url,
