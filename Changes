@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+0.14      2012-01-28 17:37:00 Europe/London
     - Support for a different build process
     - Fixed a documentation fault.
     - Defaults to using Metacpan rather than search.cpan
