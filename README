@@ -2,7 +2,7 @@ NAME
     Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 VERSION
-    version 0.13
+    version 0.14
 
 SYNOPSIS
     In your dist.ini:
@@ -59,7 +59,7 @@ DESCRIPTION
         [PodWeaver]
             config_plugin = @MARCEL
         [License]
-        [MakeMaker]
+        [ModuleBuild]
         [MetaYAML]
         [MetaJSON]
         [ReadmeAnyFromPod]
@@ -90,6 +90,11 @@ DESCRIPTION
     tag format of "release/%v" for historical reasons. If git_autoversion is
     true (the default) then the version number is taken from git.
 
+   build_process
+    Overrides build process system - basically this causes the standard
+    Module Build generation to be supressed and replaced by a call to a
+    module in the local inc directory specificed by this parameter instead.
+
 INSTALLATION
     See perlmodinstall for information and options on installing Perl
     modules.
@@ -103,7 +108,7 @@ BUGS AND LIMITATIONS
 
 AVAILABILITY
     The project homepage is
-    <http://search.cpan.org/dist/Dist-Zilla-PluginBundle-NIGELM>.
+    <https://metacpan.org/release/Dist-Zilla-PluginBundle-NIGELM>.
 
     The latest version of this module is available from the Comprehensive
     Perl Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a
@@ -121,7 +126,7 @@ AUTHOR
     Nigel Metheringham <nigelm@cpan.org>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2011 by Nigel Metheringham.
+    This software is copyright (c) 2012 by Nigel Metheringham.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.

@@ -5,7 +5,7 @@ package Dist::Zilla::PluginBundle::NIGELM;
 use strict;
 use warnings;
 
-our $VERSION = '0.13'; # VERSION
+our $VERSION = '0.14'; # VERSION
 our $AUTHORITY = 'cpan:NIGELM'; # AUTHORITY
 
 use Moose 1.00;
@@ -187,7 +187,7 @@ method _build_homepage_url () {
 has _cpansearch_pattern => (
     is      => 'ro',
     isa     => Str,
-    default => 'http://search.cpan.org/dist/%s',
+    default => 'https://metacpan.org/release/%s',
 );
 
 has repository => (
@@ -262,6 +262,13 @@ has git_allow_dirty => (
 );
 
 has changelog => ( is => 'ro', isa => Str, default => 'Changes' );
+
+has build_process => (
+    predicate => 'has_build_process',
+    is        => 'ro',
+    isa       => Str,
+);
+
 
 sub mvp_multivalue_args { return ('git_allow_dirty'); }
 
@@ -499,8 +506,11 @@ method configure () {
         ## [ 'MetaProvides::Package' => {} ],
 
         # -- generate meta files
-        [ License          => {} ],
-        [ ModuleBuild      => {} ],
+        [ License => {} ],
+        (   $self->has_build_process
+            ? [ ( '=inc::' . $self->build_process ) => $self->build_process => {} ]
+            : [ ModuleBuild => {} ]
+        ),
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
         [ ReadmeAnyFromPod => {} ],
@@ -551,7 +561,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 SYNOPSIS
 
@@ -610,7 +620,7 @@ It is roughly equivalent to:
     [PodWeaver]
         config_plugin = @MARCEL
     [License]
-    [MakeMaker]
+    [ModuleBuild]
     [MetaYAML]
     [MetaJSON]
     [ReadmeAnyFromPod]
@@ -646,6 +656,13 @@ unusual tag format of C<release/%v> for historical reasons. If
 git_autoversion is true (the default) then the version number is
 taken from git.
 
+=head3 build_process
+
+Overrides build process system - basically this causes the standard
+Module Build generation to be supressed and replaced by a call to a
+module in the local inc directory specificed by this parameter
+instead.
+
 =head1 INSTALLATION
 
 See perlmodinstall for information and options on installing Perl modules.
@@ -659,7 +676,7 @@ L<http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGEL
 
 =head1 AVAILABILITY
 
-The project homepage is L<http://search.cpan.org/dist/Dist-Zilla-PluginBundle-NIGELM>.
+The project homepage is L<https://metacpan.org/release/Dist-Zilla-PluginBundle-NIGELM>.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
@@ -676,7 +693,7 @@ Nigel Metheringham <nigelm@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 by Nigel Metheringham.
+This software is copyright (c) 2012 by Nigel Metheringham.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
