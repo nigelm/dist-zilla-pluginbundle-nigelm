@@ -1,5 +1,7 @@
 {{$NEXT}}
     - Support for a different build process
+    - Fixed a documentation fault.
+    - Defaults to using Metacpan rather than search.cpan
 
 0.13      2011-06-06 15:09:35 Europe/London
 

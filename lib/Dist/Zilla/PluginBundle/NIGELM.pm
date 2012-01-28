@@ -141,7 +141,7 @@ It is roughly equivalent to:
     [PodWeaver]
         config_plugin = @MARCEL
     [License]
-    [MakeMaker]
+    [ModuleBuild]
     [MetaYAML]
     [MetaJSON]
     [ReadmeAnyFromPod]
@@ -300,7 +300,7 @@ method _build_homepage_url () {
 has _cpansearch_pattern => (
     is      => 'ro',
     isa     => Str,
-    default => 'http://search.cpan.org/dist/%s',
+    default => 'https://metacpan.org/release/%s',
 );
 
 has repository => (
