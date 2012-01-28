@@ -177,6 +177,13 @@ unusual tag format of C<release/%v> for historical reasons. If
 git_autoversion is true (the default) then the version number is
 taken from git.
 
+=head3 build_process
+
+Overrides build process system - basically this causes the standard
+Module Build generation to be supressed and replaced by a call to a
+module in the local inc directory specificed by this parameter
+instead.
+
 =cut
 
 has dist => (
@@ -368,6 +375,13 @@ has git_allow_dirty => (
 );
 
 has changelog => ( is => 'ro', isa => Str, default => 'Changes' );
+
+has build_process => (
+    predicate => 'has_build_process',
+    is        => 'ro',
+    isa       => Str,
+);
+
 
 sub mvp_multivalue_args { return ('git_allow_dirty'); }
 
@@ -605,8 +619,11 @@ method configure () {
         ## [ 'MetaProvides::Package' => {} ],
 
         # -- generate meta files
-        [ License          => {} ],
-        [ ModuleBuild      => {} ],
+        [ License => {} ],
+        (   $self->has_build_process
+            ? [ ( '=inc::' . $self->build_process ) => $self->build_process => {} ]
+            : [ ModuleBuild => {} ]
+        ),
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
         [ ReadmeAnyFromPod => {} ],
