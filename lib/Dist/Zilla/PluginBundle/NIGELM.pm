@@ -22,10 +22,7 @@ use namespace::autoclean -also => 'lower';
 use Dist::Zilla::Plugin::Authority 1.005;
 use Dist::Zilla::Plugin::AutoPrereqs;
 use Dist::Zilla::Plugin::CheckChangeLog;
-use Dist::Zilla::Plugin::CompileTests;
 use Dist::Zilla::Plugin::CopyReadmeFromBuild;
-use Dist::Zilla::Plugin::CriticTests;
-use Dist::Zilla::Plugin::DistManifestTests;
 use Dist::Zilla::Plugin::EOLTests;
 use Dist::Zilla::Plugin::ExecDir;
 use Dist::Zilla::Plugin::ExtraTests;
@@ -51,24 +48,27 @@ use Dist::Zilla::Plugin::MetaProvides::Package;
 use Dist::Zilla::Plugin::MetaResources;
 use Dist::Zilla::Plugin::MetaTests;
 use Dist::Zilla::Plugin::MetaYAML;
-use Dist::Zilla::Plugin::MinimumVersionTests;
 use Dist::Zilla::Plugin::ModuleBuild;
 use Dist::Zilla::Plugin::NextRelease;
 use Dist::Zilla::Plugin::NoTabsTests;
 use Dist::Zilla::Plugin::OurPkgVersion;
 use Dist::Zilla::Plugin::PodCoverageTests;
-use Dist::Zilla::Plugin::PodSpellingTests;
 use Dist::Zilla::Plugin::PodSyntaxTests;
 use Dist::Zilla::Plugin::PodWeaver;
-use Dist::Zilla::Plugin::PortabilityTests;
 use Dist::Zilla::Plugin::PruneCruft;
 use Dist::Zilla::Plugin::PruneFiles;
 use Dist::Zilla::Plugin::ReadmeAnyFromPod;
 use Dist::Zilla::Plugin::ReportVersions;
 use Dist::Zilla::Plugin::ShareDir;
-use Dist::Zilla::Plugin::SynopsisTests;
 use Dist::Zilla::Plugin::TaskWeaver;
-use Dist::Zilla::Plugin::UnusedVarsTests;
+use Dist::Zilla::Plugin::Test::Compile;
+use Dist::Zilla::Plugin::Test::DistManifest;
+use Dist::Zilla::Plugin::Test::MinimumVersion;
+use Dist::Zilla::Plugin::Test::Perl::Critic;
+use Dist::Zilla::Plugin::Test::PodSpelling;
+use Dist::Zilla::Plugin::Test::Portability;
+use Dist::Zilla::Plugin::Test::Synopsis;
+use Dist::Zilla::Plugin::Test::UnusedVars;
 use Dist::Zilla::Plugin::UploadToCPAN;
 use Pod::Weaver::PluginBundle::MARCEL;
 
@@ -105,19 +105,19 @@ It is roughly equivalent to:
         version_regexp = release/(\d+.\d+)
     [Git::Check]
     [GatherDir]
-    [CompileTests]
-    [CriticTests]
+    [Test::Compile]
+    [Test::Perl::Critic]
     [MetaTests]
     [PodCoverageTests]
     [PodSyntaxTests]
-    [PodSpellingTests]
+    [Test::PodSpelling]
     [KwaliteeTests]
-    [PortabilityTests]
-    [SynopsisTests]
-    [MinimumVersionTests]
+    [Test::Portability]
+    [Test::Synopsis]
+    [Test::MinimumVersion]
     [HasVersionTests]
-    [DistManifestTests]
-    [UnusedVarsTests]
+    [Test::DistManifest]
+    [Test::UnusedVars]
     [NoTabsTests]
     [EOLTests]
     [InlineFiles]
@@ -552,21 +552,21 @@ method configure () {
 
         # -- fetch & generate files
         [ GatherDir    => {} ],
-        [ CompileTests => { fake_home => $self->fake_home } ],
-        [ CriticTests  => {} ],
+        [ 'Test::Compile' => { fake_home => $self->fake_home } ],
+        [ 'Test::Perl::Critic'  => {} ],
         [ MetaTests    => {} ],
         ( $self->disable_pod_coverage_tests ? () : [ PodCoverageTests => {} ] ),
         [ PodSyntaxTests   => {} ],
-        [ PodSpellingTests => {} ],
+        [ 'Test::PodSpelling' => {} ],
         (    # Disabling pod coverage scores you a fail on Kwalitee too!
             $self->disable_pod_coverage_tests ? () : [ KwaliteeTests => {} ]
         ),
-        [ PortabilityTests    => {} ],
-        [ SynopsisTests       => {} ],
-        [ MinimumVersionTests => {} ],
+        [ 'Test::Portability'    => {} ],
+        [ 'SynopsisTests'       => {} ],
+        [ 'Test::MinimumVersion' => {} ],
         [ HasVersionTests     => {} ],
-        [ DistManifestTests   => {} ],
-        ( $self->disable_unused_vars_tests ? () : [ UnusedVarsTests => {} ] ),
+        [ 'Test::DistManifest'   => {} ],
+        ( $self->disable_unused_vars_tests ? () : [ 'Test::UnusedVars' => {} ] ),
         ( $self->disable_no_tabs_tests     ? () : [ NoTabsTests     => {} ] ),
         [ EOLTests => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
         [ InlineFiles    => {} ],
