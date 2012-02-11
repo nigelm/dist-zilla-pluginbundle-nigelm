@@ -741,7 +741,7 @@ method configure() {
             $self->disable_pod_coverage_tests ? () : [ KwaliteeTests => {} ]
         ),
         [ 'Test::Portability'    => {} ],
-        [ 'SynopsisTests'        => {} ],
+        [ 'Test::Synopsis'       => {} ],
         [ 'Test::MinimumVersion' => {} ],
         [ HasVersionTests        => {} ],
         [ 'Test::DistManifest'   => {} ],
