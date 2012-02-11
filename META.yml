@@ -23,7 +23,7 @@ name: Dist-Zilla-PluginBundle-NIGELM
 provides:
   Dist::Zilla::PluginBundle::NIGELM:
     file: lib/Dist/Zilla/PluginBundle/NIGELM.pm
-    version: 0.15
+    version: 0.16
 requires:
   Dist::Zilla::Plugin::Authority: 1.005
   Dist::Zilla::Plugin::AutoPrereqs: 0
@@ -91,7 +91,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM
   homepage: https://metacpan.org/release/Dist-Zilla-PluginBundle-NIGELM
   repository: git://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git
-version: 0.15
+version: 0.16
 x_Dist_Zilla:
   plugins:
     -
@@ -139,8 +139,8 @@ x_Dist_Zilla:
       name: '@NIGELM/Test::Portability'
       version: 2.0.2
     -
-      class: Dist::Zilla::Plugin::SynopsisTests
-      name: '@NIGELM/SynopsisTests'
+      class: Dist::Zilla::Plugin::Test::Synopsis
+      name: '@NIGELM/Test::Synopsis'
       version: 2.0.1
     -
       class: Dist::Zilla::Plugin::Test::MinimumVersion
