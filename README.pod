@@ -1,7 +1,7 @@
 =for test_synopsis 1;
 __END__
 
-=for stopwords NIGELM Tweakables
+=for stopwords NIGELM Tweakables catagits catsvn changelog dbsrgits gitmo sagit p5sagit svn
 
 =for Pod::Coverage mvp_multivalue_args
 
@@ -11,7 +11,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.14
+version 0.15
 
 =head1 SYNOPSIS
 
@@ -34,19 +34,19 @@ It is roughly equivalent to:
         version_regexp = release/(\d+.\d+)
     [Git::Check]
     [GatherDir]
-    [CompileTests]
-    [CriticTests]
+    [Test::Compile]
+    [Test::Perl::Critic]
     [MetaTests]
     [PodCoverageTests]
     [PodSyntaxTests]
-    [PodSpellingTests]
+    [Test::PodSpelling]
     [KwaliteeTests]
-    [PortabilityTests]
-    [SynopsisTests]
-    [MinimumVersionTests]
+    [Test::Portability]
+    [Test::Synopsis]
+    [Test::MinimumVersion]
     [HasVersionTests]
-    [DistManifestTests]
-    [UnusedVarsTests]
+    [Test::DistManifest]
+    [Test::UnusedVars]
     [NoTabsTests]
     [EOLTests]
     [InlineFiles]
@@ -88,30 +88,165 @@ It is roughly equivalent to:
     [CheckChangeLog]
     [UploadToCPAN] or [FakeRelease]
 
+=head2 Required Parameters
+
+=head3 dist
+
+The distribution name, as given in the main Dist::Zilla configuration
+section (the C<name> parameter). Unfortunately this cannot be extracted
+from the main config.
+
+=head2 Tweakables - Major Configuration
+
+=head3 build_process
+
+Overrides build process system - basically this causes the standard
+Module Build generation to be suppressed and replaced by a call to a
+module in the local inc directory specified by this parameter
+instead.
+
+=head3 no_cpan
+
+If C<no_cpan> or the environment variable C<NO_CPAN> is set, then the
+upload to CPAN is suppressed. This basically swaps
+L<Dist::Zilla::Plugin::FakeRelease> in place of
+L<Dist::Zilla::Plugin::UploadToCPAN>
+
 =head2 Tweakables
 
 =head3 authority
 
 The authority for this distribution - defaults to C<cpan:NIGELM>
 
-=head3 no_cpan
+=head3 auto_prereqs
 
-If C<no_cpan> or the environment variable C<NO_CPAN> is set, then
-the upload to CPAN is suppressed.
+Determine Prerequisites automatically - defaults to1 (set).
+
+=head3 skip_prereqs
+
+Prerequisites to skip if C<auto_prereqs> is set -- a string of module
+names.
+
+=head3 is_task
+
+Is this a Task rather than a Module. Determines whether
+L<Dist::Zilla::Plugin::TaskWeaver> or
+L<Dist::Zilla::Plugin::PodWeaver> are used. Defaults to 1 if the dist
+name starts with C<Task>, 0 otherwise.
+
+=head3 weaver_config_plugin
+
+This option is passed to the C<config_plugin> option of
+L<Dist::Zilla::Plugin::PodWeaver>. It defaults to C<@MARCEL>, which
+loads in L<Pod::Weaver::PluginBundle::MARCEL>.
+
+=head2 Bug Tracker Information
+
+=head3 bugtracker_url
+
+The URL of the bug tracker. Defaults to the CPAN RT queue for the
+distribution name.
+
+=head3 bugtracker_email
+
+The email address of the bug tracker. Defaults to the CPAN RT email for the
+distribution name.
+
+=head2 Tweaks - Modifying Tests Generated
+
+=head3 disable_pod_coverage_tests
+
+If set, disables the Pod Coverage Release Tests
+L<Dist::Zilla::Plugin::PodCoverageTests>. Defaults to unset (tests
+enabled).
+
+=head3 disable_trailing_whitespace_tests
+
+If set, disables the Trailing Whitespace Release Tests
+L<Dist::Zilla::Plugin::EOLTests>. Defaults to unset (tests
+enabled).
+
+=head3 disable_unused_vars_tests
+
+If set, disables the Unused Variables Release Tests
+L<Dist::Zilla::Plugin::Test::UnusedVars>. Defaults to unset (tests
+enabled).
+
+=head3 disable_no_tabs_tests
+
+If set, disables the Release Test that checks for hard tabs
+L<Dist::Zilla::Plugin::NoTabsTests>. Defaults to unset (tests
+enabled).
+
+=head3 fake_home
+
+If set, this sets the C<fake_home> option to.
+L<Dist::Zilla::Plugin::Test::Compile>. Defaults to unset.
+
+=head2 Repository, Source Control and Similar
+
+=head3 homepage_url
+
+The module homepage URL. Defaults to the URL of the module page on
+C<metacpan.org>. In previous versions this defaulted to the page on
+C<search.cpan.org>.
+
+=head3 repository_at
+
+Sets all of the following repository options based on a standard
+repository type. This is one of:-
+
+=over 4
+
+=item * B<github> - a github repository, with a lower cased module name.
+
+=item * B<GitHub> - a github repository, with an unmodified module name.
+
+=item * B<gitmo> - a git repository on C<git.moose.perl.org>
+
+=item * B<catsvn> - a svn repository on C<dev.catalyst.perl.org>
+
+=item * B<catagits> - a git repository on C<git.shadowcat.co.uk> in the Catalyst section
+
+=item * B<p5sagit> - a git repository on C<git.shadowcat.co.uk> in the P5s section
+
+=item * B<dbsrgits> - a git repository on C<git.shadowcat.co.uk> in the DBIx::Class section
+
+=back
+
+=head3 repository
+
+The repository URL.  Normally set from L<repository_at>.
+
+=head3 repository_web
+
+The repository web view URL.  Normally set from L<repository_at>.
+
+=head3 repository_type
+
+The repository type - either C<svn> or C<git>.  Normally set from L<repository_at>.
+
+=head3 github_user
+
+The username on github. Defaults to C<nigelm> which is unlikely to be
+useful for anyone else. Sorry!
 
 =head3 tag_format / tag_message / version_regexp / git_autoversion
 
-Overrides the Git bundle defaults for these. By default I use an
-unusual tag format of C<release/%v> for historical reasons. If
-git_autoversion is true (the default) then the version number is
-taken from git.
+Overrides the L<Dist::Zilla::Plugin::Git> bundle defaults for these.
+By default I use an unusual tag format of C<release/%v> for historical
+reasons. If git_autoversion is true (the default) then the version
+number is taken from git.
 
-=head3 build_process
+=head3 git_allow_dirty
 
-Overrides build process system - basically this causes the standard
-Module Build generation to be supressed and replaced by a call to a
-module in the local inc directory specificed by this parameter
-instead.
+A list of files that are allowed to be dirty by the Git plugins.
+Defaults to C<dist.ini>, the Change log file, C<README> and
+C<README.pod>.
+
+=head3 changelog
+
+The Change Log file name.  Defaults to C<Changes>.
 
 =head1 INSTALLATION
 
@@ -119,10 +254,8 @@ See perlmodinstall for information and options on installing Perl modules.
 
 =head1 BUGS AND LIMITATIONS
 
-No bugs have been reported.
-
-Please report any bugs or feature requests through the web interface at
-L<http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM>.
+You can make new bug reports, and view existing ones, through the
+web interface at L<http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM>.
 
 =head1 AVAILABILITY
 
@@ -130,12 +263,7 @@ The project homepage is L<https://metacpan.org/release/Dist-Zilla-PluginBundle-N
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
-site near you, or see L<http://search.cpan.org/dist/Dist-Zilla-PluginBundle-NIGELM/>.
-
-The development version lives at L<http://github.com/nigelm/dist-zilla-pluginbundle-nigelm>
-and may be cloned from L<git://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git>.
-Instead of sending patches, please fork this project using the standard
-git and github infrastructure.
+site near you, or see L<https://metacpan.org/module/Dist::Zilla::PluginBundle::NIGELM/>.
 
 =head1 AUTHOR
 
