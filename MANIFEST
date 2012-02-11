@@ -7,9 +7,11 @@ META.json
 META.yml
 README
 lib/Dist/Zilla/PluginBundle/NIGELM.pm
+lib/Dist/Zilla/PluginBundle/NIGELM.pm.bak
 t/00-compile.t
 t/000-report-versions.t
 t/author-critic.t
+t/author-pod-spell.t
 t/release-dist-manifest.t
 t/release-distmeta.t
 t/release-eol.t
@@ -18,7 +20,6 @@ t/release-kwalitee.t
 t/release-minimum-version.t
 t/release-no-tabs.t
 t/release-pod-coverage.t
-t/release-pod-spell.t
 t/release-pod-syntax.t
 t/release-portability.t
 t/release-synopsis.t
