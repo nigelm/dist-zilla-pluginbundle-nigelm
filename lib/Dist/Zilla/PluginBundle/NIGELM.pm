@@ -78,7 +78,7 @@ use Pod::Weaver::PluginBundle::MARCEL;
 1;
 __END__
 
-=for stopwords NIGELM Tweakables
+=for stopwords NIGELM Tweakables catagits catsvn changelog dbsrgits gitmo sagit p5sagit svn
 
 =for Pod::Coverage mvp_multivalue_args
 
@@ -159,30 +159,13 @@ It is roughly equivalent to:
     [CheckChangeLog]
     [UploadToCPAN] or [FakeRelease]
 
-=head2 Tweakables
+=head2 Required Parameters
 
-=head3 authority
+=head3 dist
 
-The authority for this distribution - defaults to C<cpan:NIGELM>
-
-=head3 no_cpan
-
-If C<no_cpan> or the environment variable C<NO_CPAN> is set, then
-the upload to CPAN is suppressed.
-
-=head3 tag_format / tag_message / version_regexp / git_autoversion
-
-Overrides the Git bundle defaults for these. By default I use an
-unusual tag format of C<release/%v> for historical reasons. If
-git_autoversion is true (the default) then the version number is
-taken from git.
-
-=head3 build_process
-
-Overrides build process system - basically this causes the standard
-Module Build generation to be supressed and replaced by a call to a
-module in the local inc directory specificed by this parameter
-instead.
+The distribution name, as given in the main Dist::Zilla configuration
+section (the C<name> parameter). Unfortunately this cannot be extracted
+from the main config.
 
 =cut
 
@@ -192,11 +175,47 @@ has dist => (
     required => 1,
 );
 
-has fake_home => (
-    is      => 'ro',
-    isa     => Bool,
-    default => 0,
+=head2 Tweakables - Major Configuration
+
+=head3 build_process
+
+Overrides build process system - basically this causes the standard
+Module Build generation to be suppressed and replaced by a call to a
+module in the local inc directory specified by this parameter
+instead.
+
+=cut
+
+has build_process => (
+    predicate => 'has_build_process',
+    is        => 'ro',
+    isa       => Str,
 );
+
+=head3 no_cpan
+
+If C<no_cpan> or the environment variable C<NO_CPAN> is set, then the
+upload to CPAN is suppressed. This basically swaps
+L<Dist::Zilla::Plugin::FakeRelease> in place of
+L<Dist::Zilla::Plugin::UploadToCPAN>
+
+=cut
+
+# if set, trigger FakeRelease instead of UploadToCPAN
+has no_cpan => (
+    is      => 'ro',
+    isa     => 'Bool',
+    lazy    => 1,
+    default => sub { $ENV{NO_CPAN} || $_[0]->payload->{no_cpan} || 0 }
+);
+
+=head2 Tweakables
+
+=head3 authority
+
+The authority for this distribution - defaults to C<cpan:NIGELM>
+
+=cut
 
 has authority => (
     is      => 'ro',
@@ -204,16 +223,38 @@ has authority => (
     default => 'cpan:NIGELM',
 );
 
+=head3 auto_prereqs
+
+Determine Prerequisites automatically - defaults to1 (set).
+
+=cut
+
 has auto_prereqs => (
     is      => 'ro',
     isa     => Bool,
     default => 1,
 );
 
+=head3 skip_prereqs
+
+Prerequisites to skip if C<auto_prereqs> is set -- a string of module
+names.
+
+=cut
+
 has skip_prereqs => (
     is  => 'ro',
     isa => Str,
 );
+
+=head3 is_task
+
+Is this a Task rather than a Module. Determines whether
+L<Dist::Zilla::Plugin::TaskWeaver> or
+L<Dist::Zilla::Plugin::PodWeaver> are used. Defaults to 1 if the dist
+name starts with C<Task>, 0 otherwise.
+
+=cut
 
 has is_task => (
     is      => 'ro',
@@ -222,39 +263,32 @@ has is_task => (
     builder => '_build_is_task',
 );
 
-method _build_is_task () {
+method _build_is_task() {
     return $self->dist =~ /^Task-/ ? 1 : 0;
-}
+    }
 
-has weaver_config_plugin => (
+=head3 weaver_config_plugin
+
+This option is passed to the C<config_plugin> option of
+L<Dist::Zilla::Plugin::PodWeaver>. It defaults to C<@MARCEL>, which
+loads in L<Pod::Weaver::PluginBundle::MARCEL>.
+
+=cut
+
+    has weaver_config_plugin => (
     is      => 'ro',
     isa     => Str,
     default => '@MARCEL',
-);
+    );
 
-has disable_pod_coverage_tests => (
-    is      => 'ro',
-    isa     => Bool,
-    default => 0,
-);
+=head2 Bug Tracker Information
 
-has disable_trailing_whitespace_tests => (
-    is      => 'ro',
-    isa     => Bool,
-    default => 0,
-);
+=head3 bugtracker_url
 
-has disable_unused_vars_tests => (
-    is      => 'ro',
-    isa     => Bool,
-    default => 0,
-);
+The URL of the bug tracker. Defaults to the CPAN RT queue for the
+distribution name.
 
-has disable_no_tabs_tests => (
-    is      => 'ro',
-    isa     => Bool,
-    default => 0,
-);
+=cut
 
 has bugtracker_url => (
     isa     => Uri,
@@ -264,26 +298,114 @@ has bugtracker_url => (
     handles => { bugtracker_url => 'as_string', },
 );
 
-method _build_bugtracker_url () {
+method _build_bugtracker_url() {
     return sprintf $self->_rt_uri_pattern, $self->dist;
-}
+    }
 
-has bugtracker_email => (
+=head3 bugtracker_email
+
+The email address of the bug tracker. Defaults to the CPAN RT email for the
+distribution name.
+
+=cut
+
+    has bugtracker_email => (
     is      => 'ro',
     isa     => EmailAddress,
     lazy    => 1,
     builder => '_build_bugtracker_email',
-);
+    );
 
-method _build_bugtracker_email () {
+method _build_bugtracker_email() {
     return sprintf 'bug-%s@rt.cpan.org', $self->dist;
-}
+    }
 
-has _rt_uri_pattern => (
+    has _rt_uri_pattern => (
     is      => 'ro',
     isa     => Str,
     default => 'http://rt.cpan.org/Public/Dist/Display.html?Name=%s',
+    );
+
+=head2 Tweaks - Modifying Tests Generated
+
+=head3 disable_pod_coverage_tests
+
+If set, disables the Pod Coverage Release Tests
+L<Dist::Zilla::Plugin::PodCoverageTests>. Defaults to unset (tests
+enabled).
+
+=cut
+
+has disable_pod_coverage_tests => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 0,
 );
+
+=head3 disable_trailing_whitespace_tests
+
+If set, disables the Trailing Whitespace Release Tests
+L<Dist::Zilla::Plugin::EOLTests>. Defaults to unset (tests
+enabled).
+
+=cut
+
+has disable_trailing_whitespace_tests => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 0,
+);
+
+=head3 disable_unused_vars_tests
+
+If set, disables the Unused Variables Release Tests
+L<Dist::Zilla::Plugin::Test::UnusedVars>. Defaults to unset (tests
+enabled).
+
+=cut
+
+has disable_unused_vars_tests => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 0,
+);
+
+=head3 disable_no_tabs_tests
+
+If set, disables the Release Test that checks for hard tabs
+L<Dist::Zilla::Plugin::NoTabsTests>. Defaults to unset (tests
+enabled).
+
+=cut
+
+has disable_no_tabs_tests => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 0,
+);
+
+=head3 fake_home
+
+If set, this sets the C<fake_home> option to.
+L<Dist::Zilla::Plugin::Test::Compile>. Defaults to unset.
+
+=cut
+
+has fake_home => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 0,
+);
+
+=head2 Repository, Source Control and Similar
+
+=head3 homepage_url
+
+The module homepage URL. Defaults to the URL of the module page on
+C<metacpan.org>. In previous versions this defaulted to the page on
+C<search.cpan.org>.
+
+=cut
 
 has homepage_url => (
     isa     => Uri,
@@ -293,15 +415,52 @@ has homepage_url => (
     handles => { homepage_url => 'as_string', },
 );
 
-method _build_homepage_url () {
+method _build_homepage_url() {
     return sprintf $self->_cpansearch_pattern, $self->dist;
-}
+    }
 
-has _cpansearch_pattern => (
+    has _cpansearch_pattern => (
     is      => 'ro',
     isa     => Str,
     default => 'https://metacpan.org/release/%s',
+    );
+
+=head3 repository_at
+
+Sets all of the following repository options based on a standard
+repository type. This is one of:-
+
+=over 4
+
+=item * B<github> - a github repository, with a lower cased module name.
+
+=item * B<GitHub> - a github repository, with an unmodified module name.
+
+=item * B<gitmo> - a git repository on C<git.moose.perl.org>
+
+=item * B<catsvn> - a svn repository on C<dev.catalyst.perl.org>
+
+=item * B<catagits> - a git repository on C<git.shadowcat.co.uk> in the Catalyst section
+
+=item * B<p5sagit> - a git repository on C<git.shadowcat.co.uk> in the P5s section
+
+=item * B<dbsrgits> - a git repository on C<git.shadowcat.co.uk> in the DBIx::Class section
+
+=back
+
+=cut
+
+has repository_at => (
+    is        => 'ro',
+    isa       => Str,
+    predicate => 'has_repository_at',
 );
+
+=head3 repository
+
+The repository URL.  Normally set from L<repository_at>.
+
+=cut
 
 has repository => (
     isa     => Uri,
@@ -314,78 +473,7 @@ has repository => (
     },
 );
 
-has repository_at => (
-    is        => 'ro',
-    isa       => Str,
-    predicate => 'has_repository_at',
-);
-
-has github_user => (
-    is      => 'ro',
-    isa     => Str,
-    default => 'nigelm',
-);
-
-has tag_format => (
-    is      => 'ro',
-    isa     => Str,
-    default => 'release/%v%t',
-);
-
-has tag_message => (
-    is      => 'ro',
-    isa     => Str,
-    default => 'Release of %v%t',
-);
-
-has version_regexp => (
-    is      => 'ro',
-    isa     => Str,
-    lazy    => 1,
-    builder => '_build_version_regexp',
-);
-
-method _build_version_regexp () {
-    my $version_regexp = $self->tag_format;
-    $version_regexp =~ s/\%v/\(\\d+\(\?:\\.\\d+\)\+\)/;
-    $version_regexp =~ s/\%t/\(\?:\[-_\]\.+\)\?/;
-    return sprintf( '^%s$', $version_regexp );
-}
-
-has git_autoversion => (
-    is      => 'ro',
-    isa     => 'Bool',
-    default => 1,
-);
-
-# if set, trigger FakeRelease instead of UploadToCPAN
-has no_cpan => (
-    is      => 'ro',
-    isa     => 'Bool',
-    lazy    => 1,
-    default => sub { $ENV{NO_CPAN} || $_[0]->payload->{no_cpan} || 0 }
-);
-
-# git allow dirty references
-has git_allow_dirty => (
-    is      => 'ro',
-    lazy    => 1,
-    isa     => ArrayRef [Str],
-    builder => '_build_git_allow_dirty',
-);
-
-has changelog => ( is => 'ro', isa => Str, default => 'Changes' );
-
-has build_process => (
-    predicate => 'has_build_process',
-    is        => 'ro',
-    isa       => Str,
-);
-
-
-sub mvp_multivalue_args { return ('git_allow_dirty'); }
-
-sub _build_git_allow_dirty { [ 'dist.ini', shift->changelog, 'README', 'README.pod' ] }
+sub lower { lc shift }
 
 my $map_tc = Map [
     Str,
@@ -427,25 +515,14 @@ coerce $map_tc, from Map [
     };
     };
 
-has _repository_host_map => (
-    traits  => [qw(Hash)],
-    isa     => $map_tc,
-    coerce  => 1,
-    lazy    => 1,
-    builder => '_build__repository_host_map',
-    handles => { _repository_data_for => 'get', },
-);
-
-sub lower { lc shift }
-
-method _build__repository_host_map () {
-    my $github_pattern     = sub { sprintf 'git://github.com/%s/%%s.git', $self->github_user };
-    my $github_web_pattern = sub { sprintf 'http://github.com/%s/%%s',    $self->github_user };
-    my $scsys_web_pattern_proto = sub {
+method _build__repository_host_map() {
+    my $github_pattern         = sub { sprintf 'git://github.com/%s/%%s.git', $self->github_user };
+        my $github_web_pattern = sub { sprintf 'http://github.com/%s/%%s',    $self->github_user };
+        my $scsys_web_pattern_proto = sub {
         return sprintf 'http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=%s/%%s.git;a=summary', $_[0];
-    };
+        };
 
-    return {
+        return {
         github => {
             pattern     => $github_pattern,
             web_pattern => $github_web_pattern,
@@ -472,15 +549,30 @@ method _build__repository_host_map () {
                     )
                 } qw(catagits p5sagit dbsrgits)
         ),
-    };
-}
+        };
+    }
 
-method _build_repository_url () {
+    method _build_repository_url() {
     return $self->_resolve_repository_with( $self->repository_at, 'pattern' )
         if $self->has_repository_at;
     confess "Cannot determine repository url without repository_at. "
         . "Please provide either repository_at or repository.";
-}
+    }
+
+    has _repository_host_map => (
+    traits  => [qw(Hash)],
+    isa     => $map_tc,
+    coerce  => 1,
+    lazy    => 1,
+    builder => '_build__repository_host_map',
+    handles => { _repository_data_for => 'get', },
+    );
+
+=head3 repository_web
+
+The repository web view URL.  Normally set from L<repository_at>.
+
+=cut
 
 has repository_web => (
     isa     => Uri,
@@ -490,42 +582,129 @@ has repository_web => (
     handles => { repository_web => 'as_string', },
 );
 
-method _build_repository_web () {
+method _build_repository_web() {
     return $self->_resolve_repository_with( $self->repository_at, 'web_pattern' )
         if $self->has_repository_at;
     confess "Cannot determine repository web url without repository_at. "
         . "Please provide either repository_at or repository_web.";
-}
+    }
 
-method _resolve_repository_with ( $service, $thing ) {
-    my $dist = $self->dist;
-    my $data = $self->_repository_data_for($service);
-    confess "unknown repository service $service" unless $data;
+    method _resolve_repository_with( $service, $thing ) {
+    my $dist     = $self->dist;
+        my $data = $self->_repository_data_for($service);
+        confess "unknown repository service $service" unless $data;
     return sprintf $data->{$thing}->(),
-        (
-        exists $data->{mangle}
+    (   exists $data->{mangle}
         ? $data->{mangle}->($dist)
         : $dist
-        );
-}
+    );
+    }
 
-has repository_type => (
+=head3 repository_type
+
+The repository type - either C<svn> or C<git>.  Normally set from L<repository_at>.
+
+=cut
+
+    has repository_type => (
     is      => 'ro',
     isa     => Str,
     lazy    => 1,
     builder => '_build_repository_type',
-);
+    );
 
-method _build_repository_type () {
+method _build_repository_type() {
     my $data = $self->_repository_data_for( $self->repository_at );
-    return $data->{type} if exists $data->{type};
+        return $data->{type} if exists $data->{type};
 
     for my $vcs (qw(git svn)) {
         return $vcs if $self->repository_scheme eq $vcs;
     }
 
     confess "Unable to guess repository type based on the repository url. " . "Please provide repository_type.";
-}
+    }
+
+=head3 github_user
+
+The username on github. Defaults to C<nigelm> which is unlikely to be
+useful for anyone else. Sorry!
+
+=cut
+
+    has github_user => (
+    is      => 'ro',
+    isa     => Str,
+    default => 'nigelm',
+    );
+
+=head3 tag_format / tag_message / version_regexp / git_autoversion
+
+Overrides the L<Dist::Zilla::Plugin::Git> bundle defaults for these.
+By default I use an unusual tag format of C<release/%v> for historical
+reasons. If git_autoversion is true (the default) then the version
+number is taken from git.
+
+=cut
+
+has tag_format => (
+    is      => 'ro',
+    isa     => Str,
+    default => 'release/%v%t',
+);
+
+has tag_message => (
+    is      => 'ro',
+    isa     => Str,
+    default => 'Release of %v%t',
+);
+
+has version_regexp => (
+    is      => 'ro',
+    isa     => Str,
+    lazy    => 1,
+    builder => '_build_version_regexp',
+);
+
+method _build_version_regexp() {
+    my $version_regexp = $self->tag_format;
+        $version_regexp =~ s/\%v/\(\\d+\(\?:\\.\\d+\)\+\)/;
+        $version_regexp =~ s/\%t/\(\?:\[-_\]\.+\)\?/;
+        return sprintf( '^%s$', $version_regexp );
+    }
+
+    has git_autoversion => (
+    is      => 'ro',
+    isa     => 'Bool',
+    default => 1,
+    );
+
+=head3 git_allow_dirty
+
+A list of files that are allowed to be dirty by the Git plugins.
+Defaults to C<dist.ini>, the Change log file, C<README> and
+C<README.pod>.
+
+=cut
+
+# git allow dirty references
+has git_allow_dirty => (
+    is      => 'ro',
+    lazy    => 1,
+    isa     => ArrayRef [Str],
+    builder => '_build_git_allow_dirty',
+);
+
+=head3 changelog
+
+The Change Log file name.  Defaults to C<Changes>.
+
+=cut
+
+has changelog => ( is => 'ro', isa => Str, default => 'Changes' );
+
+sub mvp_multivalue_args { return ('git_allow_dirty'); }
+
+sub _build_git_allow_dirty { [ 'dist.ini', shift->changelog, 'README', 'README.pod' ] }
 
 override BUILDARGS => sub {
     my $class = shift;
@@ -534,7 +713,7 @@ override BUILDARGS => sub {
     return { %{ $args->{payload} }, %{$args} };
 };
 
-method configure () {
+method configure() {
 
     # Build a list of all the plugins we want...
     my @wanted = (
@@ -551,23 +730,23 @@ method configure () {
         [ 'Git::Check' => { allow_dirty => $self->git_allow_dirty } ],
 
         # -- fetch & generate files
-        [ GatherDir    => {} ],
-        [ 'Test::Compile' => { fake_home => $self->fake_home } ],
-        [ 'Test::Perl::Critic'  => {} ],
-        [ MetaTests    => {} ],
+        [ GatherDir            => {} ],
+        [ 'Test::Compile'      => { fake_home => $self->fake_home } ],
+        [ 'Test::Perl::Critic' => {} ],
+        [ MetaTests            => {} ],
         ( $self->disable_pod_coverage_tests ? () : [ PodCoverageTests => {} ] ),
-        [ PodSyntaxTests   => {} ],
+        [ PodSyntaxTests      => {} ],
         [ 'Test::PodSpelling' => {} ],
         (    # Disabling pod coverage scores you a fail on Kwalitee too!
             $self->disable_pod_coverage_tests ? () : [ KwaliteeTests => {} ]
         ),
         [ 'Test::Portability'    => {} ],
-        [ 'SynopsisTests'       => {} ],
+        [ 'SynopsisTests'        => {} ],
         [ 'Test::MinimumVersion' => {} ],
-        [ HasVersionTests     => {} ],
+        [ HasVersionTests        => {} ],
         [ 'Test::DistManifest'   => {} ],
         ( $self->disable_unused_vars_tests ? () : [ 'Test::UnusedVars' => {} ] ),
-        ( $self->disable_no_tabs_tests     ? () : [ NoTabsTests     => {} ] ),
+        ( $self->disable_no_tabs_tests     ? () : [ NoTabsTests        => {} ] ),
         [ EOLTests => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
         [ InlineFiles    => {} ],
         [ ReportVersions => {} ],
@@ -649,10 +828,10 @@ method configure () {
         ),
     );
 
-    $self->add_plugins(@wanted);
-}
+        $self->add_plugins(@wanted);
+    }
 
-with 'Dist::Zilla::Role::PluginBundle::Easy';
+    with 'Dist::Zilla::Role::PluginBundle::Easy';
 
 __PACKAGE__->meta->make_immutable;
 
