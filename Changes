@@ -1,4 +1,5 @@
 {{$NEXT}}
+    - Fixed fault in ReadmeAnyFromPod config
 
 0.16      2012-02-11 22:11:08 Europe/London
 

@@ -78,7 +78,7 @@ use Pod::Weaver::PluginBundle::MARCEL;
 1;
 __END__
 
-=for stopwords NIGELM Tweakables catagits catsvn changelog dbsrgits gitmo sagit p5sagit svn
+=for stopwords NIGELM Tweakables catagits catsvn changelog dbsrgits gitmo sagit p5sagit svn RT dist inc
 
 =for Pod::Coverage mvp_multivalue_args
 
@@ -485,7 +485,8 @@ my $map_tc = Map [
     ]
 ];
 
-coerce $map_tc, from Map [
+coerce $map_tc,
+    from Map [
     Str,
     Dict [
         pattern     => Str | CodeRef,
@@ -507,11 +508,11 @@ coerce $map_tc, from Map [
                                 ? ( $v => sub { $in{$k}->{$v} } )
                                 : ()
                                 ),
-                            } qw(pattern web_pattern)
+                        } qw(pattern web_pattern)
                     ),
                 }
                 )
-            } keys %in
+        } keys %in
     };
     };
 
@@ -547,7 +548,7 @@ method _build__repository_host_map () {
                         web_pattern => $scsys_web_pattern_proto->($_),
                     }
                     )
-                } qw(catagits p5sagit dbsrgits)
+            } qw(catagits p5sagit dbsrgits)
         ),
     };
 }
@@ -806,7 +807,6 @@ method configure () {
         ),
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
-        [ ReadmeAnyFromPod => {} ],
         [ ReadmeAnyFromPod => ReadmePodInRoot => { type => 'pod', filename => 'README.pod', location => 'root', } ],
         [ InstallGuide     => {} ],
         [ Manifest => {} ],    # should come last
