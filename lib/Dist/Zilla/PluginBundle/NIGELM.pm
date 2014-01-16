@@ -5,7 +5,7 @@ package Dist::Zilla::PluginBundle::NIGELM;
 use strict;
 use warnings;
 
-our $VERSION = '0.16'; # VERSION
+our $VERSION = '0.17'; # VERSION
 our $AUTHORITY = 'cpan:NIGELM'; # AUTHORITY
 
 use Moose 1.00;
@@ -250,7 +250,8 @@ my $map_tc = Map [
     ]
 ];
 
-coerce $map_tc, from Map [
+coerce $map_tc,
+    from Map [
     Str,
     Dict [
         pattern     => Str | CodeRef,
@@ -272,11 +273,11 @@ coerce $map_tc, from Map [
                                 ? ( $v => sub { $in{$k}->{$v} } )
                                 : ()
                                 ),
-                            } qw(pattern web_pattern)
+                        } qw(pattern web_pattern)
                     ),
                 }
                 )
-            } keys %in
+        } keys %in
     };
     };
 
@@ -312,7 +313,7 @@ method _build__repository_host_map () {
                         web_pattern => $scsys_web_pattern_proto->($_),
                     }
                     )
-                } qw(catagits p5sagit dbsrgits)
+            } qw(catagits p5sagit dbsrgits)
         ),
     };
 }
@@ -535,7 +536,6 @@ method configure () {
         ),
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
-        [ ReadmeAnyFromPod => {} ],
         [ ReadmeAnyFromPod => ReadmePodInRoot => { type => 'pod', filename => 'README.pod', location => 'root', } ],
         [ InstallGuide     => {} ],
         [ Manifest => {} ],    # should come last
@@ -568,12 +568,13 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
+
 =pod
 
 =for test_synopsis 1;
 __END__
 
-=for stopwords NIGELM Tweakables catagits catsvn changelog dbsrgits gitmo sagit p5sagit svn
+=for stopwords NIGELM Tweakables catagits catsvn changelog dbsrgits gitmo sagit p5sagit svn RT dist inc
 
 =for Pod::Coverage mvp_multivalue_args
 
@@ -583,7 +584,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 SYNOPSIS
 
@@ -843,10 +844,9 @@ Nigel Metheringham <nigelm@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Nigel Metheringham.
+This software is copyright (c) 2014 by Nigel Metheringham.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
