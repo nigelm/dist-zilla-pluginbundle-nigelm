@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+0.18      2014-03-12 14:45:05+00:00 Europe/London
     - Corrected fix in ReadmeAnyFromPod config
     - Added perltidy.LOG to list of excludes
     - Referred to issue that broke Pod::Simple::Text and so broke

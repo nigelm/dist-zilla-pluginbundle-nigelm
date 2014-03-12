@@ -13,7 +13,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 SYNOPSIS
 
@@ -249,6 +249,14 @@ C<README.pod>.
 =head3 changelog
 
 The Change Log file name.  Defaults to C<Changes>.
+
+=head1 BUGS
+
+It appears this module, in particular the C<ReadmeAnyFromPod> plugin, exposes
+a bug with text wrapping in L<Pod::Simple::Text> which can cause modules with
+long words (especially long names) to die during packaging.
+
+1;
 
 =head1 INSTALLATION
 
