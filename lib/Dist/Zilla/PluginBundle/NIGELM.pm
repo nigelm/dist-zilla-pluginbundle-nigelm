@@ -755,7 +755,7 @@ method configure () {
 
         # -- remove some files
         [ PruneCruft   => {} ],
-        [ PruneFiles   => { filenames => [qw(dist.ini README README.pod)] } ],
+        [ PruneFiles   => { filenames => [qw(dist.ini perltidy.LOG)] } ],
         [ ManifestSkip => {} ],
 
         # -- get prereqs
@@ -807,6 +807,7 @@ method configure () {
         ),
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
+        [ ReadmeAnyFromPod => ReadmeTextInBuild => { type => 'text', filename => 'README', location => 'build', } ],
         [ ReadmeAnyFromPod => ReadmePodInRoot => { type => 'pod', filename => 'README.pod', location => 'root', } ],
         [ InstallGuide     => {} ],
         [ Manifest => {} ],    # should come last
@@ -835,5 +836,11 @@ method configure () {
 with 'Dist::Zilla::Role::PluginBundle::Easy';
 
 __PACKAGE__->meta->make_immutable;
+
+=head1 BUGS
+
+It appears this module, in particular the C<ReadmeAnyFromPod> plugin, exposes
+a bug with text wrapping in L<Pod::Simple::Text> which can cause modules with
+long words (especially long names) to die during packaging.
 
 1;

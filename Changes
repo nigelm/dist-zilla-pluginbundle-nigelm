@@ -1,4 +1,8 @@
 {{$NEXT}}
+    - Corrected fix in ReadmeAnyFromPod config
+    - Added perltidy.LOG to list of excludes
+    - Referred to issue that broke Pod::Simple::Text and so broke
+      ReadmeAnyFromPod
 
 0.17      2014-01-16 14:30:57+00:00 Europe/London
     - Fixed fault in ReadmeAnyFromPod config
