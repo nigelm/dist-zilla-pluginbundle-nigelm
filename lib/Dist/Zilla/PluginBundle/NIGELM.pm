@@ -5,7 +5,7 @@ package Dist::Zilla::PluginBundle::NIGELM;
 use strict;
 use warnings;
 
-our $VERSION = '0.17'; # VERSION
+our $VERSION = '0.18'; # VERSION
 our $AUTHORITY = 'cpan:NIGELM'; # AUTHORITY
 
 use Moose 1.00;
@@ -484,7 +484,7 @@ method configure () {
 
         # -- remove some files
         [ PruneCruft   => {} ],
-        [ PruneFiles   => { filenames => [qw(dist.ini README README.pod)] } ],
+        [ PruneFiles   => { filenames => [qw(dist.ini perltidy.LOG)] } ],
         [ ManifestSkip => {} ],
 
         # -- get prereqs
@@ -536,6 +536,7 @@ method configure () {
         ),
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
+        [ ReadmeAnyFromPod => ReadmeTextInBuild => { type => 'text', filename => 'README', location => 'build', } ],
         [ ReadmeAnyFromPod => ReadmePodInRoot => { type => 'pod', filename => 'README.pod', location => 'root', } ],
         [ InstallGuide     => {} ],
         [ Manifest => {} ],    # should come last
@@ -565,8 +566,6 @@ with 'Dist::Zilla::Role::PluginBundle::Easy';
 
 __PACKAGE__->meta->make_immutable;
 
-1;
-
 __END__
 
 =pod
@@ -584,7 +583,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 SYNOPSIS
 
@@ -820,6 +819,14 @@ C<README.pod>.
 =head3 changelog
 
 The Change Log file name.  Defaults to C<Changes>.
+
+=head1 BUGS
+
+It appears this module, in particular the C<ReadmeAnyFromPod> plugin, exposes
+a bug with text wrapping in L<Pod::Simple::Text> which can cause modules with
+long words (especially long names) to die during packaging.
+
+1;
 
 =head1 INSTALLATION
 

@@ -115,7 +115,7 @@
    "provides" : {
       "Dist::Zilla::PluginBundle::NIGELM" : {
          "file" : "lib/Dist/Zilla/PluginBundle/NIGELM.pm",
-         "version" : "0.17"
+         "version" : "0.18"
       }
    },
    "release_status" : "stable",
@@ -131,10 +131,10 @@
          "web" : "http://github.com/nigelm/dist-zilla-pluginbundle-nigelm"
       }
    },
-   "version" : "0.17",
+   "version" : "0.18",
    "x_Dist_Zilla" : {
       "perl" : {
-         "version" : "5.018001"
+         "version" : "5.018002"
       },
       "plugins" : [
          {
@@ -327,7 +327,7 @@
                }
             },
             "name" : "@NIGELM/MetaProvides::Package",
-            "version" : "1.15000003"
+            "version" : "2.000001"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaResources",
@@ -481,6 +481,11 @@
             "class" : "Dist::Zilla::Plugin::MetaJSON",
             "name" : "@NIGELM/MetaJSON",
             "version" : "5.012"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::ReadmeAnyFromPod",
+            "name" : "@NIGELM/ReadmeTextInBuild",
+            "version" : "0.133360"
          },
          {
             "class" : "Dist::Zilla::Plugin::ReadmeAnyFromPod",
