@@ -5,7 +5,7 @@ package Dist::Zilla::PluginBundle::NIGELM;
 use strict;
 use warnings;
 
-our $VERSION = '0.18'; # VERSION
+our $VERSION = '0.19'; # VERSION
 our $AUTHORITY = 'cpan:NIGELM'; # AUTHORITY
 
 use Moose 1.00;
@@ -23,7 +23,7 @@ use Dist::Zilla::Plugin::Authority 1.005;
 use Dist::Zilla::Plugin::AutoPrereqs;
 use Dist::Zilla::Plugin::CheckChangeLog;
 use Dist::Zilla::Plugin::CopyReadmeFromBuild;
-use Dist::Zilla::Plugin::EOLTests;
+use Dist::Zilla::Plugin::Test::EOL;
 use Dist::Zilla::Plugin::ExecDir;
 use Dist::Zilla::Plugin::ExtraTests;
 use Dist::Zilla::Plugin::FakeRelease;
@@ -50,7 +50,7 @@ use Dist::Zilla::Plugin::MetaTests;
 use Dist::Zilla::Plugin::MetaYAML;
 use Dist::Zilla::Plugin::ModuleBuild;
 use Dist::Zilla::Plugin::NextRelease;
-use Dist::Zilla::Plugin::NoTabsTests;
+use Dist::Zilla::Plugin::Test::NoTabs;
 use Dist::Zilla::Plugin::OurPkgVersion;
 use Dist::Zilla::Plugin::PodCoverageTests;
 use Dist::Zilla::Plugin::PodSyntaxTests;
@@ -350,7 +350,7 @@ method _build_repository_web () {
         . "Please provide either repository_at or repository_web.";
 }
 
-method _resolve_repository_with ( $service, $thing ) {
+method _resolve_repository_with ($service, $thing) {
     my $dist = $self->dist;
     my $data = $self->_repository_data_for($service);
     confess "unknown repository service $service" unless $data;
@@ -477,9 +477,9 @@ method configure () {
         [ HasVersionTests        => {} ],
         [ 'Test::DistManifest'   => {} ],
         ( $self->disable_unused_vars_tests ? () : [ 'Test::UnusedVars' => {} ] ),
-        ( $self->disable_no_tabs_tests     ? () : [ NoTabsTests        => {} ] ),
-        [ EOLTests => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
-        [ InlineFiles    => {} ],
+        ( $self->disable_no_tabs_tests     ? () : [ 'Test::NoTabs'     => {} ] ),
+        [ 'Test::EOL' => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
+        [ InlineFiles => {} ],
         [ ReportVersions => {} ],
 
         # -- remove some files
@@ -583,7 +583,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.18
+version 0.19
 
 =head1 SYNOPSIS
 
@@ -595,9 +595,9 @@ In your F<dist.ini>:
 
 =head1 DESCRIPTION
 
-This is the L<Dist::Zilla> configuration I use to build my
-distributions. It was originally based on the @FLORA bundle but
-additionally pulls in ideas from @MARCEL bundle.
+This is the L<Dist::Zilla> configuration I use to build my distributions. It
+was originally based on the @FLORA bundle but additionally pulls in ideas from
+@MARCEL bundle.
 
 It is roughly equivalent to:
 
@@ -619,8 +619,8 @@ It is roughly equivalent to:
     [HasVersionTests]
     [Test::DistManifest]
     [Test::UnusedVars]
-    [NoTabsTests]
-    [EOLTests]
+    [Test::NoTabs]
+    [Test::EOL]
     [InlineFiles]
     [ReportVersions]
     [PruneCruft]
@@ -664,25 +664,23 @@ It is roughly equivalent to:
 
 =head3 dist
 
-The distribution name, as given in the main Dist::Zilla configuration
-section (the C<name> parameter). Unfortunately this cannot be extracted
-from the main config.
+The distribution name, as given in the main Dist::Zilla configuration section
+(the C<name> parameter). Unfortunately this cannot be extracted from the main
+config.
 
 =head2 Tweakables - Major Configuration
 
 =head3 build_process
 
-Overrides build process system - basically this causes the standard
-Module Build generation to be suppressed and replaced by a call to a
-module in the local inc directory specified by this parameter
-instead.
+Overrides build process system - basically this causes the standard Module
+Build generation to be suppressed and replaced by a call to a module in the
+local inc directory specified by this parameter instead.
 
 =head3 no_cpan
 
-If C<no_cpan> or the environment variable C<NO_CPAN> is set, then the
-upload to CPAN is suppressed. This basically swaps
-L<Dist::Zilla::Plugin::FakeRelease> in place of
-L<Dist::Zilla::Plugin::UploadToCPAN>
+If C<no_cpan> or the environment variable C<NO_CPAN> is set, then the upload to
+CPAN is suppressed. This basically swaps L<Dist::Zilla::Plugin::FakeRelease> in
+place of L<Dist::Zilla::Plugin::UploadToCPAN>
 
 =head2 Tweakables
 
@@ -696,28 +694,26 @@ Determine Prerequisites automatically - defaults to1 (set).
 
 =head3 skip_prereqs
 
-Prerequisites to skip if C<auto_prereqs> is set -- a string of module
-names.
+Prerequisites to skip if C<auto_prereqs> is set -- a string of module names.
 
 =head3 is_task
 
 Is this a Task rather than a Module. Determines whether
-L<Dist::Zilla::Plugin::TaskWeaver> or
-L<Dist::Zilla::Plugin::PodWeaver> are used. Defaults to 1 if the dist
-name starts with C<Task>, 0 otherwise.
+L<Dist::Zilla::Plugin::TaskWeaver> or L<Dist::Zilla::Plugin::PodWeaver> are
+used. Defaults to 1 if the dist name starts with C<Task>, 0 otherwise.
 
 =head3 weaver_config_plugin
 
 This option is passed to the C<config_plugin> option of
-L<Dist::Zilla::Plugin::PodWeaver>. It defaults to C<@MARCEL>, which
-loads in L<Pod::Weaver::PluginBundle::MARCEL>.
+L<Dist::Zilla::Plugin::PodWeaver>. It defaults to C<@MARCEL>, which loads in
+L<Pod::Weaver::PluginBundle::MARCEL>.
 
 =head2 Bug Tracker Information
 
 =head3 bugtracker_url
 
-The URL of the bug tracker. Defaults to the CPAN RT queue for the
-distribution name.
+The URL of the bug tracker. Defaults to the CPAN RT queue for the distribution
+name.
 
 =head3 bugtracker_email
 
@@ -729,26 +725,22 @@ distribution name.
 =head3 disable_pod_coverage_tests
 
 If set, disables the Pod Coverage Release Tests
-L<Dist::Zilla::Plugin::PodCoverageTests>. Defaults to unset (tests
-enabled).
+L<Dist::Zilla::Plugin::PodCoverageTests>. Defaults to unset (tests enabled).
 
 =head3 disable_trailing_whitespace_tests
 
 If set, disables the Trailing Whitespace Release Tests
-L<Dist::Zilla::Plugin::EOLTests>. Defaults to unset (tests
-enabled).
+L<Dist::Zilla::Plugin::Test::EOL>. Defaults to unset (tests enabled).
 
 =head3 disable_unused_vars_tests
 
 If set, disables the Unused Variables Release Tests
-L<Dist::Zilla::Plugin::Test::UnusedVars>. Defaults to unset (tests
-enabled).
+L<Dist::Zilla::Plugin::Test::UnusedVars>. Defaults to unset (tests enabled).
 
 =head3 disable_no_tabs_tests
 
 If set, disables the Release Test that checks for hard tabs
-L<Dist::Zilla::Plugin::NoTabsTests>. Defaults to unset (tests
-enabled).
+L<Dist::Zilla::Plugin::Test::NoTabs>. Defaults to unset (tests enabled).
 
 =head3 fake_home
 
@@ -765,8 +757,8 @@ C<search.cpan.org>.
 
 =head3 repository_at
 
-Sets all of the following repository options based on a standard
-repository type. This is one of:-
+Sets all of the following repository options based on a standard repository
+type. This is one of:-
 
 =over 4
 
@@ -796,25 +788,25 @@ The repository web view URL.  Normally set from L<repository_at>.
 
 =head3 repository_type
 
-The repository type - either C<svn> or C<git>.  Normally set from L<repository_at>.
+The repository type - either C<svn> or C<git>.  Normally set from
+L<repository_at>.
 
 =head3 github_user
 
-The username on github. Defaults to C<nigelm> which is unlikely to be
-useful for anyone else. Sorry!
+The username on github. Defaults to C<nigelm> which is unlikely to be useful
+for anyone else. Sorry!
 
 =head3 tag_format / tag_message / version_regexp / git_autoversion
 
-Overrides the L<Dist::Zilla::Plugin::Git> bundle defaults for these.
-By default I use an unusual tag format of C<release/%v> for historical
-reasons. If git_autoversion is true (the default) then the version
-number is taken from git.
+Overrides the L<Dist::Zilla::Plugin::Git> bundle defaults for these. By default
+I use an unusual tag format of C<release/%v> for historical reasons. If
+git_autoversion is true (the default) then the version number is taken from
+git.
 
 =head3 git_allow_dirty
 
-A list of files that are allowed to be dirty by the Git plugins.
-Defaults to C<dist.ini>, the Change log file, C<README> and
-C<README.pod>.
+A list of files that are allowed to be dirty by the Git plugins. Defaults to
+C<dist.ini>, the Change log file, C<README> and C<README.pod>.
 
 =head3 changelog
 
@@ -822,8 +814,8 @@ The Change Log file name.  Defaults to C<Changes>.
 
 =head1 BUGS
 
-It appears this module, in particular the C<ReadmeAnyFromPod> plugin, exposes
-a bug with text wrapping in L<Pod::Simple::Text> which can cause modules with
+It appears this module, in particular the C<ReadmeAnyFromPod> plugin, exposes a
+bug with text wrapping in L<Pod::Simple::Text> which can cause modules with
 long words (especially long names) to die during packaging.
 
 1;
@@ -851,7 +843,7 @@ Nigel Metheringham <nigelm@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Nigel Metheringham.
+This software is copyright (c) 2015 by Nigel Metheringham.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

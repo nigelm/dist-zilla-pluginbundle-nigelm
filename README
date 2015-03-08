@@ -4,7 +4,7 @@ NAME
 
 VERSION
 
-    version 0.18
+    version 0.19
 
 SYNOPSIS
 
@@ -40,8 +40,8 @@ DESCRIPTION
         [HasVersionTests]
         [Test::DistManifest]
         [Test::UnusedVars]
-        [NoTabsTests]
-        [EOLTests]
+        [Test::NoTabs]
+        [Test::EOL]
         [InlineFiles]
         [ReportVersions]
         [PruneCruft]
@@ -154,7 +154,7 @@ DESCRIPTION
   disable_trailing_whitespace_tests
 
     If set, disables the Trailing Whitespace Release Tests
-    Dist::Zilla::Plugin::EOLTests. Defaults to unset (tests enabled).
+    Dist::Zilla::Plugin::Test::EOL. Defaults to unset (tests enabled).
 
   disable_unused_vars_tests
 
@@ -165,7 +165,7 @@ DESCRIPTION
   disable_no_tabs_tests
 
     If set, disables the Release Test that checks for hard tabs
-    Dist::Zilla::Plugin::NoTabsTests. Defaults to unset (tests enabled).
+    Dist::Zilla::Plugin::Test::NoTabs. Defaults to unset (tests enabled).
 
   fake_home
 
@@ -254,7 +254,8 @@ BUGS AND LIMITATIONS
 
     You can make new bug reports, and view existing ones, through the web
     interface at
-    http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM.
+    http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundl
+    e-NIGELM.
 
 AVAILABILITY
 
@@ -272,7 +273,7 @@ AUTHOR
 
 COPYRIGHT AND LICENSE
 
-    This software is copyright (c) 2014 by Nigel Metheringham.
+    This software is copyright (c) 2015 by Nigel Metheringham.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.
