@@ -94,9 +94,9 @@ In your F<dist.ini>:
 
 =head1 DESCRIPTION
 
-This is the L<Dist::Zilla> configuration I use to build my
-distributions. It was originally based on the @FLORA bundle but
-additionally pulls in ideas from @MARCEL bundle.
+This is the L<Dist::Zilla> configuration I use to build my distributions. It
+was originally based on the @FLORA bundle but additionally pulls in ideas from
+@MARCEL bundle.
 
 It is roughly equivalent to:
 
@@ -163,9 +163,9 @@ It is roughly equivalent to:
 
 =head3 dist
 
-The distribution name, as given in the main Dist::Zilla configuration
-section (the C<name> parameter). Unfortunately this cannot be extracted
-from the main config.
+The distribution name, as given in the main Dist::Zilla configuration section
+(the C<name> parameter). Unfortunately this cannot be extracted from the main
+config.
 
 =cut
 
@@ -179,10 +179,9 @@ has dist => (
 
 =head3 build_process
 
-Overrides build process system - basically this causes the standard
-Module Build generation to be suppressed and replaced by a call to a
-module in the local inc directory specified by this parameter
-instead.
+Overrides build process system - basically this causes the standard Module
+Build generation to be suppressed and replaced by a call to a module in the
+local inc directory specified by this parameter instead.
 
 =cut
 
@@ -194,10 +193,9 @@ has build_process => (
 
 =head3 no_cpan
 
-If C<no_cpan> or the environment variable C<NO_CPAN> is set, then the
-upload to CPAN is suppressed. This basically swaps
-L<Dist::Zilla::Plugin::FakeRelease> in place of
-L<Dist::Zilla::Plugin::UploadToCPAN>
+If C<no_cpan> or the environment variable C<NO_CPAN> is set, then the upload to
+CPAN is suppressed. This basically swaps L<Dist::Zilla::Plugin::FakeRelease> in
+place of L<Dist::Zilla::Plugin::UploadToCPAN>
 
 =cut
 
@@ -237,8 +235,7 @@ has auto_prereqs => (
 
 =head3 skip_prereqs
 
-Prerequisites to skip if C<auto_prereqs> is set -- a string of module
-names.
+Prerequisites to skip if C<auto_prereqs> is set -- a string of module names.
 
 =cut
 
@@ -250,9 +247,8 @@ has skip_prereqs => (
 =head3 is_task
 
 Is this a Task rather than a Module. Determines whether
-L<Dist::Zilla::Plugin::TaskWeaver> or
-L<Dist::Zilla::Plugin::PodWeaver> are used. Defaults to 1 if the dist
-name starts with C<Task>, 0 otherwise.
+L<Dist::Zilla::Plugin::TaskWeaver> or L<Dist::Zilla::Plugin::PodWeaver> are
+used. Defaults to 1 if the dist name starts with C<Task>, 0 otherwise.
 
 =cut
 
@@ -270,8 +266,8 @@ method _build_is_task () {
 =head3 weaver_config_plugin
 
 This option is passed to the C<config_plugin> option of
-L<Dist::Zilla::Plugin::PodWeaver>. It defaults to C<@MARCEL>, which
-loads in L<Pod::Weaver::PluginBundle::MARCEL>.
+L<Dist::Zilla::Plugin::PodWeaver>. It defaults to C<@MARCEL>, which loads in
+L<Pod::Weaver::PluginBundle::MARCEL>.
 
 =cut
 
@@ -285,8 +281,8 @@ has weaver_config_plugin => (
 
 =head3 bugtracker_url
 
-The URL of the bug tracker. Defaults to the CPAN RT queue for the
-distribution name.
+The URL of the bug tracker. Defaults to the CPAN RT queue for the distribution
+name.
 
 =cut
 
@@ -331,8 +327,7 @@ has _rt_uri_pattern => (
 =head3 disable_pod_coverage_tests
 
 If set, disables the Pod Coverage Release Tests
-L<Dist::Zilla::Plugin::PodCoverageTests>. Defaults to unset (tests
-enabled).
+L<Dist::Zilla::Plugin::PodCoverageTests>. Defaults to unset (tests enabled).
 
 =cut
 
@@ -345,8 +340,7 @@ has disable_pod_coverage_tests => (
 =head3 disable_trailing_whitespace_tests
 
 If set, disables the Trailing Whitespace Release Tests
-L<Dist::Zilla::Plugin::Test::EOL>. Defaults to unset (tests
-enabled).
+L<Dist::Zilla::Plugin::Test::EOL>. Defaults to unset (tests enabled).
 
 =cut
 
@@ -359,8 +353,7 @@ has disable_trailing_whitespace_tests => (
 =head3 disable_unused_vars_tests
 
 If set, disables the Unused Variables Release Tests
-L<Dist::Zilla::Plugin::Test::UnusedVars>. Defaults to unset (tests
-enabled).
+L<Dist::Zilla::Plugin::Test::UnusedVars>. Defaults to unset (tests enabled).
 
 =cut
 
@@ -373,8 +366,7 @@ has disable_unused_vars_tests => (
 =head3 disable_no_tabs_tests
 
 If set, disables the Release Test that checks for hard tabs
-L<Dist::Zilla::Plugin::Test::NoTabs>. Defaults to unset (tests
-enabled).
+L<Dist::Zilla::Plugin::Test::NoTabs>. Defaults to unset (tests enabled).
 
 =cut
 
@@ -427,8 +419,8 @@ has _cpansearch_pattern => (
 
 =head3 repository_at
 
-Sets all of the following repository options based on a standard
-repository type. This is one of:-
+Sets all of the following repository options based on a standard repository
+type. This is one of:-
 
 =over 4
 
@@ -590,7 +582,7 @@ method _build_repository_web () {
         . "Please provide either repository_at or repository_web.";
 }
 
-method _resolve_repository_with ( $service, $thing ) {
+method _resolve_repository_with ($service, $thing) {
     my $dist = $self->dist;
     my $data = $self->_repository_data_for($service);
     confess "unknown repository service $service" unless $data;
@@ -604,7 +596,8 @@ method _resolve_repository_with ( $service, $thing ) {
 
 =head3 repository_type
 
-The repository type - either C<svn> or C<git>.  Normally set from L<repository_at>.
+The repository type - either C<svn> or C<git>.  Normally set from
+L<repository_at>.
 
 =cut
 
@@ -628,8 +621,8 @@ method _build_repository_type () {
 
 =head3 github_user
 
-The username on github. Defaults to C<nigelm> which is unlikely to be
-useful for anyone else. Sorry!
+The username on github. Defaults to C<nigelm> which is unlikely to be useful
+for anyone else. Sorry!
 
 =cut
 
@@ -641,10 +634,10 @@ has github_user => (
 
 =head3 tag_format / tag_message / version_regexp / git_autoversion
 
-Overrides the L<Dist::Zilla::Plugin::Git> bundle defaults for these.
-By default I use an unusual tag format of C<release/%v> for historical
-reasons. If git_autoversion is true (the default) then the version
-number is taken from git.
+Overrides the L<Dist::Zilla::Plugin::Git> bundle defaults for these. By default
+I use an unusual tag format of C<release/%v> for historical reasons. If
+git_autoversion is true (the default) then the version number is taken from
+git.
 
 =cut
 
@@ -682,9 +675,8 @@ has git_autoversion => (
 
 =head3 git_allow_dirty
 
-A list of files that are allowed to be dirty by the Git plugins.
-Defaults to C<dist.ini>, the Change log file, C<README> and
-C<README.pod>.
+A list of files that are allowed to be dirty by the Git plugins. Defaults to
+C<dist.ini>, the Change log file, C<README> and C<README.pod>.
 
 =cut
 
@@ -748,9 +740,9 @@ method configure () {
         [ HasVersionTests        => {} ],
         [ 'Test::DistManifest'   => {} ],
         ( $self->disable_unused_vars_tests ? () : [ 'Test::UnusedVars' => {} ] ),
-        ( $self->disable_no_tabs_tests     ? () : [ 'Test::NoTabs'        => {} ] ),
+        ( $self->disable_no_tabs_tests     ? () : [ 'Test::NoTabs'     => {} ] ),
         [ 'Test::EOL' => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
-        [ InlineFiles    => {} ],
+        [ InlineFiles => {} ],
         [ ReportVersions => {} ],
 
         # -- remove some files
@@ -839,8 +831,9 @@ __PACKAGE__->meta->make_immutable;
 
 =head1 BUGS
 
-It appears this module, in particular the C<ReadmeAnyFromPod> plugin, exposes
-a bug with text wrapping in L<Pod::Simple::Text> which can cause modules with
+It appears this module, in particular the C<ReadmeAnyFromPod> plugin, exposes a
+bug with text wrapping in L<Pod::Simple::Text> which can cause modules with
 long words (especially long names) to die during packaging.
 
 1;
+
