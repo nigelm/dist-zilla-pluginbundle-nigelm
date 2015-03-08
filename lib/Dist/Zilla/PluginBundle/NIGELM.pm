@@ -23,7 +23,7 @@ use Dist::Zilla::Plugin::Authority 1.005;
 use Dist::Zilla::Plugin::AutoPrereqs;
 use Dist::Zilla::Plugin::CheckChangeLog;
 use Dist::Zilla::Plugin::CopyReadmeFromBuild;
-use Dist::Zilla::Plugin::EOLTests;
+use Dist::Zilla::Plugin::Test::EOL;
 use Dist::Zilla::Plugin::ExecDir;
 use Dist::Zilla::Plugin::ExtraTests;
 use Dist::Zilla::Plugin::FakeRelease;
@@ -50,7 +50,7 @@ use Dist::Zilla::Plugin::MetaTests;
 use Dist::Zilla::Plugin::MetaYAML;
 use Dist::Zilla::Plugin::ModuleBuild;
 use Dist::Zilla::Plugin::NextRelease;
-use Dist::Zilla::Plugin::NoTabsTests;
+use Dist::Zilla::Plugin::Test::NoTabs;
 use Dist::Zilla::Plugin::OurPkgVersion;
 use Dist::Zilla::Plugin::PodCoverageTests;
 use Dist::Zilla::Plugin::PodSyntaxTests;
@@ -118,8 +118,8 @@ It is roughly equivalent to:
     [HasVersionTests]
     [Test::DistManifest]
     [Test::UnusedVars]
-    [NoTabsTests]
-    [EOLTests]
+    [Test::NoTabs]
+    [Test::EOL]
     [InlineFiles]
     [ReportVersions]
     [PruneCruft]
@@ -345,7 +345,7 @@ has disable_pod_coverage_tests => (
 =head3 disable_trailing_whitespace_tests
 
 If set, disables the Trailing Whitespace Release Tests
-L<Dist::Zilla::Plugin::EOLTests>. Defaults to unset (tests
+L<Dist::Zilla::Plugin::Test::EOL>. Defaults to unset (tests
 enabled).
 
 =cut
@@ -373,7 +373,7 @@ has disable_unused_vars_tests => (
 =head3 disable_no_tabs_tests
 
 If set, disables the Release Test that checks for hard tabs
-L<Dist::Zilla::Plugin::NoTabsTests>. Defaults to unset (tests
+L<Dist::Zilla::Plugin::Test::NoTabs>. Defaults to unset (tests
 enabled).
 
 =cut
@@ -748,8 +748,8 @@ method configure () {
         [ HasVersionTests        => {} ],
         [ 'Test::DistManifest'   => {} ],
         ( $self->disable_unused_vars_tests ? () : [ 'Test::UnusedVars' => {} ] ),
-        ( $self->disable_no_tabs_tests     ? () : [ NoTabsTests        => {} ] ),
-        [ EOLTests => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
+        ( $self->disable_no_tabs_tests     ? () : [ 'Test::NoTabs'        => {} ] ),
+        [ 'Test::EOL' => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
         [ InlineFiles    => {} ],
         [ ReportVersions => {} ],
 
