@@ -1,4 +1,8 @@
 {{$NEXT}}
+    - Fix up deprecated test modules - see 
+      https://github.com/nigelm/dist-zilla-pluginbundle-nigelm/pull/2
+      https://github.com/nigelm/dist-zilla-pluginbundle-nigelm/pull/1
+      Thanks to skington and mrcaron
 
 0.18      2014-03-12 14:45:05+00:00 Europe/London
     - Corrected fix in ReadmeAnyFromPod config
