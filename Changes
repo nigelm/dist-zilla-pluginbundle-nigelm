@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+0.19      2015-03-08 12:23:48+00:00 Europe/London
     - Fix up deprecated test modules - see 
       https://github.com/nigelm/dist-zilla-pluginbundle-nigelm/pull/2
       https://github.com/nigelm/dist-zilla-pluginbundle-nigelm/pull/1
