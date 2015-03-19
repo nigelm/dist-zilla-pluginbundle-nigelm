@@ -1,3 +1,7 @@
+0.20      2015-03-19 17:03:00+00:00 Europe/London
+    - Force the test modules from previous change to be included
+      as pre-requisites.
+
 0.19      2015-03-08 12:23:48+00:00 Europe/London
     - Fix up deprecated test modules - see 
       https://github.com/nigelm/dist-zilla-pluginbundle-nigelm/pull/2
