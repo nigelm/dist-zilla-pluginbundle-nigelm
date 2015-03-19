@@ -19,6 +19,7 @@ use MooseX::Types::Moose qw{ ArrayRef Str };
 use namespace::autoclean -also => 'lower';
 
 # these are all the modules used, listed purely for the dep generator
+use Dist::Zilla 5.033;    # force recent version of dzil
 use Dist::Zilla::Plugin::Authority 1.005;
 use Dist::Zilla::Plugin::AutoPrereqs;
 use Dist::Zilla::Plugin::CheckChangeLog;
@@ -751,6 +752,14 @@ method configure () {
         [ ManifestSkip => {} ],
 
         # -- get prereqs
+        [   Prereqs => {    # these are needed but not pulled in by other modules
+                -phase             => 'build',
+                -type              => 'requires',
+                'Test::CPAN::Meta' => 0,
+                'Test::EOL'        => 0,
+                'Test::NoTabs'     => 0
+            }
+        ],
         (   $self->auto_prereqs
             ? [ AutoPrereqs => $self->skip_prereqs ? { skip => $self->skip_prereqs } : {} ]
             : ()
