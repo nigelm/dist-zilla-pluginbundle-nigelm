@@ -110,7 +110,7 @@ It is roughly equivalent to:
     [Git::Check]
     [Git::CheckFor::CorrectBranch]
         release_branch = master
-    [Git::CheckFor::Fixups]
+    # [Git::CheckFor::Fixups]
     [Git::CheckFor::MergeConflicts]
     [GatherDir]
     [Test::Compile]
@@ -746,7 +746,8 @@ method configure () {
         ),
         [ 'Git::Check'                   => { allow_dirty    => $self->git_allow_dirty } ],
         [ 'Git::CheckFor::CorrectBranch' => { release_branch => $self->git_release_branch } ],
-        ['Git::CheckFor::Fixups'],
+
+        # ['Git::CheckFor::Fixups'],    ## removed as this has issues with versioning
         ['Git::CheckFor::MergeConflicts'],
 
         # -- fetch & generate files
