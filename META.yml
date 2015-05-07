@@ -26,7 +26,7 @@ name: Dist-Zilla-PluginBundle-NIGELM
 provides:
   Dist::Zilla::PluginBundle::NIGELM:
     file: lib/Dist/Zilla/PluginBundle/NIGELM.pm
-    version: '0.20'
+    version: '0.21'
 requires:
   Dist::Zilla: '5.033'
   Dist::Zilla::Plugin::Authority: '1.005'
@@ -38,6 +38,9 @@ requires:
   Dist::Zilla::Plugin::FakeRelease: '0'
   Dist::Zilla::Plugin::GatherDir: '0'
   Dist::Zilla::Plugin::Git::Check: '0'
+  Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch: '0'
+  Dist::Zilla::Plugin::Git::CheckFor::Fixups: '0'
+  Dist::Zilla::Plugin::Git::CheckFor::MergeConflicts: '0'
   Dist::Zilla::Plugin::Git::Commit: '0'
   Dist::Zilla::Plugin::Git::CommitBuild: '1.110480'
   Dist::Zilla::Plugin::Git::NextVersion: '0'
@@ -95,7 +98,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM
   homepage: https://metacpan.org/release/Dist-Zilla-PluginBundle-NIGELM
   repository: git://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git
-version: '0.20'
+version: '0.21'
 x_Dist_Zilla:
   perl:
     version: '5.020001'
@@ -138,6 +141,20 @@ x_Dist_Zilla:
           repo_root: .
       name: '@NIGELM/Git::Check'
       version: '2.028'
+    -
+      class: Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch
+      config:
+        Dist::Zilla::Role::Git::Repo:
+          repo_root: .
+      name: '@NIGELM/Git::CheckFor::CorrectBranch'
+      version: '0.013'
+    -
+      class: Dist::Zilla::Plugin::Git::CheckFor::MergeConflicts
+      config:
+        Dist::Zilla::Role::Git::Repo:
+          repo_root: .
+      name: '@NIGELM/Git::CheckFor::MergeConflicts'
+      version: '0.013'
     -
       class: Dist::Zilla::Plugin::GatherDir
       config:
@@ -458,7 +475,7 @@ x_Dist_Zilla:
         Dist::Zilla::Plugin::Git::Tag:
           branch: ~
           signed: 0
-          tag: release/0.20
+          tag: release/0.21
           tag_format: release/%v%t
           tag_message: 'Release of %v%t'
           time_zone: local

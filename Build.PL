@@ -21,7 +21,7 @@ my %module_build_args = (
     "Nigel Metheringham <nigelm\@cpan.org>"
   ],
   "dist_name" => "Dist-Zilla-PluginBundle-NIGELM",
-  "dist_version" => "0.20",
+  "dist_version" => "0.21",
   "license" => "perl",
   "module_name" => "Dist::Zilla::PluginBundle::NIGELM",
   "recommends" => {},
@@ -37,6 +37,9 @@ my %module_build_args = (
     "Dist::Zilla::Plugin::FakeRelease" => 0,
     "Dist::Zilla::Plugin::GatherDir" => 0,
     "Dist::Zilla::Plugin::Git::Check" => 0,
+    "Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch" => 0,
+    "Dist::Zilla::Plugin::Git::CheckFor::Fixups" => 0,
+    "Dist::Zilla::Plugin::Git::CheckFor::MergeConflicts" => 0,
     "Dist::Zilla::Plugin::Git::Commit" => 0,
     "Dist::Zilla::Plugin::Git::CommitBuild" => "1.110480",
     "Dist::Zilla::Plugin::Git::NextVersion" => 0,

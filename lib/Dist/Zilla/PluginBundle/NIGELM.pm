@@ -5,7 +5,7 @@ package Dist::Zilla::PluginBundle::NIGELM;
 use strict;
 use warnings;
 
-our $VERSION = '0.20'; # VERSION
+our $VERSION = '0.21'; # VERSION
 our $AUTHORITY = 'cpan:NIGELM'; # AUTHORITY
 
 use Moose 1.00;
@@ -30,6 +30,9 @@ use Dist::Zilla::Plugin::ExtraTests;
 use Dist::Zilla::Plugin::FakeRelease;
 use Dist::Zilla::Plugin::GatherDir;
 use Dist::Zilla::Plugin::Git::Check;
+use Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch;
+use Dist::Zilla::Plugin::Git::CheckFor::Fixups;
+use Dist::Zilla::Plugin::Git::CheckFor::MergeConflicts;
 use Dist::Zilla::Plugin::Git::Commit;
 use Dist::Zilla::Plugin::Git::CommitBuild 1.110480;
 use Dist::Zilla::Plugin::Git::NextVersion;
@@ -432,6 +435,15 @@ has git_allow_dirty => (
 );
 
 
+# git allow dirty references
+has git_release_branch => (
+    is      => 'ro',
+    lazy    => 1,
+    isa     => Str,
+    default => 'master',
+);
+
+
 has changelog => ( is => 'ro', isa => Str, default => 'Changes' );
 
 sub mvp_multivalue_args { return ('git_allow_dirty'); }
@@ -459,7 +471,11 @@ method configure () {
                 ]
             : ()
         ),
-        [ 'Git::Check' => { allow_dirty => $self->git_allow_dirty } ],
+        [ 'Git::Check'                   => { allow_dirty    => $self->git_allow_dirty } ],
+        [ 'Git::CheckFor::CorrectBranch' => { release_branch => $self->git_release_branch } ],
+
+        # ['Git::CheckFor::Fixups'],    ## removed as this has issues with versioning
+        ['Git::CheckFor::MergeConflicts'],
 
         # -- fetch & generate files
         [ GatherDir            => {} ],
@@ -592,7 +608,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.20
+version 0.21
 
 =head1 SYNOPSIS
 
@@ -614,6 +630,10 @@ It is roughly equivalent to:
         first_version  = 0.01,
         version_regexp = release/(\d+.\d+)
     [Git::Check]
+    [Git::CheckFor::CorrectBranch]
+        release_branch = master
+    # [Git::CheckFor::Fixups]
+    [Git::CheckFor::MergeConflicts]
     [GatherDir]
     [Test::Compile]
     [Test::Perl::Critic]
@@ -816,6 +836,11 @@ git.
 
 A list of files that are allowed to be dirty by the Git plugins. Defaults to
 C<dist.ini>, the Change log file, C<README> and C<README.pod>.
+
+=head3 git_release_branch
+
+The correct git release branch for this distribution.  Defaults to master.  If
+a release is attempted from another branch the release will fail.
 
 =head3 changelog
 

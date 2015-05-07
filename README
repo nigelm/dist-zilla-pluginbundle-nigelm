@@ -4,7 +4,7 @@ NAME
 
 VERSION
 
-    version 0.20
+    version 0.21
 
 SYNOPSIS
 
@@ -26,6 +26,10 @@ DESCRIPTION
             first_version  = 0.01,
             version_regexp = release/(\d+.\d+)
         [Git::Check]
+        [Git::CheckFor::CorrectBranch]
+            release_branch = master
+        # [Git::CheckFor::Fixups]
+        [Git::CheckFor::MergeConflicts]
         [GatherDir]
         [Test::Compile]
         [Test::Perl::Critic]
@@ -231,6 +235,12 @@ DESCRIPTION
 
     A list of files that are allowed to be dirty by the Git plugins.
     Defaults to dist.ini, the Change log file, README and README.pod.
+
+  git_release_branch
+
+    The correct git release branch for this distribution. Defaults to
+    master. If a release is attempted from another branch the release will
+    fail.
 
   changelog
 
