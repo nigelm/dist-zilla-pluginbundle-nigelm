@@ -30,6 +30,9 @@ use Dist::Zilla::Plugin::ExtraTests;
 use Dist::Zilla::Plugin::FakeRelease;
 use Dist::Zilla::Plugin::GatherDir;
 use Dist::Zilla::Plugin::Git::Check;
+use Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch;
+use Dist::Zilla::Plugin::Git::CheckFor::Fixups;
+use Dist::Zilla::Plugin::Git::CheckFor::MergeConflicts;
 use Dist::Zilla::Plugin::Git::Commit;
 use Dist::Zilla::Plugin::Git::CommitBuild 1.110480;
 use Dist::Zilla::Plugin::Git::NextVersion;
@@ -105,6 +108,10 @@ It is roughly equivalent to:
         first_version  = 0.01,
         version_regexp = release/(\d+.\d+)
     [Git::Check]
+    [Git::CheckFor::CorrectBranch]
+        release_branch = master
+    [Git::CheckFor::Fixups]
+    [Git::CheckFor::MergeConflicts]
     [GatherDir]
     [Test::Compile]
     [Test::Perl::Critic]
@@ -689,6 +696,21 @@ has git_allow_dirty => (
     builder => '_build_git_allow_dirty',
 );
 
+=head3 git_release_branch
+
+The correct git release branch for this distribution.  Defaults to master.  If
+a release is attempted from another branch the release will fail.
+
+=cut
+
+# git allow dirty references
+has git_release_branch => (
+    is      => 'ro',
+    lazy    => 1,
+    isa     => Str,
+    default => 'master',
+);
+
 =head3 changelog
 
 The Change Log file name.  Defaults to C<Changes>.
@@ -722,7 +744,10 @@ method configure () {
                 ]
             : ()
         ),
-        [ 'Git::Check' => { allow_dirty => $self->git_allow_dirty } ],
+        [ 'Git::Check'                   => { allow_dirty    => $self->git_allow_dirty } ],
+        [ 'Git::CheckFor::CorrectBranch' => { release_branch => $self->git_release_branch } ],
+        ['Git::CheckFor::Fixups'],
+        ['Git::CheckFor::MergeConflicts'],
 
         # -- fetch & generate files
         [ GatherDir            => {} ],
