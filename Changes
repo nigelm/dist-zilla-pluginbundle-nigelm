@@ -1,4 +1,6 @@
 {{$NEXT}}
+    - Changed the github URLs to be https based and https for git too
+    - Explicit identification of git repository sources
 
 0.21      2015-05-07 14:13:47+01:00 Europe/London
     - Added a batch of git check modules

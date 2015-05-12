@@ -517,23 +517,26 @@ coerce $map_tc,
     };
 
 method _build__repository_host_map () {
-    my $github_pattern     = sub { sprintf 'git://github.com/%s/%%s.git', $self->github_user };
-    my $github_web_pattern = sub { sprintf 'http://github.com/%s/%%s',    $self->github_user };
+    my $github_pattern     = sub { sprintf 'https://github.com/%s/%%s.git', $self->github_user };
+    my $github_web_pattern = sub { sprintf 'https://github.com/%s/%%s',     $self->github_user };
     my $scsys_web_pattern_proto = sub {
         return sprintf 'http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=%s/%%s.git;a=summary', $_[0];
     };
 
     return {
         github => {
+            type        => 'git',
             pattern     => $github_pattern,
             web_pattern => $github_web_pattern,
             mangle      => \&lower,
         },
         GitHub => {
+            type        => 'git',
             pattern     => $github_pattern,
             web_pattern => $github_web_pattern,
         },
         gitmo => {
+            type        => 'git',
             pattern     => 'git://git.moose.perl.org/%s.git',
             web_pattern => $scsys_web_pattern_proto->('gitmo'),
         },
@@ -544,6 +547,7 @@ method _build__repository_host_map () {
         },
         (   map {
                 (   $_ => {
+                        type        => 'git',
                         pattern     => "git://git.shadowcat.co.uk/${_}/%s.git",
                         web_pattern => $scsys_web_pattern_proto->($_),
                     }
