@@ -13,7 +13,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 SYNOPSIS
 
