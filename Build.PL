@@ -21,7 +21,7 @@ my %module_build_args = (
     "Nigel Metheringham <nigelm\@cpan.org>"
   ],
   "dist_name" => "Dist-Zilla-PluginBundle-NIGELM",
-  "dist_version" => "0.21",
+  "dist_version" => "0.22",
   "license" => "perl",
   "module_name" => "Dist::Zilla::PluginBundle::NIGELM",
   "recommends" => {},

@@ -1,3 +1,7 @@
+0.22      2015-05-12 14:34:52+01:00 Europe/London
+    - Changed the github URLs to be https based and https for git too
+    - Explicit identification of git repository sources
+
 0.21      2015-05-07 14:13:47+01:00 Europe/London
     - Added a batch of git check modules
     - then removed [Git::CheckFor::Fixups] as it gets versioning wrong

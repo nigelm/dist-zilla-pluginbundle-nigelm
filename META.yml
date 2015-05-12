@@ -26,7 +26,7 @@ name: Dist-Zilla-PluginBundle-NIGELM
 provides:
   Dist::Zilla::PluginBundle::NIGELM:
     file: lib/Dist/Zilla/PluginBundle/NIGELM.pm
-    version: '0.21'
+    version: '0.22'
 requires:
   Dist::Zilla: '5.033'
   Dist::Zilla::Plugin::Authority: '1.005'
@@ -97,8 +97,8 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM
   homepage: https://metacpan.org/release/Dist-Zilla-PluginBundle-NIGELM
-  repository: git://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git
-version: '0.21'
+  repository: https://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git
+version: '0.22'
 x_Dist_Zilla:
   perl:
     version: '5.020001'
@@ -475,7 +475,7 @@ x_Dist_Zilla:
         Dist::Zilla::Plugin::Git::Tag:
           branch: ~
           signed: 0
-          tag: release/0.21
+          tag: release/0.22
           tag_format: release/%v%t
           tag_message: 'Release of %v%t'
           time_zone: local

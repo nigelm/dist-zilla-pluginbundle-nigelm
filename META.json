@@ -125,7 +125,7 @@
    "provides" : {
       "Dist::Zilla::PluginBundle::NIGELM" : {
          "file" : "lib/Dist/Zilla/PluginBundle/NIGELM.pm",
-         "version" : "0.21"
+         "version" : "0.22"
       }
    },
    "release_status" : "stable",
@@ -137,11 +137,11 @@
       "homepage" : "https://metacpan.org/release/Dist-Zilla-PluginBundle-NIGELM",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git",
-         "web" : "http://github.com/nigelm/dist-zilla-pluginbundle-nigelm"
+         "url" : "https://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git",
+         "web" : "https://github.com/nigelm/dist-zilla-pluginbundle-nigelm"
       }
    },
-   "version" : "0.21",
+   "version" : "0.22",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.020001"
@@ -629,7 +629,7 @@
                "Dist::Zilla::Plugin::Git::Tag" : {
                   "branch" : null,
                   "signed" : 0,
-                  "tag" : "release/0.21",
+                  "tag" : "release/0.22",
                   "tag_format" : "release/%v%t",
                   "tag_message" : "Release of %v%t",
                   "time_zone" : "local"
