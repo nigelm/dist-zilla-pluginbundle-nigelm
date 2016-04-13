@@ -1,3 +1,8 @@
+0.23      2016-04-13 11:47:50+01:00 Europe/London
+    - Implemented disable_pod_spelling_tests
+      I was convinced this had been in for years, but it appears not.
+      Its needed for POD that results from converting schema files!
+
 0.22      2015-05-12 14:34:52+01:00 Europe/London
     - Changed the github URLs to be https based and https for git too
     - Explicit identification of git repository sources

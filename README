@@ -4,7 +4,7 @@ NAME
 
 VERSION
 
-    version 0.22
+    version 0.23
 
 SYNOPSIS
 
@@ -155,6 +155,12 @@ DESCRIPTION
     Dist::Zilla::Plugin::PodCoverageTests. Defaults to unset (tests
     enabled).
 
+  disable_pod_spelling_tests
+
+    If set, disables the Pod Spelling Release Tests
+    Dist::Zilla::Plugin::Test::PodSpelling. Defaults to unset (tests
+    enabled).
+
   disable_trailing_whitespace_tests
 
     If set, disables the Trailing Whitespace Release Tests
@@ -246,6 +252,11 @@ DESCRIPTION
 
     The Change Log file name. Defaults to Changes.
 
+  prune_directories
+
+    Directories to ignore - currently defaults to local and vendor (the
+    directories used by carton to store required modules).
+
 BUGS
 
     It appears this module, in particular the ReadmeAnyFromPod plugin,
@@ -264,8 +275,7 @@ BUGS AND LIMITATIONS
 
     You can make new bug reports, and view existing ones, through the web
     interface at
-    http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundl
-    e-NIGELM.
+    http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM.
 
 AVAILABILITY
 
@@ -283,7 +293,7 @@ AUTHOR
 
 COPYRIGHT AND LICENSE
 
-    This software is copyright (c) 2015 by Nigel Metheringham.
+    This software is copyright (c) 2016 by Nigel Metheringham.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.
