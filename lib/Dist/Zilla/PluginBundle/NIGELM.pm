@@ -345,6 +345,19 @@ has disable_pod_coverage_tests => (
     default => 0,
 );
 
+=head3 disable_pod_spelling_tests
+
+If set, disables the Pod Spelling Release Tests
+L<Dist::Zilla::Plugin::Test::PodSpelling>. Defaults to unset (tests enabled).
+
+=cut
+
+has disable_pod_spelling_tests => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 0,
+);
+
 =head3 disable_trailing_whitespace_tests
 
 If set, disables the Trailing Whitespace Release Tests
@@ -734,6 +747,19 @@ override BUILDARGS => sub {
     return { %{ $args->{payload} }, %{$args} };
 };
 
+=head3 prune_directories
+
+Directories to ignore - currently defaults to C<local> and C<vendor> (the
+directories used by carton to store required modules).
+
+=cut
+
+has prune_directories => (
+    is      => 'ro',
+    isa     => 'ArrayRef[Str]',
+    default => sub { return [ 'local', 'vendor' ] },    # skip carton dirs
+);
+
 method configure () {
 
     # Build a list of all the plugins we want...
@@ -755,13 +781,13 @@ method configure () {
         ['Git::CheckFor::MergeConflicts'],
 
         # -- fetch & generate files
-        [ GatherDir            => {} ],
-        [ 'Test::Compile'      => { fake_home => $self->fake_home } ],
+        [ GatherDir            => { prune_directory => $self->prune_directories } ],
+        [ 'Test::Compile'      => { fake_home       => $self->fake_home } ],
         [ 'Test::Perl::Critic' => {} ],
         [ MetaTests            => {} ],
         ( $self->disable_pod_coverage_tests ? () : [ PodCoverageTests => {} ] ),
-        [ PodSyntaxTests      => {} ],
-        [ 'Test::PodSpelling' => {} ],
+        [ PodSyntaxTests => {} ],
+        ( $self->disable_pod_spelling_tests ? () : [ 'Test::PodSpelling' => {} ] ),
         (    # Disabling pod coverage scores you a fail on Kwalitee too!
             $self->disable_pod_coverage_tests ? () : [ KwaliteeTests => {} ]
         ),
