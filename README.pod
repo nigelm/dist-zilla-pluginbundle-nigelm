@@ -13,7 +13,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.23
+version 0.24
 
 =head1 SYNOPSIS
 
@@ -46,7 +46,7 @@ It is roughly equivalent to:
     [PodCoverageTests]
     [PodSyntaxTests]
     [Test::PodSpelling]
-    [KwaliteeTests]
+    [Test::Kwalitee]
     [Test::Portability]
     [Test::Synopsis]
     [Test::MinimumVersion]
@@ -76,7 +76,7 @@ It is roughly equivalent to:
     [PodWeaver]
         config_plugin = @MARCEL
     [License]
-    [ModuleBuild]
+    [MakeMaker]
     [MetaYAML]
     [MetaJSON]
     [ReadmeAnyFromPod]
