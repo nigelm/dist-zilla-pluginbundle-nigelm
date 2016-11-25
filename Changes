@@ -1,5 +1,6 @@
 {{$NEXT}}
     - Swap to Dist::Zilla::Plugin::Test::Kwalitee - RT#105665
+    - Swap to MakeMaker - RT#118935
     
 0.23      2016-04-13 11:47:50+01:00 Europe/London
     - Implemented disable_pod_spelling_tests

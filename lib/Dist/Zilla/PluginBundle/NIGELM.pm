@@ -24,7 +24,6 @@ use Dist::Zilla::Plugin::Authority 1.005;
 use Dist::Zilla::Plugin::AutoPrereqs;
 use Dist::Zilla::Plugin::CheckChangeLog;
 use Dist::Zilla::Plugin::CopyReadmeFromBuild;
-use Dist::Zilla::Plugin::Test::EOL;
 use Dist::Zilla::Plugin::ExecDir;
 use Dist::Zilla::Plugin::ExtraTests;
 use Dist::Zilla::Plugin::FakeRelease;
@@ -42,6 +41,7 @@ use Dist::Zilla::Plugin::HasVersionTests;
 use Dist::Zilla::Plugin::InlineFiles;
 use Dist::Zilla::Plugin::InstallGuide;
 use Dist::Zilla::Plugin::License;
+use Dist::Zilla::Plugin::MakeMaker;
 use Dist::Zilla::Plugin::Manifest;
 use Dist::Zilla::Plugin::ManifestSkip;
 use Dist::Zilla::Plugin::MetaConfig;
@@ -51,9 +51,7 @@ use Dist::Zilla::Plugin::MetaProvides::Package;
 use Dist::Zilla::Plugin::MetaResources;
 use Dist::Zilla::Plugin::MetaTests;
 use Dist::Zilla::Plugin::MetaYAML;
-use Dist::Zilla::Plugin::ModuleBuild;
 use Dist::Zilla::Plugin::NextRelease;
-use Dist::Zilla::Plugin::Test::NoTabs;
 use Dist::Zilla::Plugin::OurPkgVersion;
 use Dist::Zilla::Plugin::PodCoverageTests;
 use Dist::Zilla::Plugin::PodSyntaxTests;
@@ -66,8 +64,10 @@ use Dist::Zilla::Plugin::ShareDir;
 use Dist::Zilla::Plugin::TaskWeaver;
 use Dist::Zilla::Plugin::Test::Compile;
 use Dist::Zilla::Plugin::Test::DistManifest;
+use Dist::Zilla::Plugin::Test::EOL;
 use Dist::Zilla::Plugin::Test::Kwalitee;
 use Dist::Zilla::Plugin::Test::MinimumVersion;
+use Dist::Zilla::Plugin::Test::NoTabs;
 use Dist::Zilla::Plugin::Test::Perl::Critic;
 use Dist::Zilla::Plugin::Test::PodSpelling;
 use Dist::Zilla::Plugin::Test::Portability;
@@ -149,7 +149,7 @@ It is roughly equivalent to:
     [PodWeaver]
         config_plugin = @MARCEL
     [License]
-    [ModuleBuild]
+    [MakeMaker]
     [MetaYAML]
     [MetaJSON]
     [ReadmeAnyFromPod]
@@ -860,7 +860,7 @@ method configure () {
         [ License => {} ],
         (   $self->has_build_process
             ? [ ( '=inc::' . $self->build_process ) => $self->build_process => {} ]
-            : [ ModuleBuild => {} ]
+            : [ MakeMaker => {} ]
         ),
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
