@@ -804,7 +804,7 @@ method configure () {
 
         # -- remove some files
         [ PruneCruft   => {} ],
-        [ PruneFiles   => { filenames => [qw(dist.ini perltidy.LOG)] } ],
+        [ PruneFiles   => { filenames => [qw(perltidy.LOG)] } ],
         [ ManifestSkip => {} ],
 
         # -- get prereqs
