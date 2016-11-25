@@ -41,7 +41,6 @@ use Dist::Zilla::Plugin::Git::Tag;
 use Dist::Zilla::Plugin::HasVersionTests;
 use Dist::Zilla::Plugin::InlineFiles;
 use Dist::Zilla::Plugin::InstallGuide;
-use Dist::Zilla::Plugin::KwaliteeTests;
 use Dist::Zilla::Plugin::License;
 use Dist::Zilla::Plugin::Manifest;
 use Dist::Zilla::Plugin::ManifestSkip;
@@ -67,6 +66,7 @@ use Dist::Zilla::Plugin::ShareDir;
 use Dist::Zilla::Plugin::TaskWeaver;
 use Dist::Zilla::Plugin::Test::Compile;
 use Dist::Zilla::Plugin::Test::DistManifest;
+use Dist::Zilla::Plugin::Test::Kwalitee;
 use Dist::Zilla::Plugin::Test::MinimumVersion;
 use Dist::Zilla::Plugin::Test::Perl::Critic;
 use Dist::Zilla::Plugin::Test::PodSpelling;
@@ -119,7 +119,7 @@ It is roughly equivalent to:
     [PodCoverageTests]
     [PodSyntaxTests]
     [Test::PodSpelling]
-    [KwaliteeTests]
+    [Test::Kwalitee]
     [Test::Portability]
     [Test::Synopsis]
     [Test::MinimumVersion]
@@ -789,7 +789,7 @@ method configure () {
         [ PodSyntaxTests => {} ],
         ( $self->disable_pod_spelling_tests ? () : [ 'Test::PodSpelling' => {} ] ),
         (    # Disabling pod coverage scores you a fail on Kwalitee too!
-            $self->disable_pod_coverage_tests ? () : [ KwaliteeTests => {} ]
+            $self->disable_pod_coverage_tests ? () : [ 'Test::Kwalitee' => {} ]
         ),
         [ 'Test::Portability'    => {} ],
         [ 'Test::Synopsis'       => {} ],
