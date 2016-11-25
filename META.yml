@@ -3,12 +3,10 @@ abstract: 'Build your distributions like I do'
 author:
   - 'Nigel Metheringham <nigelm@cpan.org>'
 build_requires:
-  Carp: '0'
   File::Spec: '0'
   IO::Handle: '0'
   IPC::Open3: '0'
-  Scalar::Util: '0'
-  Test::More: '0.94'
+  Test::More: '0'
   blib: '1.01'
   perl: '5.006'
 configure_requires:
@@ -23,7 +21,7 @@ name: Dist-Zilla-PluginBundle-NIGELM
 provides:
   Dist::Zilla::PluginBundle::NIGELM:
     file: lib/Dist/Zilla/PluginBundle/NIGELM.pm
-    version: '0.24'
+    version: '0.25'
 requires:
   Dist::Zilla: '5.033'
   Dist::Zilla::Plugin::Authority: '1.005'
@@ -65,7 +63,6 @@ requires:
   Dist::Zilla::Plugin::PruneCruft: '0'
   Dist::Zilla::Plugin::PruneFiles: '0'
   Dist::Zilla::Plugin::ReadmeAnyFromPod: '0'
-  Dist::Zilla::Plugin::ReportVersions: '0'
   Dist::Zilla::Plugin::ShareDir: '0'
   Dist::Zilla::Plugin::TaskWeaver: '0'
   Dist::Zilla::Plugin::Test::Compile: '0'
@@ -98,7 +95,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM
   homepage: https://metacpan.org/release/Dist-Zilla-PluginBundle-NIGELM
   repository: https://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git
-version: '0.24'
+version: '0.25'
 x_Dist_Zilla:
   perl:
     version: '5.024000'
@@ -278,10 +275,6 @@ x_Dist_Zilla:
       class: Dist::Zilla::Plugin::InlineFiles
       name: '@NIGELM/InlineFiles'
       version: '6.007'
-    -
-      class: Dist::Zilla::Plugin::ReportVersions
-      name: '@NIGELM/ReportVersions'
-      version: '1.110730'
     -
       class: Dist::Zilla::Plugin::PruneCruft
       name: '@NIGELM/PruneCruft'
@@ -504,7 +497,7 @@ x_Dist_Zilla:
           branch: ~
           changelog: Changes
           signed: 0
-          tag: release/0.24
+          tag: release/0.25
           tag_format: release/%v%t
           tag_message: 'Release of %v%t'
         Dist::Zilla::Role::Git::Repo:

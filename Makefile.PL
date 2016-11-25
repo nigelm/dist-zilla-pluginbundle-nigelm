@@ -57,7 +57,6 @@ my %WriteMakefileArgs = (
     "Dist::Zilla::Plugin::PruneCruft" => 0,
     "Dist::Zilla::Plugin::PruneFiles" => 0,
     "Dist::Zilla::Plugin::ReadmeAnyFromPod" => 0,
-    "Dist::Zilla::Plugin::ReportVersions" => 0,
     "Dist::Zilla::Plugin::ShareDir" => 0,
     "Dist::Zilla::Plugin::TaskWeaver" => 0,
     "Dist::Zilla::Plugin::Test::Compile" => 0,
@@ -88,15 +87,13 @@ my %WriteMakefileArgs = (
     "warnings" => 0
   },
   "TEST_REQUIRES" => {
-    "Carp" => 0,
     "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
-    "Scalar::Util" => 0,
-    "Test::More" => "0.94",
+    "Test::More" => 0,
     "blib" => "1.01"
   },
-  "VERSION" => "0.24",
+  "VERSION" => "0.25",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -104,7 +101,6 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
-  "Carp" => 0,
   "Dist::Zilla" => "5.033",
   "Dist::Zilla::Plugin::Authority" => "1.005",
   "Dist::Zilla::Plugin::AutoPrereqs" => 0,
@@ -145,7 +141,6 @@ my %FallbackPrereqs = (
   "Dist::Zilla::Plugin::PruneCruft" => 0,
   "Dist::Zilla::Plugin::PruneFiles" => 0,
   "Dist::Zilla::Plugin::ReadmeAnyFromPod" => 0,
-  "Dist::Zilla::Plugin::ReportVersions" => 0,
   "Dist::Zilla::Plugin::ShareDir" => 0,
   "Dist::Zilla::Plugin::TaskWeaver" => 0,
   "Dist::Zilla::Plugin::Test::Compile" => 0,
@@ -172,8 +167,7 @@ my %FallbackPrereqs = (
   "MooseX::Types::URI" => 0,
   "Pod::Coverage::TrustPod" => 0,
   "Pod::Weaver::PluginBundle::MARCEL" => 0,
-  "Scalar::Util" => 0,
-  "Test::More" => "0.94",
+  "Test::More" => 0,
   "Test::Pod" => 0,
   "Test::Pod::Coverage" => 0,
   "blib" => "1.01",

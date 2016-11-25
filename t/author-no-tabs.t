@@ -16,8 +16,7 @@ use Test::NoTabs;
 
 my @files = (
     'lib/Dist/Zilla/PluginBundle/NIGELM.pm',
-    't/00-compile.t',
-    't/000-report-versions.t'
+    't/00-compile.t'
 );
 
 notabs_ok($_) foreach @files;
