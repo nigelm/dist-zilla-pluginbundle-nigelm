@@ -99,6 +99,9 @@
             "MooseX::Types::URI" : "0",
             "Pod::Coverage::TrustPod" : "0",
             "Pod::Weaver::PluginBundle::MARCEL" : "0",
+            "Test::CPAN::Changes" : "0",
+            "Test::Kwalitee" : "0",
+            "Test::Kwalitee::Extra" : "0",
             "Test::Pod" : "0",
             "Test::Pod::Coverage" : "0",
             "namespace::autoclean" : "0",
@@ -120,7 +123,7 @@
    "provides" : {
       "Dist::Zilla::PluginBundle::NIGELM" : {
          "file" : "lib/Dist/Zilla/PluginBundle/NIGELM.pm",
-         "version" : "0.25"
+         "version" : "0.26"
       }
    },
    "release_status" : "stable",
@@ -136,7 +139,7 @@
          "web" : "https://github.com/nigelm/dist-zilla-pluginbundle-nigelm"
       }
    },
-   "version" : "0.25",
+   "version" : "0.26",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.024000"
@@ -660,7 +663,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "release/0.25",
+                  "tag" : "release/0.26",
                   "tag_format" : "release/%v%t",
                   "tag_message" : "Release of %v%t"
                },

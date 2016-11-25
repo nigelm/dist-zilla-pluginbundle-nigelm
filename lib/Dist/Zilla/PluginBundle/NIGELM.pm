@@ -5,7 +5,7 @@ package Dist::Zilla::PluginBundle::NIGELM;
 use strict;
 use warnings;
 
-our $VERSION = '0.25'; # VERSION
+our $VERSION = '0.26'; # VERSION
 our $AUTHORITY = 'cpan:NIGELM'; # AUTHORITY
 
 use Moose 1.00;
@@ -620,7 +620,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.25
+version 0.26
 
 =head1 SYNOPSIS
 
