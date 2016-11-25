@@ -1,3 +1,9 @@
+0.24      2016-11-25 13:16:56+00:00 Europe/London
+    - Swap to Dist::Zilla::Plugin::Test::Kwalitee - RT#105665
+    - Swap to MakeMaker - RT#118935
+    - Remove incorrect build prereqs - GH issue #7 on html-formatter
+    - No longer prune dist.ini - RT#107311
+
 0.23      2016-04-13 11:47:50+01:00 Europe/London
     - Implemented disable_pod_spelling_tests
       I was convinced this had been in for years, but it appears not.

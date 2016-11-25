@@ -5,7 +5,7 @@ package Dist::Zilla::PluginBundle::NIGELM;
 use strict;
 use warnings;
 
-our $VERSION = '0.23'; # VERSION
+our $VERSION = '0.24'; # VERSION
 our $AUTHORITY = 'cpan:NIGELM'; # AUTHORITY
 
 use Moose 1.00;
@@ -24,7 +24,6 @@ use Dist::Zilla::Plugin::Authority 1.005;
 use Dist::Zilla::Plugin::AutoPrereqs;
 use Dist::Zilla::Plugin::CheckChangeLog;
 use Dist::Zilla::Plugin::CopyReadmeFromBuild;
-use Dist::Zilla::Plugin::Test::EOL;
 use Dist::Zilla::Plugin::ExecDir;
 use Dist::Zilla::Plugin::ExtraTests;
 use Dist::Zilla::Plugin::FakeRelease;
@@ -41,8 +40,8 @@ use Dist::Zilla::Plugin::Git::Tag;
 use Dist::Zilla::Plugin::HasVersionTests;
 use Dist::Zilla::Plugin::InlineFiles;
 use Dist::Zilla::Plugin::InstallGuide;
-use Dist::Zilla::Plugin::KwaliteeTests;
 use Dist::Zilla::Plugin::License;
+use Dist::Zilla::Plugin::MakeMaker;
 use Dist::Zilla::Plugin::Manifest;
 use Dist::Zilla::Plugin::ManifestSkip;
 use Dist::Zilla::Plugin::MetaConfig;
@@ -52,9 +51,7 @@ use Dist::Zilla::Plugin::MetaProvides::Package;
 use Dist::Zilla::Plugin::MetaResources;
 use Dist::Zilla::Plugin::MetaTests;
 use Dist::Zilla::Plugin::MetaYAML;
-use Dist::Zilla::Plugin::ModuleBuild;
 use Dist::Zilla::Plugin::NextRelease;
-use Dist::Zilla::Plugin::Test::NoTabs;
 use Dist::Zilla::Plugin::OurPkgVersion;
 use Dist::Zilla::Plugin::PodCoverageTests;
 use Dist::Zilla::Plugin::PodSyntaxTests;
@@ -67,7 +64,10 @@ use Dist::Zilla::Plugin::ShareDir;
 use Dist::Zilla::Plugin::TaskWeaver;
 use Dist::Zilla::Plugin::Test::Compile;
 use Dist::Zilla::Plugin::Test::DistManifest;
+use Dist::Zilla::Plugin::Test::EOL;
+use Dist::Zilla::Plugin::Test::Kwalitee;
 use Dist::Zilla::Plugin::Test::MinimumVersion;
+use Dist::Zilla::Plugin::Test::NoTabs;
 use Dist::Zilla::Plugin::Test::Perl::Critic;
 use Dist::Zilla::Plugin::Test::PodSpelling;
 use Dist::Zilla::Plugin::Test::Portability;
@@ -504,7 +504,7 @@ method configure () {
         [ PodSyntaxTests => {} ],
         ( $self->disable_pod_spelling_tests ? () : [ 'Test::PodSpelling' => {} ] ),
         (    # Disabling pod coverage scores you a fail on Kwalitee too!
-            $self->disable_pod_coverage_tests ? () : [ KwaliteeTests => {} ]
+            $self->disable_pod_coverage_tests ? () : [ 'Test::Kwalitee' => {} ]
         ),
         [ 'Test::Portability'    => {} ],
         [ 'Test::Synopsis'       => {} ],
@@ -519,18 +519,10 @@ method configure () {
 
         # -- remove some files
         [ PruneCruft   => {} ],
-        [ PruneFiles   => { filenames => [qw(dist.ini perltidy.LOG)] } ],
+        [ PruneFiles   => { filenames => [qw(perltidy.LOG)] } ],
         [ ManifestSkip => {} ],
 
         # -- get prereqs
-        [   Prereqs => {    # these are needed but not pulled in by other modules
-                -phase             => 'build',
-                -type              => 'requires',
-                'Test::CPAN::Meta' => 0,
-                'Test::EOL'        => 0,
-                'Test::NoTabs'     => 0
-            }
-        ],
         (   $self->auto_prereqs
             ? [ AutoPrereqs => $self->skip_prereqs ? { skip => $self->skip_prereqs } : {} ]
             : ()
@@ -575,7 +567,7 @@ method configure () {
         [ License => {} ],
         (   $self->has_build_process
             ? [ ( '=inc::' . $self->build_process ) => $self->build_process => {} ]
-            : [ ModuleBuild => {} ]
+            : [ MakeMaker => {} ]
         ),
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
@@ -626,7 +618,7 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.23
+version 0.24
 
 =head1 SYNOPSIS
 
@@ -659,7 +651,7 @@ It is roughly equivalent to:
     [PodCoverageTests]
     [PodSyntaxTests]
     [Test::PodSpelling]
-    [KwaliteeTests]
+    [Test::Kwalitee]
     [Test::Portability]
     [Test::Synopsis]
     [Test::MinimumVersion]
@@ -689,7 +681,7 @@ It is roughly equivalent to:
     [PodWeaver]
         config_plugin = @MARCEL
     [License]
-    [ModuleBuild]
+    [MakeMaker]
     [MetaYAML]
     [MetaJSON]
     [ReadmeAnyFromPod]
