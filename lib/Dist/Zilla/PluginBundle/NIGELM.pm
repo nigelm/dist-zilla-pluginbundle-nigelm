@@ -59,7 +59,8 @@ use Dist::Zilla::Plugin::PodWeaver;
 use Dist::Zilla::Plugin::PruneCruft;
 use Dist::Zilla::Plugin::PruneFiles;
 use Dist::Zilla::Plugin::ReadmeAnyFromPod;
-use Dist::Zilla::Plugin::ReportVersions;
+## TODO: ReportVersions 1.110730 is broken by the version reporting of Dist::Zilla::Role::Git::Repo
+##use Dist::Zilla::Plugin::ReportVersions;
 use Dist::Zilla::Plugin::ShareDir;
 use Dist::Zilla::Plugin::TaskWeaver;
 use Dist::Zilla::Plugin::Test::Compile;
@@ -129,7 +130,7 @@ It is roughly equivalent to:
     [Test::NoTabs]
     [Test::EOL]
     [InlineFiles]
-    [ReportVersions]
+    ## [ReportVersions]
     [PruneCruft]
     [PruneFiles]
         filenames = dist.ini
@@ -800,7 +801,8 @@ method configure () {
         ( $self->disable_no_tabs_tests     ? () : [ 'Test::NoTabs'     => {} ] ),
         [ 'Test::EOL' => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
         [ InlineFiles => {} ],
-        [ ReportVersions => {} ],
+        ## TODO: ReportVersions 1.110730 is broken by the version reporting of Dist::Zilla::Role::Git::Repo
+        ##[ ReportVersions => {} ],
 
         # -- remove some files
         [ PruneCruft   => {} ],
