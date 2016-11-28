@@ -1,6 +1,8 @@
 {{$NEXT}}
 
 0.27      2016-11-28 15:37:24+00:00 Europe/London
+    - Switch to Test::ReportPrereqs for prereq reporting
+    - Switch to DAGOLDEN weaver config
 
 0.26      2016-11-25 16:28:29+00:00 Europe/London
 
