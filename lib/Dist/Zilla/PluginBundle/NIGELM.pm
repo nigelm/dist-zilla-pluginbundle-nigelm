@@ -74,7 +74,7 @@ use Dist::Zilla::Plugin::Test::ReportPrereqs;
 use Dist::Zilla::Plugin::Test::Synopsis;
 use Dist::Zilla::Plugin::Test::UnusedVars;
 use Dist::Zilla::Plugin::UploadToCPAN;
-use Pod::Weaver::PluginBundle::MARCEL;
+use Pod::Weaver::PluginBundle::DAGOLDEN;
 
 =begin :prelude
 
@@ -147,7 +147,7 @@ It is roughly equivalent to:
     [NextRelease]
     [OurPkgVersion]
     [PodWeaver]
-        config_plugin = @MARCEL
+        config_plugin = @DAGOLDEN
     [License]
     [MakeMaker]
     [MetaYAML]
@@ -274,15 +274,15 @@ method _build_is_task () {
 =head3 weaver_config_plugin
 
 This option is passed to the C<config_plugin> option of
-L<Dist::Zilla::Plugin::PodWeaver>. It defaults to C<@MARCEL>, which loads in
-L<Pod::Weaver::PluginBundle::MARCEL>.
+L<Dist::Zilla::Plugin::PodWeaver>. It defaults to C<@DAGOLDEN>, which loads in
+L<Pod::Weaver::PluginBundle::DAGOLDEN>.
 
 =cut
 
 has weaver_config_plugin => (
     is      => 'ro',
     isa     => Str,
-    default => '@MARCEL',
+    default => '@DAGOLDEN',
 );
 
 =head2 Bug Tracker Information
