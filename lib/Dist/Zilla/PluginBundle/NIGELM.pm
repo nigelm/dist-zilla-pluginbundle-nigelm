@@ -5,7 +5,7 @@ package Dist::Zilla::PluginBundle::NIGELM;
 use strict;
 use warnings;
 
-our $VERSION = '0.26'; # VERSION
+our $VERSION = '0.27'; # VERSION
 our $AUTHORITY = 'cpan:NIGELM'; # AUTHORITY
 
 use Moose 1.00;
@@ -59,8 +59,6 @@ use Dist::Zilla::Plugin::PodWeaver;
 use Dist::Zilla::Plugin::PruneCruft;
 use Dist::Zilla::Plugin::PruneFiles;
 use Dist::Zilla::Plugin::ReadmeAnyFromPod;
-## TODO: ReportVersions 1.110730 is broken by the version reporting of Dist::Zilla::Role::Git::Repo
-##use Dist::Zilla::Plugin::ReportVersions;
 use Dist::Zilla::Plugin::ShareDir;
 use Dist::Zilla::Plugin::TaskWeaver;
 use Dist::Zilla::Plugin::Test::Compile;
@@ -72,10 +70,11 @@ use Dist::Zilla::Plugin::Test::NoTabs;
 use Dist::Zilla::Plugin::Test::Perl::Critic;
 use Dist::Zilla::Plugin::Test::PodSpelling;
 use Dist::Zilla::Plugin::Test::Portability;
+use Dist::Zilla::Plugin::Test::ReportPrereqs;
 use Dist::Zilla::Plugin::Test::Synopsis;
 use Dist::Zilla::Plugin::Test::UnusedVars;
 use Dist::Zilla::Plugin::UploadToCPAN;
-use Pod::Weaver::PluginBundle::MARCEL;
+use Pod::Weaver::PluginBundle::DAGOLDEN;
 
 
 has dist => (
@@ -136,7 +135,7 @@ method _build_is_task () {
 has weaver_config_plugin => (
     is      => 'ro',
     isa     => Str,
-    default => '@MARCEL',
+    default => '@DAGOLDEN',
 );
 
 
@@ -515,9 +514,8 @@ method configure () {
         ( $self->disable_unused_vars_tests ? () : [ 'Test::UnusedVars' => {} ] ),
         ( $self->disable_no_tabs_tests     ? () : [ 'Test::NoTabs'     => {} ] ),
         [ 'Test::EOL' => { trailing_whitespace => $self->disable_trailing_whitespace_tests ? 0 : 1 } ],
-        [ InlineFiles => {} ],
-        ## TODO: ReportVersions 1.110730 is broken by the version reporting of Dist::Zilla::Role::Git::Repo
-        ##[ ReportVersions => {} ],
+        [ 'Test::ReportPrereqs' => {} ],
+        [ InlineFiles           => {} ],
 
         # -- remove some files
         [ PruneCruft   => {} ],
@@ -607,12 +605,7 @@ __END__
 
 =pod
 
-=for test_synopsis 1;
-__END__
-
-=for stopwords NIGELM Tweakables catagits catsvn changelog dbsrgits gitmo sagit p5sagit svn RT dist inc
-
-=for Pod::Coverage mvp_multivalue_args
+=encoding UTF-8
 
 =head1 NAME
 
@@ -620,7 +613,14 @@ Dist::Zilla::PluginBundle::NIGELM - Build your distributions like I do
 
 =head1 VERSION
 
-version 0.26
+version 0.27
+
+=for test_synopsis 1;
+__END__
+
+=for stopwords NIGELM Tweakables catagits catsvn changelog dbsrgits gitmo sagit p5sagit svn RT dist inc
+
+=for Pod::Coverage mvp_multivalue_args
 
 =head1 SYNOPSIS
 
@@ -662,8 +662,8 @@ It is roughly equivalent to:
     [Test::UnusedVars]
     [Test::NoTabs]
     [Test::EOL]
+    [Test::ReportPrereqs]
     [InlineFiles]
-    ## [ReportVersions]
     [PruneCruft]
     [PruneFiles]
         filenames = dist.ini
@@ -681,7 +681,7 @@ It is roughly equivalent to:
     [NextRelease]
     [OurPkgVersion]
     [PodWeaver]
-        config_plugin = @MARCEL
+        config_plugin = @DAGOLDEN
     [License]
     [MakeMaker]
     [MetaYAML]
@@ -746,8 +746,8 @@ used. Defaults to 1 if the dist name starts with C<Task>, 0 otherwise.
 =head3 weaver_config_plugin
 
 This option is passed to the C<config_plugin> option of
-L<Dist::Zilla::Plugin::PodWeaver>. It defaults to C<@MARCEL>, which loads in
-L<Pod::Weaver::PluginBundle::MARCEL>.
+L<Dist::Zilla::Plugin::PodWeaver>. It defaults to C<@DAGOLDEN>, which loads in
+L<Pod::Weaver::PluginBundle::DAGOLDEN>.
 
 =head2 Bug Tracker Information
 
@@ -876,22 +876,24 @@ long words (especially long names) to die during packaging.
 
 1;
 
-=head1 INSTALLATION
+=for :stopwords cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders metacpan
 
-See perlmodinstall for information and options on installing Perl modules.
+=head1 SUPPORT
 
-=head1 BUGS AND LIMITATIONS
+=head2 Bugs / Feature Requests
 
-You can make new bug reports, and view existing ones, through the
-web interface at L<http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM>.
+Please report any bugs or feature requests through the issue tracker
+at L<http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM>.
+You will be notified automatically of any progress on your issue.
 
-=head1 AVAILABILITY
+=head2 Source Code
 
-The project homepage is L<https://metacpan.org/release/Dist-Zilla-PluginBundle-NIGELM>.
+This is open source software.  The code repository is available for
+public review and contribution under the terms of the license.
 
-The latest version of this module is available from the Comprehensive Perl
-Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
-site near you, or see L<https://metacpan.org/module/Dist::Zilla::PluginBundle::NIGELM/>.
+L<https://github.com/nigelm/dist-zilla-pluginbundle-nigelm>
+
+  git clone https://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git
 
 =head1 AUTHOR
 

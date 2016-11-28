@@ -16,7 +16,9 @@ use Test::EOL;
 
 my @files = (
     'lib/Dist/Zilla/PluginBundle/NIGELM.pm',
-    't/00-compile.t'
+    't/00-compile.t',
+    't/00-report-prereqs.dd',
+    't/00-report-prereqs.t'
 );
 
 eol_unix_ok($_, { trailing_whitespace => 1 }) foreach @files;

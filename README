@@ -4,7 +4,7 @@ NAME
 
 VERSION
 
-    version 0.26
+    version 0.27
 
 SYNOPSIS
 
@@ -46,8 +46,8 @@ DESCRIPTION
         [Test::UnusedVars]
         [Test::NoTabs]
         [Test::EOL]
+        [Test::ReportPrereqs]
         [InlineFiles]
-        ## [ReportVersions]
         [PruneCruft]
         [PruneFiles]
             filenames = dist.ini
@@ -65,7 +65,7 @@ DESCRIPTION
         [NextRelease]
         [OurPkgVersion]
         [PodWeaver]
-            config_plugin = @MARCEL
+            config_plugin = @DAGOLDEN
         [License]
         [MakeMaker]
         [MetaYAML]
@@ -132,8 +132,8 @@ DESCRIPTION
   weaver_config_plugin
 
     This option is passed to the config_plugin option of
-    Dist::Zilla::Plugin::PodWeaver. It defaults to @MARCEL, which loads in
-    Pod::Weaver::PluginBundle::MARCEL.
+    Dist::Zilla::Plugin::PodWeaver. It defaults to @DAGOLDEN, which loads
+    in Pod::Weaver::PluginBundle::DAGOLDEN.
 
  Bug Tracker Information
 
@@ -266,26 +266,22 @@ BUGS
 
     1;
 
-INSTALLATION
+SUPPORT
 
-    See perlmodinstall for information and options on installing Perl
-    modules.
+ Bugs / Feature Requests
 
-BUGS AND LIMITATIONS
-
-    You can make new bug reports, and view existing ones, through the web
-    interface at
+    Please report any bugs or feature requests through the issue tracker at
     http://rt.cpan.org/Public/Dist/Display.html?Name=Dist-Zilla-PluginBundle-NIGELM.
+    You will be notified automatically of any progress on your issue.
 
-AVAILABILITY
+ Source Code
 
-    The project homepage is
-    https://metacpan.org/release/Dist-Zilla-PluginBundle-NIGELM.
+    This is open source software. The code repository is available for
+    public review and contribution under the terms of the license.
 
-    The latest version of this module is available from the Comprehensive
-    Perl Archive Network (CPAN). Visit http://www.perl.com/CPAN/ to find a
-    CPAN site near you, or see
-    https://metacpan.org/module/Dist::Zilla::PluginBundle::NIGELM/.
+    https://github.com/nigelm/dist-zilla-pluginbundle-nigelm
+
+      git clone https://github.com/nigelm/dist-zilla-pluginbundle-nigelm.git
 
 AUTHOR
 
