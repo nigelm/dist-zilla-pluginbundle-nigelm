@@ -153,12 +153,15 @@ It is roughly equivalent to:
     [MetaYAML]
     [MetaJSON]
     [ReadmeAnyFromPod]
-        type = pod
-        filename = README.pod
+        type = markdown
+        filename = README.md
         location = root
     [InstallGuide]
     [Manifest]
     [Git::Commit]
+        allow_dirty                 = dist.ini
+        allow_dirty                 = Changes
+        allow_dirty                 = README.md
     [Git::Tag]
     [Git::CommitBuild]
         branch =
@@ -166,6 +169,18 @@ It is roughly equivalent to:
     [Git::Push]
     [CheckChangeLog]
     [UploadToCPAN] or [FakeRelease]
+    [GitHubREADME::Badge]
+        badges                      = travis
+    ;   badges                      = coveralls
+    ;   badges                      = gitter
+        badges                      = cpants
+        badges                      = issues
+        badges                      = github_tag
+        badges                      = license
+        badges                      = version
+    ;   badges                      = codecov
+    ;   badges                      = gitlab_ci
+    ;   badges                      = gitlab_cover
 
 =head2 Required Parameters
 
@@ -701,7 +716,7 @@ has git_autoversion => (
 =head3 git_allow_dirty
 
 A list of files that are allowed to be dirty by the Git plugins. Defaults to
-C<dist.ini>, the Change log file, C<README> and C<README.pod>.
+C<dist.ini>, the Change log file, C<README> and C<README.md>.
 
 =cut
 
@@ -738,7 +753,7 @@ has changelog => ( is => 'ro', isa => Str, default => 'Changes' );
 
 sub mvp_multivalue_args { return ('git_allow_dirty'); }
 
-sub _build_git_allow_dirty { [ 'dist.ini', shift->changelog, 'README', 'README.pod' ] }
+sub _build_git_allow_dirty { [ 'dist.ini', shift->changelog, 'README', 'README.md' ] }
 
 override BUILDARGS => sub {
     my $class = shift;
@@ -857,9 +872,11 @@ method configure () {
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
         [ ReadmeAnyFromPod => ReadmeTextInBuild => { type => 'text', filename => 'README', location => 'build', } ],
-        [ ReadmeAnyFromPod => ReadmePodInRoot => { type => 'pod', filename => 'README.pod', location => 'root', } ],
-        [ InstallGuide     => {} ],
-        [ Manifest => {} ],    # should come last
+        [   ReadmeAnyFromPod => ReadmeMarkdownInRoot =>
+                { type => 'markdown', filename => 'README.md', location => 'root', }
+        ],
+        [ InstallGuide => {} ],
+        [ Manifest     => {} ],    # should come last
 
         # -- Git release process
         [ 'Git::Commit' => { allow_dirty => $self->git_allow_dirty } ],
