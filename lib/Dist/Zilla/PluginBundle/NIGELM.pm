@@ -51,6 +51,7 @@ use Dist::Zilla::Plugin::MetaProvides::Package;
 use Dist::Zilla::Plugin::MetaResources;
 use Dist::Zilla::Plugin::MetaTests;
 use Dist::Zilla::Plugin::MetaYAML;
+use Dist::Zilla::Plugin::MinimumPerlFast;
 use Dist::Zilla::Plugin::NextRelease;
 use Dist::Zilla::Plugin::OurPkgVersion;
 use Dist::Zilla::Plugin::PodCoverageTests;
@@ -152,6 +153,7 @@ It is roughly equivalent to:
     [MakeMaker]
     [MetaYAML]
     [MetaJSON]
+    [MinimumPerlFast]
     [ReadmeAnyFromPod]
         type = pod
         filename = README.pod
@@ -856,6 +858,7 @@ method configure () {
         ),
         [ MetaYAML         => {} ],
         [ MetaJSON         => {} ],
+        [ MinimumPerlFast  => {} ],
         [ ReadmeAnyFromPod => ReadmeTextInBuild => { type => 'text', filename => 'README', location => 'build', } ],
         [ ReadmeAnyFromPod => ReadmePodInRoot => { type => 'pod', filename => 'README.pod', location => 'root', } ],
         [ InstallGuide     => {} ],
